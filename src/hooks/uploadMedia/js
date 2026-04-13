@@ -1,0 +1,21 @@
+async function uploadFile(file: File) {
+  // 1️⃣ Get signed URL
+  const res = await fetch(`/api/media/sign?filename=${file.name}&type=${file.type}`);
+  const { signedUrl, cdnUrl, key } = await res.json();
+
+  // 2️⃣ Upload directly to R2
+  await fetch(signedUrl, {
+    method: "PUT",
+    headers: { "Content-Type": file.type },
+    body: file,
+  });
+
+  // 3️⃣ Confirm upload (optional)
+  await fetch(`/api/media/confirm`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ key, type: file.type, uploaderName: "guest" }),
+  });
+
+  return cdnUrl;
+}
