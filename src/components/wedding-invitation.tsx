@@ -150,7 +150,7 @@ useEffect(() => {
   // Sample images similar to your invitation style
   const coupleImages = [
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240113/my_wedding/couple_gmofgb.jpg", alt: "Azaria & Ketsebaot - Engagement" },
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240131/my_wedding/wedding-2_v81grx.jpg", alt: "Azaria & Ketsebaot - wedding" },
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding3_d2sskq.jpg", alt: "Azaria & Ketsebaot - wedding" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240125/my_wedding/wedding5_hvmht5.jpg", alt: "Azaria & Ketsebaot - Wedding" },
     // { src: "/images/wedding2.jpg", alt: "Azaria & Ketsebaot - Together" },
   ];
