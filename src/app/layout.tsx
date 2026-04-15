@@ -4,7 +4,7 @@ import './globals.css'
 
 // const inter = Inter({ subsets: ['latin'] })
 
-// const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ketsi-azaria-wedding.com';
+// const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://azaria-ketsi-wedding.com';
 
 import { Mea_Culpa } from 'next/font/google'
 
@@ -24,7 +24,7 @@ const imperialScript = Imperial_Script({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ketsi-azaria-wedding.vercel.app'),
+  metadataBase: new URL('https://azaria-ketsi-wedding.vercel.app'),
   title: {
     default: "Azaria & Ketsebaot Wedding",
     template: "%s | Azaria & Ketsebaot Wedding"
@@ -35,12 +35,12 @@ export const metadata: Metadata = {
     icon: '/logo.png',
   },
   keywords: ['wedding', 'photos', 'videos', 'memories', 'Ketsi', 'Azaria'],
-  authors: [{ name: 'Azaria & Ketsebaot', url: 'https://ketsi-azaria-wedding.vercel.app' }],
+  authors: [{ name: 'Azaria & Ketsebaot', url: 'https://azaria-ketsi-wedding.vercel.app' }],
   creator: 'Ketsebaot Ertumo',
   openGraph: {
     title: "Azaria & Ketsebaot Wedding",
     description: "Share your memories from our special day",
-    url: 'https://ketsi-azaria-wedding.vercel.app',
+    url: 'https://azaria-ketsi-wedding.vercel.app',
     siteName: "Azaria & Ketsebaot Wedding",
     images: [
       {
