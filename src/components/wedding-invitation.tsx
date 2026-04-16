@@ -37,7 +37,7 @@ export const WeddingInvitation = () => {
   const [guestEmail, setGuestEmail] = useState("");
   const [showMessageInput, setShowMessageInput] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [showGift, setShowGift] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
