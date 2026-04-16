@@ -849,7 +849,7 @@ useEffect(() => {
                     {/* Background Image + Overlay */}
                     <div className="absolute inset-0 z-0">
                         <Image
-                            src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240134/my_wedding/wedding-4_bflrgv.jpg"
+                            src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240124/my_wedding/wedding2_te0ymk.jpg"
                             alt="Wedding Background"
                             fill
                             className="object-cover object-center"
