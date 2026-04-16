@@ -1274,7 +1274,7 @@ useEffect(() => {
                     
                     <div className="pt-12 space-y-2">
                         <p className="text-sm text-gray-400">For questions, please contact:</p>
-                        <p className="text-sm">Azaria: +251 924 856 625 | Ketsebaot: +251 919 765 445</p>
+                        <p className="text-sm">Mobile: +251 919 765 445 | Mobile: +251 712 973 556</p>
                         <p className="text-xs text-gray-500 mt-6">#AzariaAndKetsebaot #AKForever #Wedding2026</p>
                     </div>
                     </motion.div>
