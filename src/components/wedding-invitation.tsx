@@ -37,7 +37,7 @@ export const WeddingInvitation = () => {
   const [guestEmail, setGuestEmail] = useState("");
   const [showMessageInput, setShowMessageInput] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [showGift, setShowGift] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -326,6 +326,7 @@ useEffect(() => {
         <div className="absolute inset-0 z-0">
           <Image
             src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240127/my_wedding/wedding4_otfyo0.jpg"
+            // src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776339092/my_wedding/ChatGPT_Image_Apr_16_2026_02_27_40_PM_usuam0.png"
             alt="Azaria & Ketsebaot"
             fill
             className="object-cover object-center scale-110" 
