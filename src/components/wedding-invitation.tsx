@@ -472,7 +472,7 @@ useEffect(() => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1 }}
-                    className="text-[1rem] md:text-[1.5rem] lg:text-[2.5rem] font-extrabold text-gray-300 tracking-wide"
+                    className="text-[1.5rem] lg:text-[2.5rem] font-extrabold text-gray-300 tracking-wide"
                 >
                     {dateText}
                     <Cursor cursorStyle="|" cursorColor="#FB7185" />
@@ -487,7 +487,7 @@ useEffect(() => {
               className="max-w-3xl mx-auto"
             >
               <p className="text-white/70 text-sm uppercase tracking-wider mb-4">Counting down to our special day</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-4 gap-3">
                 {Object.entries(countdown).map(([unit, value], idx) => (
                   <motion.div
                     key={unit}

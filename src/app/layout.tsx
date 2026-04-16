@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   // title: 'Azaria & Ketsebaot Wedding - Share Your Memories',
   description: 'Join us in celebrating our special day. Upload, view, and share photos and videos from our wedding.',
   icons: {
-    icon: '/logo.png',
+    icon: 'https://res.cloudinary.com/dq6mvqivd/image/upload/v1776079389/my_wedding/0W6A7294_1_btetor.jpg',
   },
   keywords: ['wedding', 'photos', 'videos', 'memories', 'Ketsi', 'Azaria'],
   authors: [{ name: 'Azaria & Ketsebaot', url: 'https://azaria-ketsi-wedding.vercel.app' }],
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "Azaria & Ketsebaot Wedding",
-         type: "image/png"
+        type: "image/png"
       },
     ],
     type: "website",
