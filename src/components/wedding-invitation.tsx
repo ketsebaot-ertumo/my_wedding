@@ -274,7 +274,7 @@ useEffect(() => {
     {/* <div className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth relative"> */}
         {/* Background Music */}
         <audio ref={audioRef} loop>
-            <source src="/wedding-music.mp3" type="audio/mpeg" />
+            <source src="https://res.cloudinary.com/dq6mvqivd/video/upload/v1776335587/my_wedding/%E1%89%83%E1%8A%93_%E1%8B%98%E1%8C%88%E1%88%8A%E1%88%8B_%E1%88%B0%E1%88%AD%E1%8C%8C_%E1%8A%90%E1%8B%8D_%E1%8B%9B%E1%88%AC_%E1%89%B0%E1%88%88%E1%89%80%E1%89%80_KANNA_ZEGELILA_22_November_2020_WEDDING_SONG_-_Ebenezer_Tagesse_Official_%E1%89%A3%E1%88%88_%E1%89%85%E1%8A%94_m2zykr.mp3" type="audio/mpeg" />
         </audio>
         
         {/* Music Control Button */}
