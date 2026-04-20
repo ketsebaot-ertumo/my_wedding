@@ -304,7 +304,7 @@ useEffect(() => {
         </motion.button>
 
         {/* Language Control Button */}
-        {/* <motion.button
+        <motion.button
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.1 }}
@@ -312,7 +312,7 @@ useEffect(() => {
           className="fixed top-4 right-16 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
         >
           <GlobeIcon className="w-5 h-5 text-gray-600" />
-        </motion.button> */}
+        </motion.button>
 
         {/* Share Button */}
         <motion.button
