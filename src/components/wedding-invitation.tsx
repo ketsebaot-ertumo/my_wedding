@@ -10,12 +10,15 @@ import {
   PartyPopper, Diamond, Mail, Phone, Instagram, Facebook,
   Volume2, VolumeX, Utensils, Share2, Copy, Check,
   Sparkle,
-  Gem
+  Gem,
+  Globe,
+  GlobeIcon
 } from "lucide-react";
 import Image from "next/image";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import { Playfair_Display, Great_Vibes } from "next/font/google";
 import { useForm } from '@formspree/react';
+import QRCodeSection from "./QRCodeSection";
 
 
 const playfair = Playfair_Display({
@@ -38,7 +41,7 @@ export const WeddingInvitation = () => {
   const [showMessageInput, setShowMessageInput] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [showGift, setShowGift] = useState(false);
+  const [showGiftList, setShowGiftList] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -105,13 +108,25 @@ export const WeddingInvitation = () => {
     setIsOpen(true);
     setIsRevealing(false);
 
-    const scrollWhenReady = () => {
-    const mainContent = document.getElementById("main-content");
-    if (mainContent) {
-        mainContent.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-        requestAnimationFrame(scrollWhenReady); // try again next frame
+    // 🎵 Play music when opening the invitation
+    if (audioRef.current && isMuted) {
+      audioRef.current.play()
+        .then(() => {
+          setIsMuted(false);
+        })
+        .catch(error => {
+          console.log("Audio playback failed:", error);
+          // Browsers may block autoplay, so we'll keep the manual button as fallback
+        });
     }
+
+    const scrollWhenReady = () => {
+      const mainContent = document.getElementById("main-content");
+      if (mainContent) {
+          mainContent.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+          requestAnimationFrame(scrollWhenReady); // try again next frame
+      }
     };
 
     scrollWhenReady();
@@ -149,7 +164,7 @@ useEffect(() => {
 
   // Sample images similar to your invitation style
   const coupleImages = [
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240113/my_wedding/couple_gmofgb.jpg", alt: "Azaria & Ketsebaot - Engagement" },
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240143/my_wedding/wedding61_iv2jje.jpg", alt: "Azaria & Ketsebaot - Engagement" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding3_d2sskq.jpg", alt: "Azaria & Ketsebaot - wedding" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240125/my_wedding/wedding5_hvmht5.jpg", alt: "Azaria & Ketsebaot - Wedding" },
     // { src: "/images/wedding2.jpg", alt: "Azaria & Ketsebaot - Together" },
@@ -233,7 +248,7 @@ useEffect(() => {
 ];
 
   const copyInviteLink = () => {
-    navigator.clipboard.writeText("https://azaria-ketsebaot-wedding.vercel.app/invite");
+    navigator.clipboard.writeText("https://azaria-ketsi-wedding.vercel.app/invite");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -288,13 +303,24 @@ useEffect(() => {
             {isMuted ? <VolumeX className="w-5 h-5 text-gray-600" /> : <Volume2 className="w-5 h-5 text-rose-500" />}
         </motion.button>
 
+        {/* Language Control Button */}
+        {/* <motion.button
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.1 }}
+          onClick={() => alert("Language toggle coming soon!")}
+          className="fixed top-4 right-16 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
+        >
+          <GlobeIcon className="w-5 h-5 text-gray-600" />
+        </motion.button> */}
+
         {/* Share Button */}
         <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.1 }}
             onClick={copyInviteLink}
-            className="fixed top-4 right-20 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
+            className="fixed top-4 right-28 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
         >
             {copied ? <Check className="w-5 h-5 text-green-500" /> : <Share2 className="w-5 h-5 text-rose-500" />}
         </motion.button>
@@ -1154,8 +1180,12 @@ useEffect(() => {
                   {/* </div> */}
                 </section>
 
+                <section className="min-h-screen snap-start py-20 px-4">
+                  <QRCodeSection />
+                </section>
+
                 {/* Gift Registry Section */}
-                <section className="min-h-screen snap-start py-20 px-4 bg-white">
+                <section className="snap-start py-20 px-4 bg-white border-t border-gray-200">
                   <div className="max-w-6xl mx-auto">
                     <motion.div
                       initial={{ opacity: 0, y: 30 }}
@@ -1168,72 +1198,91 @@ useEffect(() => {
                       </h3>
                       <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                         Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift,
-                        we have registered at the following places:
+                        we have registered at the following:
                       </p>
                     </motion.div>
 
-                    {/* Main Registry Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                      {giftRegistryItems.map((item, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: idx * 0.05 }}
-                          whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                          className="bg-gradient-to-br from-rose-50 to-amber-50 p-6 rounded-2xl shadow-lg cursor-pointer group"
-                        >
-                          <div className="text-4xl mb-3">{item.icon}</div>
-                          <h4 className="text-xl font-semibold text-gray-800 mb-2">{item.name}</h4>
-                          <p className="text-gray-600 text-sm">{item.description}</p>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    {/* Featured Registries with Icons */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      className="bg-gradient-to-r from-rose-100 to-amber-100 rounded-2xl p-8 mt-8"
-                    >
-                      <h4 className="text-2xl font-serif text-center mb-6">Popular Registry Options</h4>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {[
-                          { name: "Dinner Voucher", icon: "🛋️", color: "bg-blue-100" },
-                          { name: "Travel Voucher", icon: "✈️", color: "bg-green-100" },
-                          { name: "Honeymoon Fund", icon: "💑", color: "bg-pink-100" },
-                          { name: "Cash Gift", icon: "💵", color: "bg-yellow-100" },
-                        ].map((item, idx) => (
-                          <motion.div
-                            key={idx}
+                    {!showGiftList ? 
+                      (
+                        // button to open gift list
+                        <div className="text-center mb-12">
+                          <motion.button
                             whileHover={{ scale: 1.05 }}
-                            className={`${item.color} p-4 rounded-xl text-center cursor-pointer shadow-md`}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setShowGiftList(!showGiftList)}
+                            className="px-8 py-3 bg-gradient-to-r from-rose-600 to-amber-600 text-white rounded-full font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2 justify-center"
                           >
-                            <div className="text-3xl mb-2">{item.icon}</div>
-                            <p className="font-semibold text-gray-700">{item.name}</p>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-
-                    {/* Traditional Ethiopian Section */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      className="mt-8 text-center"
-                    >
-                      <div className="inline-block bg-amber-50 rounded-xl p-6 max-w-2xl">
-                        <p className="text-gray-700 italic">
-                          "In Ethiopian tradition, a gift of any amount (Gursha) is a blessing. 
-                          Your love and support mean more than any material gift."
-                        </p>
-                        <div className="mt-4 flex justify-center gap-2">
-                          <Heart className="w-5 h-5 text-rose-500" />
-                          <Heart className="w-5 h-5 text-rose-500" />
-                          <Heart className="w-5 h-5 text-rose-500" />
+                            View Gift Registry Options
+                          </motion.button>
                         </div>
-                      </div>
-                    </motion.div>
+                      ) : (
+                        <>
+                          {/* Main Registry Grid */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                            {giftRegistryItems.map((item, idx) => (
+                              <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.05 }}
+                                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                                className="bg-gradient-to-br from-rose-50 to-amber-50 p-6 rounded-2xl shadow-lg cursor-pointer group"
+                              >
+                                <div className="text-4xl mb-3">{item.icon}</div>
+                                <h4 className="text-xl font-semibold text-gray-800 mb-2">{item.name}</h4>
+                                <p className="text-gray-600 text-sm">{item.description}</p>
+                              </motion.div>
+                            ))}
+                          </div>
+
+                          {/* Featured Registries with Icons */}
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="bg-gradient-to-r from-rose-100 to-amber-100 rounded-2xl p-8 mt-8"
+                          >
+                            <h4 className="text-2xl font-serif text-center mb-6">Popular Registry Options</h4>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                              {[
+                                { name: "Dinner Voucher", icon: "🛋️", color: "bg-blue-100" },
+                                { name: "Travel Voucher", icon: "✈️", color: "bg-green-100" },
+                                { name: "Honeymoon Fund", icon: "💑", color: "bg-pink-100" },
+                                { name: "Cash Gift", icon: "💵", color: "bg-yellow-100" },
+                              ].map((item, idx) => (
+                                <motion.div
+                                  key={idx}
+                                  whileHover={{ scale: 1.05 }}
+                                  className={`${item.color} p-4 rounded-xl text-center cursor-pointer shadow-md`}
+                                >
+                                  <div className="text-3xl mb-2">{item.icon}</div>
+                                  <p className="font-semibold text-gray-700">{item.name}</p>
+                                </motion.div>
+                              ))}
+                            </div>
+                          </motion.div>
+
+                          {/* Traditional Ethiopian Section */}
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="mt-8 text-center"
+                          >
+                            <div className="inline-block bg-amber-50 rounded-xl p-6 max-w-2xl">
+                              <p className="text-gray-700 italic">
+                                "In Ethiopian tradition, a gift of any amount (Gursha) is a blessing. 
+                                Your love and support mean more than any material gift."
+                              </p>
+                              <div className="mt-4 flex justify-center gap-2">
+                                <Heart className="w-5 h-5 text-rose-500" />
+                                <Heart className="w-5 h-5 text-rose-500" />
+                                <Heart className="w-5 h-5 text-rose-500" />
+                              </div>
+                            </div>
+                          </motion.div>
+
+                        </>
+                      )
+                    }
 
                     {/* Contact for Registry Info */}
                     <motion.div
@@ -1244,6 +1293,20 @@ useEffect(() => {
                       <p>For registry inquiries, please contact:</p>
                       <p>📞 +251 919 765 445 | 📧 ertumoketsebaot@gmail.com</p>
                     </motion.div>
+
+                    {/* button to hide gift list */}
+                      {showGiftList &&
+                        <div className="text-center mt-12">
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setShowGiftList(!showGiftList)}
+                            className="px-8 py-3 bg-gradient-to-r from-rose-600 to-amber-600 text-white rounded-full font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2 justify-center"
+                          >
+                            Hide Gift Registry Options
+                          </motion.button>
+                        </div>
+    }
                   </div>
                 </section>
 
