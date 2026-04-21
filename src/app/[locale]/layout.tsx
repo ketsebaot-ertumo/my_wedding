@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   // title: 'Azaria & Ketsebaot Wedding - Share Your Memories',
   description: 'Join us in celebrating our special day. Upload, view, and share photos and videos from our wedding.',
   icons: {
-    icon: '/logo.jpg',
+    icon: 'https://res.cloudinary.com/dq6mvqivd/image/upload/v1776079389/my_wedding/0W6A7294_1_btetor.jpg?format=jpg',
     apple: '/logo.jpg',
   },
   keywords: ['wedding', 'photos', 'videos', 'memories', 'Ketsi', 'Azaria'],
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: "Azaria & Ketsebaot Wedding",
     images: [
       {
-        url: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776079389/my_wedding/0W6A7294_1_btetor.jpg", 
+        url: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776079389/my_wedding/0W6A7294_1_btetor.jpg?format=jpg", 
         width: 1200,
         height: 630,
         alt: "Azaria & Ketsebaot Wedding",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     description: "Share your memories from our special day",
     images: [
       {
-        url: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776079389/my_wedding/0W6A7294_1_btetor.jpg",
+        url: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776079389/my_wedding/0W6A7294_1_btetor.jpg?format=jpg",
         width: 1200,
         height: 630,
         alt: "Azaria & Ketsebaot Wedding",
@@ -73,20 +73,6 @@ export const metadata: Metadata = {
   },
 }
 
-// export default function RootLayout({
-//   children,
-// }: {
-//   children: React.ReactNode
-// }) {
-//   return (
-//     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-//       {/* <body className={inter.className}> */}
-//       <body className={`${meaCulpa.variable} ${imperialScript.variable} font-sans`}>
-//         {children}
-//       </body>
-//     </html>
-//   )
-// }
 export default async function LocaleLayout({
   children,
   params
