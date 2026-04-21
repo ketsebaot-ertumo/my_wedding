@@ -2,7 +2,7 @@
 // /hooks/use-query.ts
 "use client"
 
-import { createEntity, deleteEntity, updateEntity } from "@/app/api/routes";
+import { createEntity, deleteEntity, updateEntity } from "@/app/[locale]/api/routes";
 import { useToast } from "./use-toast";
 
 

@@ -3,22 +3,20 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useLocale, useTranslations } from 'next-intl';
 import { 
-  Calendar, MapPin, Heart, Clock, Music, Camera, Sparkles, 
-  ChevronDown, Gift, MessageCircle, CheckCircle, XCircle, 
-  Star, Cake, Flower2, Wine, Moon, Sun, Cloud, 
-  PartyPopper, Diamond, Mail, Phone, Instagram, Facebook,
-  Volume2, VolumeX, Utensils, Share2, Copy, Check,
-  Sparkle,
-  Gem,
-  Globe,
-  GlobeIcon
+  MapPin, Heart, Camera, Sparkles, 
+  ChevronDown, Gift, CheckCircle, XCircle, 
+  Star, Cake, Flower2, PartyPopper, Mail, Phone, Instagram, Facebook,
+  Volume2, VolumeX, Utensils, Share2, Check, Sparkle, Gem,
+  Linkedin,
 } from "lucide-react";
 import Image from "next/image";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import { Playfair_Display, Great_Vibes } from "next/font/google";
 import { useForm } from '@formspree/react';
 import QRCodeSection from "./QRCodeSection";
+import Language from "./language/Language";
 
 
 const playfair = Playfair_Display({
@@ -33,6 +31,7 @@ const greatVibes = Great_Vibes({
 
 
 export const WeddingInvitation = () => {
+  const t = useTranslations('wedding');
   const [isOpen, setIsOpen] = useState(false);
   const [rsvpStatus, setRsvpStatus] = useState<null | "yes" | "no">(null);
   const [message, setMessage] = useState("");
@@ -52,6 +51,7 @@ export const WeddingInvitation = () => {
   const heroRef = useRef<HTMLElement>(null);
   const [state, handleSubmit] = useForm("mzzppzop");
   
+  
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98]);
 
@@ -59,6 +59,13 @@ export const WeddingInvitation = () => {
   // May 10, 2026, 12:00 PM EAT (UTC+3)
   const weddingDate = new Date(Date.UTC(2026, 4, 10, 9, 0, 0)); 
   const safeWindow = typeof window !== "undefined" ? window : null;
+
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  // Add this ref at the top with your other refs
+  const mainContentRef = useRef<HTMLElement>(null);
+
+  // Inside your component:
+  const locale = useLocale();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -79,10 +86,7 @@ export const WeddingInvitation = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  // Add this ref at the top with your other refs
-  const mainContentRef = useRef<HTMLElement>(null);
+ 
 
   const handleOpenInvitation = () => {
     setIsRevealing(true);
@@ -132,7 +136,8 @@ export const WeddingInvitation = () => {
     scrollWhenReady();
   };
 
-  const names = [
+   // Get names from translations
+  const names = t.raw('names') || [
     "Azaria & Ketsebaot",
     "Azaria 💕 Ketsebaot",
     "Mr. Azaria & Mrs. Ketsebaot",
@@ -153,21 +158,29 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
+  // Get translated dates from JSON
+  const dateWords = t.raw('dates') || [
+    "MAY 10, 2026",
+    "MAY 10TH, 2026", 
+    "05.10.2026",
+    "10 MAY 2026"
+  ];
+  
   // Typewriter effect for the date
   const [dateText] = useTypewriter({
-    words: ["MAY 10, 2026", "MAY 10TH, 2026", "05.10.2026", "10 MAY 2026"],
+    words: dateWords,
     loop: true,
     typeSpeed: 80,
     deleteSpeed: 40,
     delaySpeed: 800,
   });
 
+
   // Sample images similar to your invitation style
   const coupleImages = [
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240143/my_wedding/wedding61_iv2jje.jpg", alt: "Azaria & Ketsebaot - Engagement" },
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding3_d2sskq.jpg", alt: "Azaria & Ketsebaot - wedding" },
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240125/my_wedding/wedding5_hvmht5.jpg", alt: "Azaria & Ketsebaot - Wedding" },
-    // { src: "/images/wedding2.jpg", alt: "Azaria & Ketsebaot - Together" },
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding3_d2sskq.jpg", alt: "Azaria & Ketsebaot - Engagement" },
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776710252/my_wedding/home/0W6A7334_1_fqcphl.jpg", alt: "Azaria & Ketsebaot - wedding" },
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776754853/my_wedding/0W6A7467_qcbgrk.jpg", alt: "Azaria & Ketsebaot - Wedding" },
   ];
 
   const galleryImages = [
@@ -175,76 +188,67 @@ useEffect(() => {
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240127/my_wedding/wedding8_nebzb4.jpg", alt: "Wedding cake" },
     // { src: "/images/wedding5.jpg", alt: "Ring ceremony" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240129/my_wedding/wedding9_uogtgv.jpg", alt: "Ring ceremony" },
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240131/my_wedding/wedding10_jrmmmv.jpg", alt: "First dance" }, // wedding2.jpg
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240131/my_wedding/wedding10_jrmmmv.jpg", alt: "First dance" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240143/my_wedding/wedding61_iv2jje.jpg", alt: "Celebration" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240128/my_wedding/wedding7_nbuxz2.jpg", alt: "Family photo" },
   ];
 
-  // const timelineEvents = [
-  //   { time: "10:00 AM", title: "Wedding Ceremony", icon: Heart, description: "Sacred Heart Cathedral", location: "Addis Ababa" },
-  //   { time: "11:30 AM", title: "Cocktail Hour", icon: Wine, description: "Garden Terrace", location: "Grand Palace Hotel" },
-  //   { time: "1:00 PM", title: "Lunch Reception", icon: Utensils, description: "Grand Ballroom", location: "Grand Palace Hotel" },
-  //   { time: "4:00 PM", title: "Photo Session", icon: Camera, description: "Garden & Indoor", location: "Hotel Grounds" },
-  //   { time: "6:00 PM", title: "Evening Celebration", icon: PartyPopper, description: "Dancing & Entertainment", location: "Grand Ballroom" },
-  //   { time: "8:00 PM", title: "Cake Cutting", icon: Cake, description: "Dessert & Coffee", location: "Grand Ballroom" },
-  // ];
-
   const timelineEvents = [
     {
       time: "10:00 AM - 12:00 PM",
-      title: "Wedding Ceremony",
+      title: "wedding-ceremony",
       icon: Heart,
-      description: "Exchange of vows and blessing ceremony",
-      location: "Sacred Heart Cathedral, Hawassa",
+      description: "ceremony-description",
+      location: "place",
     },
     {
       time: "12:00 PM - 2:00 PM",
-      title: "Lunch Reception",
+      title: "lunch-reception",
       icon: Utensils,
-      description: "Delightful lunch and celebration with family & friends",
-      location: "Joshua Campaign Hall",
+      description: "lunch-description",
+      location: "place",
     },
     {
-      time: "2:00 PM - 3:00 PM",
-      title: "Photo Session",
-      icon: Camera,
-      description: "Capturing beautiful moments indoors & in the garden",
-      location: "Selected scenic locations",
+      time: "2:00 PM - 3፡00 PM",
+      title: "cake-cutting",
+      icon: Cake,
+      description: "cake-description",
+      location: "place",
     },
     {
       time: "3:00 PM onwards",
-      title: "Cake Cutting & Worship",
-      icon: Cake,
-      description: "Cake cutting, coffee ceremony, worship & open dance floor",
-      location: "Joshua Campaign Hall",
+      title: "photo-session",
+      icon: Camera,
+      description: "photo-description",
+      location: "place",
     },
   ];
 
   const giftRegistryItems = [
   // Home Essentials
-  { name: "Home Appliances", icon: "🏠", description: "Refrigerator, TV, Washing Machine" },
-  { name: "Kitchenware Set", icon: "🍳", description: "Cookware, Dinner sets, Utensils" },
-  { name: "Bedroom Suite", icon: "🛏️", description: "Bed frame, Mattress, Wardrobe" },
-  { name: "Living Room Set", icon: "🛋️", description: "Sofa set, Coffee table, TV stand" },
-  { name: "Dining Set", icon: "🍽️", description: "Dining table, Chairs, Cabinet" },
+  { name: "home-appliances", icon: "🏠", description: "home-appliances-desc" },
+  { name: "kitchenware-set", icon: "🍳", description: "kitchenware-desc" },
+  { name: "bedroom-suite", icon: "🛏️", description: "bedroom-desc" },
+  { name: "living-room-set", icon: "🛋️", description: "living-room-desc" },
+  { name: "dining-set", icon: "🍽️", description: "dining-desc" },
   
   // Modern & Cash Options
-  { name: "Honeymoon Fund", icon: "✈️", description: "Contribute to our dream honeymoon" },
-  { name: "Travel Voucher", icon: "🌍", description: "For our adventures together" },
-  { name: "Cash Gift (Gursha)", icon: "💝", description: "Traditional Ethiopian gift" },
+  { name: "honeymoon-fund", icon: "✈️", description: "honeymoon-fund-desc" },
+  { name: "travel-voucher", icon: "🌍", description: "travel-voucher-desc" },
+  { name: "cash-gift", icon: "💝", description: "cash-gift-desc" },
   
   // Local Ethiopian Options
-  { name: "Traditional Coffee Set (Jebena)", icon: "☕", description: "Ethiopian coffee ceremony set" },
-  { name: "Traditional Clothes (Habesha Kemis)", icon: "👗", description: "Cultural attire for both" },
-  { name: "Gold Jewelry", icon: "💍", description: "Traditional wedding jewelry" },
-  { name: "Furniture Voucher", icon: "🪑", description: "For local furniture shops" },
+  { name: "coffee-set", icon: "☕", description: "coffee-desc" },
+  { name: "traditional-clothes", icon: "👗", description: "clothes-desc" },
+  { name: "gold-jewelry", icon: "💍", description: "jewelry-desc" },
+  { name: "furniture-voucher", icon: "🪑", description: "furniture-desc" },
   
   // Experience Gifts
-  { name: "Dinner Voucher", icon: "🍷", description: "Romantic dinner experience" },
+  { name: "dinner-voucher", icon: "🍷", description: "dinner-desc" },
   
   // Online/International
-  { name: "Amazon Gift Card", icon: "📦", description: "Shop anything you like" },
-  { name: "Other", icon: "🎁", description: "Any other gift you'd like to give" },
+  { name: "amazon-gift-card", icon: "📦", description: "amazon-desc" },
+  { name: "other-gift", icon: "🎁", description: "other-desc" },
 ];
 
   const copyInviteLink = () => {
@@ -282,11 +286,11 @@ useEffect(() => {
   };
 
   const calendarDays = getCalendarDays();
-  const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  // const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const weekDays = t.raw('calendar.weekdays') || ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   return (
     <div ref={containerRef} className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth relative">
-    {/* <div className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth relative"> */}
         {/* Background Music */}
         <audio ref={audioRef} loop>
             <source src="https://res.cloudinary.com/dq6mvqivd/video/upload/v1776335587/my_wedding/%E1%89%83%E1%8A%93_%E1%8B%98%E1%8C%88%E1%88%8A%E1%88%8B_%E1%88%B0%E1%88%AD%E1%8C%8C_%E1%8A%90%E1%8B%8D_%E1%8B%9B%E1%88%AC_%E1%89%B0%E1%88%88%E1%89%80%E1%89%80_KANNA_ZEGELILA_22_November_2020_WEDDING_SONG_-_Ebenezer_Tagesse_Official_%E1%89%A3%E1%88%88_%E1%89%85%E1%8A%94_m2zykr.mp3" type="audio/mpeg" />
@@ -303,26 +307,27 @@ useEffect(() => {
             {isMuted ? <VolumeX className="w-5 h-5 text-gray-600" /> : <Volume2 className="w-5 h-5 text-rose-500" />}
         </motion.button>
 
-        {/* Language Control Button */}
-        <motion.button
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.1 }}
-          onClick={() => alert("Language toggle coming soon!")}
-          className="fixed top-4 right-16 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
-        >
-          <GlobeIcon className="w-5 h-5 text-gray-600" />
-        </motion.button>
-
         {/* Share Button */}
         <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.1 }}
             onClick={copyInviteLink}
-            className="fixed top-4 right-28 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
+            className="fixed top-4 right-18 z-50 bg-white/90 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-white transition-all"
         >
             {copied ? <Check className="w-5 h-5 text-green-500" /> : <Share2 className="w-5 h-5 text-rose-500" />}
+        </motion.button>
+
+        {/* Language Control Button */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.1 }}
+          // onClick={() => alert("Language toggle coming soon!")}
+          className="fixed top-4 right-32 z-50"
+        >
+          {/* <GlobeIcon className="w-5 h-5 text-gray-600" /> */}
+          <Language />
         </motion.button>
 
         {/* Celebration Particles */}
@@ -352,7 +357,6 @@ useEffect(() => {
         <div className="absolute inset-0 z-0">
           <Image
             src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240127/my_wedding/wedding4_otfyo0.jpg"
-            // src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776339092/my_wedding/ChatGPT_Image_Apr_16_2026_02_27_40_PM_usuam0.png"
             alt="Azaria & Ketsebaot"
             fill
             className="object-cover object-center scale-110" 
@@ -451,7 +455,7 @@ useEffect(() => {
               transition={{ delay: 0.2, type: "spring" }}
             >
               <span className="inline-block px-8 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/30 shadow-lg">
-                <span className="text-rose-200 font-serif text-sm tracking-widest">✦ SAVE THE DATE ✦</span>
+                <span className="text-rose-200 font-serif text-sm tracking-widest">✦ {t('save-the-date')} ✦</span>
               </span>
             </motion.div>
             
@@ -489,9 +493,9 @@ useEffect(() => {
                     transition={{ delay: 0.6 }}
                     className="text-lg md:text-xl text-white/90 font-light"
                 >
-                    Are Getting Married!
+                    {t('getting-married')}
                 </motion.p>
-            </div>
+             </div>
            
             {/* Date with Smooth Typewriter */}
             <div className="flex items-center justify-center mt-6 z-20 relative">
@@ -513,7 +517,7 @@ useEffect(() => {
               transition={{ delay: 0.8 }}
               className="max-w-3xl mx-auto"
             >
-              <p className="text-white/70 text-sm uppercase tracking-wider mb-4">Counting down to our special day</p>
+              <p className="text-white/70 text-sm uppercase tracking-wider mb-4">{t('counting-down')}</p>
               <div className="grid grid-cols-4 gap-3">
                 {Object.entries(countdown).map(([unit, value], idx) => (
                   <motion.div
@@ -529,7 +533,7 @@ useEffect(() => {
                       <div className="text-2xl md:text-3xl font-bold text-white font-mono">
                         {String(value).padStart(2, '0')}
                       </div>
-                      <div className="text-xs uppercase text-white/70 mt-2 tracking-wider">{unit}</div>
+                      <div className="text-xs uppercase text-white/70 mt-2 tracking-wider">{t(unit)}</div>
                     </div>
                   </motion.div>
                 ))}
@@ -565,12 +569,12 @@ useEffect(() => {
                         >
                           <Sparkles className="w-5 h-5" />
                         </motion.div>
-                        Opening Magic...
+                        {t('opening')}
                       </>
                     ) : (
                       <>
                         <Gem className="w-5 h-5" />
-                        Open the Invitation
+                        {t('open-invitation')}
                         <motion.div
                           animate={{ x: [0, 5, 0] }}
                           transition={{ duration: 1, repeat: Infinity }}
@@ -610,7 +614,7 @@ useEffect(() => {
               transition={{ delay: 1.2 }}
               className="text-white/60 text-sm italic max-w-md mx-auto"
             >
-              "Love is not about how many days together, but about how much we grow together"
+              {t('love-quote')}
             </motion.p>
           </motion.div>
         </motion.div>
@@ -626,7 +630,7 @@ useEffect(() => {
           }}
         >
           <div className="flex flex-col items-center gap-2">
-            <span className="text-white/70 text-xs uppercase tracking-wider">Scroll</span>
+            <span className="text-white/70 text-xs uppercase tracking-wider">{t('scroll')}</span>
             <div className="w-6 h-10 border border-white/30 rounded-full flex justify-center">
               <motion.div
                 animate={{ y: [0, 12, 0] }}
@@ -670,7 +674,7 @@ useEffect(() => {
                 className="inline-block"
               >
                 <span className="px-6 py-2 border rounded-full text-rose-300 text-sm font-serif tracking-wider">
-                  ✨ With Love & Joy ✨
+                  ✨ {t('with-love-joy')} ✨
                 </span>
               </motion.div>
               
@@ -680,7 +684,7 @@ useEffect(() => {
                 transition={{ delay: 0.3 }}
                 className="text-5xl md:text-7xl font-serif bg-gradient-to-r from-rose-600 via-purple-600 to-amber-600 bg-clip-text text-transparent"
               >
-                Dear Family & Friends
+                {t('dear-family-friends')}
               </motion.h1>
               
               <motion.div
@@ -698,9 +702,7 @@ useEffect(() => {
                 className="max-w-3xl mx-auto"
               >
                 <p className="text-lg md:text-xl leading-relaxed">
-                  With hearts full of joy and gratitude, we invite you to share in the celebration of our love. 
-                  Your presence in our lives has been a blessing, and we would be honored to have you witness 
-                  the beginning of our forever journey together.
+                  {t('invitation-message')}
                 </p>
               </motion.div>
               
@@ -716,20 +718,6 @@ useEffect(() => {
               </motion.div>
             </div>
           </motion.div>
-          
-          {/* Wedding Invitation Message */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center space-y-6 mb-12"
-          >
-            <Heart className="w-16 h-16 text-rose-500 mx-auto fill-rose-200" />
-            <h2 className="text-4xl md:text-5xl font-serif">Together with our families</h2>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
-              Azaria & Ketsebaot joyfully invite you to celebrate their wedding day!
-            </p>
-          </motion.div> */}
 
           {/* Couple Images Grid */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -753,7 +741,7 @@ useEffect(() => {
                 {/* Image caption on hover */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-sm font-serif text-center">
-                    {idx === 0 ? "Our Journey Begins" : idx === 1 ? "Together Forever" : "Happily Ever After"}
+                    {idx === 0 ? t('our-journey-begins') : idx === 1 ? t('together-forever') : t('happily-ever-after')}
                   </p>
                 </div>
               </motion.div>
@@ -769,7 +757,7 @@ useEffect(() => {
           >
             <div className="space-y-6 flex justify-center text-gray-400 gap-2 md:gap-4">
               <MapPin className="w-5 h-5 " />
-              Joshua Campaign Ethiopia Ministry
+              {t('place')}
             </div>
           </motion.div>
 
@@ -782,7 +770,7 @@ useEffect(() => {
             className="text-center mt-4"
           >
             <p className="text-gray-500 text-sm italic pb-4">
-              "We are overjoyed to share this special moment with you"
+              {t('overjoyed-messaage')}
             </p>
           </motion.div>
         </div>
@@ -797,7 +785,7 @@ useEffect(() => {
                             className="text-center mb-12"
                         >
                             <h3 className="relative inline-block text-4xl md:text-6xl font-serif bg-gradient-to-r from-rose-600 via-purple-600 to-amber-600 bg-clip-text text-transparent mb-6 text-center">
-                            Event Timeline
+                            {t('event-timeline')}
                                 {/* Swipe underline container */}
                               <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-[3px] bg-gray-200 rounded-full overflow-hidden">
                                     <motion.div
@@ -841,8 +829,8 @@ useEffect(() => {
                               </div>
                               <div className="flex-1 pb-6">
                                 <p className="text-sm text-rose-400 font-medium">{event.time}</p>
-                                <h3 className="text-xl font-serif font-semibold text-gray-950">{event.title}</h3>
-                                <p className="text-gray-400 text-sm">{event.description}</p>
+                                <h3 className="text-xl font-serif font-semibold text-gray-950">{t(event.title)}</h3>
+                                <p className="text-gray-400 text-sm">{t(event.description)}</p>
                               </div>
                             </div>
                           </motion.div>
@@ -890,8 +878,8 @@ useEffect(() => {
                             whileInView={{ opacity: 1, y: 0 }}
                             className="text-center mb-12 text-white"
                         >
-                            <h3 className="text-4xl font-serif mb-4">Save the Date</h3>
-                            <p className="">Mark your calendar for our special day</p>
+                            <h3 className="text-4xl font-serif mb-4">{t('save-the-date-title')}</h3>
+                            <p className="">{t('save-the-date-desc')}</p>
                         </motion.div>
 
                         <motion.div
@@ -901,61 +889,143 @@ useEffect(() => {
                         >
                             {/* Calendar Header */}
                             <div className="text-center mb-6">
-                                <h4 className="text-2xl font-bold text-">MAY 2026</h4>
+                                <h4 className="text-2xl font-bold text-">{t('day')}</h4>
                             </div>
                             
                             {/* Week Days */}
                             <div className="grid grid-cols-7 gap-1 mb-2">
-                                {weekDays.map((day, i) => (
+                                {weekDays.map((day: any, i: any) => (
                                 <div key={i} className="text-center font-semibold text-white text-sm py-2">
                                     {day}
                                 </div>
                                 ))}
                             </div>
 
-                            {/* Calendar Days */}
+
+                            {/* Calendar Days - Language Aware with different calendars */}
                             <div className="grid grid-cols-7 gap-1">
-                                {calendarDays.map((day, i) => (
-                                <div
-                                    key={i}
-                                    className={`text-center py-3 text-sm transition-all relative ${
-                                    day === 10 
-                                        ? "font-bold scale-105"
-                                        : day 
-                                        ? "text-gray-200 rounded-lg"
-                                        : ""
-                                    }`}
-                                >
-                                    {day === 10 ? (
-                                        <div className="relative">
-                                            {/* Heart Border SVG */}
-                                            <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                                                    fill="none"
-                                                    stroke="#f43f5e"
-                                                    strokeWidth="1.5"
-                                                    className="animate-pulse"
-                                                />
-                                            </svg>
-                                            <span className="relative z-10 text-rose-400 font-bold">{day}</span>
-                                        </div>
-                                    ) : (
-                                        <span className={day ? "text-gray-200" : ""}>{day || ""}</span>
-                                    )}
-                                </div>
-                                ))}
+                                {locale === 'am' ? (
+                                    // ETHIOPIAN CALENDAR for Amharic
+                                    (() => {
+                                        // Ethiopian Calendar for Ginbot 2018 (May 2026)
+                                        // Ginbot 1, 2018 = April 9, 2026 (Thursday)
+                                        const firstDayOfGinbot = 6; // 4 = Thursday (0=Sunday, 4=Thursday)
+                                        const daysInGinbot = 30; // Ginbot has 30 days
+                                        const days = [];
+                                        
+                                        // Empty cells for days before Ginbot 1
+                                        for (let i = 0; i < firstDayOfGinbot; i++) {
+                                            days.push(null);
+                                        }
+                                        
+                                        // Actual days of Ginbot (1-30)
+                                        for (let i = 1; i <= daysInGinbot; i++) {
+                                            days.push(i);
+                                        }
+                                        
+                                        return days.map((day, i) => {
+                                            const isWeddingDay = day === 2; // Ginbot 02
+                                            
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    className={`text-center py-3 text-sm transition-all relative ${
+                                                        isWeddingDay 
+                                                            ? "font-bold scale-105"
+                                                            : day 
+                                                            ? "text-gray-200 rounded-lg"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {isWeddingDay ? (
+                                                        <div className="relative">
+                                                            <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                                                    fill="none"
+                                                                    stroke="#f43f5e"
+                                                                    strokeWidth="1.5"
+                                                                    className="animate-pulse"
+                                                                />
+                                                            </svg>
+                                                            <span className="relative z-10 text-rose-400 font-bold">
+                                                                {day}
+                                                            </span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className={day ? "text-gray-200" : ""}>{day || ""}</span>
+                                                    )}
+                                                </div>
+                                            );
+                                        });
+                                    })()
+                                ) : (
+                                    // GREGORIAN CALENDAR for English
+                                    (() => {
+                                        // May 1, 2026 is a Friday (getDay() returns 5 for Friday)
+                                        const firstDayOfMay = new Date(2026, 4, 1).getDay(); // 5 = Friday
+                                        const daysInMay = 31;
+                                        const days = [];
+                                        
+                                        // Empty cells for days before May 1
+                                        for (let i = 0; i < firstDayOfMay; i++) {
+                                            days.push(null);
+                                        }
+                                        
+                                        // Actual days of May (1-31)
+                                        for (let i = 1; i <= daysInMay; i++) {
+                                            days.push(i);
+                                        }
+                                        
+                                        return days.map((day, i) => {
+                                            const isWeddingDay = day === 10; // May 10
+                                            
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    className={`text-center py-3 text-sm transition-all relative ${
+                                                        isWeddingDay 
+                                                            ? "font-bold scale-105"
+                                                            : day 
+                                                            ? "text-gray-200 rounded-lg"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {isWeddingDay ? (
+                                                        <div className="relative">
+                                                            <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                                                    fill="none"
+                                                                    stroke="#f43f5e"
+                                                                    strokeWidth="1.5"
+                                                                    className="animate-pulse"
+                                                                />
+                                                            </svg>
+                                                            <span className="relative z-10 text-rose-400 font-bold">
+                                                                {day}
+                                                            </span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className={day ? "text-gray-200" : ""}>{day || ""}</span>
+                                                    )}
+                                                </div>
+                                            );
+                                        });
+                                    })()
+                                )}
                             </div>
                             
                             <div className="mt-6 text-center">
                                 <div className="inline-flex items-center gap-2 px-4 py-2 bg- rounded-full">
                                 <Heart className="w-4 h-4 text-rose-400 fill-rose-400" />
-                                <span className="text-sm text-rose-400">Wedding Day - May 10, 2026</span>
+                                <span className="text-sm text-rose-400">{t('wedding-day')} - {t('date')}</span>
                                 </div>
                             </div>
                         </motion.div>
                     </div>
                 </section>
+
 
                 {/* Photo Gallery Section */}
                 <section className="min-h-screen snap-start py-20 px-4 bg-gradient-to-b from-rose-100 via-rose-50 to-amber-100">
@@ -966,7 +1036,7 @@ useEffect(() => {
                             className="text-center mb-12"
                         >
                             <h3 className="text-4xl font-serif relative inline-block mb-6">
-                                Precious Moments
+                                {t('precious-moments')}
                                 {/* Swipe underline container */}
                               <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-[3px] bg-gray-200 rounded-full overflow-hidden">
                                     <motion.div
@@ -1023,7 +1093,7 @@ useEffect(() => {
                       {!showSuccessMessage ? (
                         <> 
                           <PartyPopper className="w-16 h-16 text-rose-400 mx-auto" />
-                          <h3 className="text-3xl font-serif">Will You Attend the Event?</h3>
+                          <h3 className="text-3xl font-serif">{t('will-you-attend')}</h3>
 
                           <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Hidden field to store RSVP choice */}
@@ -1032,7 +1102,7 @@ useEffect(() => {
 
                             <input
                                 type="text"
-                                placeholder="Your Full Name"
+                                placeholder={t('your-full-name')}
                                 name="name"
                                 value={guestName}
                                 onChange={(e) => setGuestName(e.target.value)}
@@ -1042,8 +1112,8 @@ useEffect(() => {
                             {/* Message input (shown after RSVP choice) */}
                             {showMessageInput && (
                                 <textarea
-                                  name="message"
-                                  placeholder="Write a message for Azaria & Ketsebaot..."
+                                  name={t('message')}
+                                  placeholder={t("write-message")}
                                   value={message}
                                   onChange={(e) => setMessage(e.target.value)}
                                   className="w-full max-w-md mx-auto p-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-400"
@@ -1064,7 +1134,7 @@ useEffect(() => {
                                     }}
                                     className="px-8 py-3 bg-green-600 text-white rounded-full font-semibold hover:bg-green-700 transition-all inline-flex items-center gap-2 justify-center"
                                   >
-                                    <CheckCircle className="w-5 h-5" /> Yes, I'll Attend
+                                    <CheckCircle className="w-5 h-5" /> {t("yes-attend")}
                                   </motion.button>
 
                                   <motion.button
@@ -1082,7 +1152,7 @@ useEffect(() => {
                                     }}
                                     className="px-8 py-3 bg-gray-600 text-white rounded-full font-semibold hover:bg-gray-700 transition-all inline-flex items-center gap-2 justify-center"
                                   >
-                                  <XCircle className="w-5 h-5" /> Unable to Attend
+                                  <XCircle className="w-5 h-5" /> {t("unable-attend")}
                                   </motion.button>
                               </div>
                             ) : (
@@ -1100,12 +1170,12 @@ useEffect(() => {
                                         {state.submitting ? (
                                           <>
                                             <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white"></div>
-                                            Sending...
+                                            {t('sending')}
                                           </>
                                         ) : (
                                           <>
                                             <Heart className="w-5 h-5" />
-                                            Send with Message
+                                            {t('send-with-message')}
                                           </>
                                         )}
                                       </motion.button>
@@ -1122,7 +1192,7 @@ useEffect(() => {
                                         }}
                                         className="px-6 py-2 border border-gray-400 text-sm text-gray-400 rounded-full hover:underline transition-all inline-flex items-center gap-2 justify-center mx-auto cursor-pointer"
                                       >
-                                        ← Change my response
+                                        ← {t('change-response')}
                                       </motion.button>
                                     </div>
                                 )}
@@ -1140,12 +1210,12 @@ useEffect(() => {
                             <CheckCircle className="w-10 h-10 text-green-600" />
                           </div>
                           <p className="text-2xl font-semibold text-gray-300">
-                            Thank You {guestName}!
+                            {t('thank-you')} {guestName}!
                           </p>
                           <p className="text-gray-400">
                             {rsvpStatus === "yes" 
-                              ? "We’re so excited to celebrate with you! 💕 A formal ceremony invitation card will be sent to you soon for event entry."
-                              : "❤️ We'll miss you! Thank you for letting us know."}
+                              ? t('excited-celebrate')
+                              : t('will-miss-you')}
                           </p>
 
                           <button
@@ -1161,17 +1231,18 @@ useEffect(() => {
                             }}
                             className="mt-4 px-6 py-2 bg-rose-400 text-white rounded-full hover:bg-rose-600 transition-all"
                           >
-                            Close
+                            {t('close')}
                           </button>
                         </motion.div>
                     )}
                     
                     <div className="pt-4 text-sm text-gray-500">
-                        <p>Please RSVP by April 30, 2026</p>
+                        <p>{t('rsvp-deadline')}</p>
                     </div>
                     </motion.div>
                   </div>
                 </section>
+
 
                <section className="h-150 snap-start">
                   {/* <div className=""> */}
@@ -1180,9 +1251,6 @@ useEffect(() => {
                   {/* </div> */}
                 </section>
 
-                <section className="min-h-screen snap-start py-20 px-4">
-                  <QRCodeSection />
-                </section>
 
                 {/* Gift Registry Section */}
                 <section className="snap-start py-20 px-4 bg-white border-t border-gray-200">
@@ -1194,11 +1262,10 @@ useEffect(() => {
                     >
                       <Gift className="w-20 h-20 text-rose-500 mx-auto" />
                       <h3 className="text-4xl md:text-5xl font-serif bg-gradient-to-r from-rose-600 to-amber-600 bg-clip-text text-transparent">
-                        Gift Registry
+                        {t('gift-registry')}
                       </h3>
                       <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift,
-                        we have registered at the following:
+                        {t('gift-description')}
                       </p>
                     </motion.div>
 
@@ -1212,7 +1279,7 @@ useEffect(() => {
                             onClick={() => setShowGiftList(!showGiftList)}
                             className="px-8 py-3 bg-gradient-to-r from-rose-600 to-amber-600 text-white rounded-full font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2 justify-center"
                           >
-                            View Gift Registry Options
+                            {t('view-gift-options')}
                           </motion.button>
                         </div>
                       ) : (
@@ -1229,8 +1296,8 @@ useEffect(() => {
                                 className="bg-gradient-to-br from-rose-50 to-amber-50 p-6 rounded-2xl shadow-lg cursor-pointer group"
                               >
                                 <div className="text-4xl mb-3">{item.icon}</div>
-                                <h4 className="text-xl font-semibold text-gray-800 mb-2">{item.name}</h4>
-                                <p className="text-gray-600 text-sm">{item.description}</p>
+                                <h4 className="text-xl font-semibold text-gray-800 mb-2">{t(item.name)}</h4>
+                                <p className="text-gray-600 text-sm">{t(item.description)}</p>
                               </motion.div>
                             ))}
                           </div>
@@ -1241,13 +1308,13 @@ useEffect(() => {
                             whileInView={{ opacity: 1, y: 0 }}
                             className="bg-gradient-to-r from-rose-100 to-amber-100 rounded-2xl p-8 mt-8"
                           >
-                            <h4 className="text-2xl font-serif text-center mb-6">Popular Registry Options</h4>
+                            <h4 className="text-2xl font-serif text-center mb-6">{t('popular-registries')}</h4>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                               {[
-                                { name: "Dinner Voucher", icon: "🛋️", color: "bg-blue-100" },
-                                { name: "Travel Voucher", icon: "✈️", color: "bg-green-100" },
-                                { name: "Honeymoon Fund", icon: "💑", color: "bg-pink-100" },
-                                { name: "Cash Gift", icon: "💵", color: "bg-yellow-100" },
+                                { name: "dinner-voucher", icon: "🛋️", color: "bg-blue-100" },
+                                { name: "travel-voucher", icon: "✈️", color: "bg-green-100" },
+                                { name: "honeymoon-fund", icon: "💑", color: "bg-pink-100" },
+                                { name: "cash-gift", icon: "💵", color: "bg-yellow-100" },
                               ].map((item, idx) => (
                                 <motion.div
                                   key={idx}
@@ -1255,7 +1322,7 @@ useEffect(() => {
                                   className={`${item.color} p-4 rounded-xl text-center cursor-pointer shadow-md`}
                                 >
                                   <div className="text-3xl mb-2">{item.icon}</div>
-                                  <p className="font-semibold text-gray-700">{item.name}</p>
+                                  <p className="font-semibold text-gray-700">{t(item.name)}</p>
                                 </motion.div>
                               ))}
                             </div>
@@ -1269,8 +1336,7 @@ useEffect(() => {
                           >
                             <div className="inline-block bg-amber-50 rounded-xl p-6 max-w-2xl">
                               <p className="text-gray-700 italic">
-                                "In Ethiopian tradition, a gift of any amount (Gursha) is a blessing. 
-                                Your love and support mean more than any material gift."
+                                {t('traditional-message')}
                               </p>
                               <div className="mt-4 flex justify-center gap-2">
                                 <Heart className="w-5 h-5 text-rose-500" />
@@ -1290,7 +1356,7 @@ useEffect(() => {
                       whileInView={{ opacity: 1 }}
                       className="text-center mt-8 text-gray-500 text-sm"
                     >
-                      <p>For registry inquiries, please contact:</p>
+                      <p>{t('registry-inquiries')}</p>
                       <p>📞 +251 919 765 445 | 📧 ertumoketsebaot@gmail.com</p>
                     </motion.div>
 
@@ -1303,47 +1369,128 @@ useEffect(() => {
                             onClick={() => setShowGiftList(!showGiftList)}
                             className="px-8 py-3 bg-gradient-to-r from-rose-600 to-amber-600 text-white rounded-full font-semibold hover:shadow-lg transition-all inline-flex items-center gap-2 justify-center"
                           >
-                            Hide Gift Registry Options
+                            {t('hide-gift-options')}
                           </motion.button>
                         </div>
-    }
+        }
                   </div>
                 </section>
 
+                {/* Section Breaker */}
+                <section className="snap-start bg-gray-900 py-16 md:py-24">
+                  <div className="container mx-auto px-4 text-center">
+                    {/* <!-- Decorative line or divider --> */}
+                    <div className="flex justify-center items-center gap-4">
+                      <div className="h-px w-12 bg-rose-500/50"></div>
+                      <div className="text-gray-300 font-semibold text-sm tracking-widest uppercase">
+                        <span className="text-rose-500/50">✦</span> {t('section-message')} <span className="text-rose-500/50">✦</span> 
+                      </div>
+                      <div className="h-px w-12 bg-rose-500/50"></div>
+                    </div>
+
+                    {/* <!-- Optional: minimalist icon or date reminder --> */}
+                    <div className="mt-6 text-gray-400 text-sm">
+                      <span>{t('section-desc')}</span>
+                    </div>
+                  </div>
+                </section>
+
+
+                {/* QR Code Section */}
+                <section className="min-h-screen snap-start py-20 px-4">
+                  <QRCodeSection />
+                </section>
+
+
                 {/* Footer Section */}
                 <section className="snap-start py-20 px-4 bg-gradient-to-br from-rose-900 to-purple-900 text-white">
-                <div className="max-w-4xl mx-auto text-center space-y-12">
-                    <motion.div
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    className="space-y-6"
-                    >
-                    <Heart className="w-24 h-24 text-rose-400 mx-auto fill-rose-400/30" />
-                    <h3 className="text-4xl font-serif">Thank You</h3>
-                    <p className="text-xl text-rose-200">
-                        We can't wait to celebrate our special day with you!
-                    </p>
-                    <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                        Your love, support, and presence mean the world to us. 
-                        Thank you for being part of our journey.
-                    </p>
-                    
-                    <div className="flex justify-center gap-6 pt-8">
-                      <Mail className="w-6 h-6 cursor-pointer hover:text-rose-300 transition-colors" />
-                      <Phone className="w-6 h-6 cursor-pointer hover:text-rose-300 transition-colors" />
-                      <Instagram className="w-6 h-6 cursor-pointer hover:text-rose-300 transition-colors" />
-                      <Facebook className="w-6 h-6 cursor-pointer hover:text-rose-300 transition-colors" />
-                    </div>
-                    
-                    <div className="pt-12 space-y-2">
-                        <p className="text-sm text-gray-400">For questions, please contact:</p>
-                        <p className="text-sm">Mobile: +251 919 765 445 | Mobile: +251 712 973 556</p>
-                        <p className="text-xs text-gray-500 mt-6">#AzariaAndKetsebaot #AKForever #Wedding2026</p>
-                    </div>
-                    </motion.div>
-                </div>
+                  <div className="max-w-4xl mx-auto text-center space-y-12">
+                      <motion.div
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      className="space-y-6"
+                      >
+                      <Heart className="w-24 h-24 text-rose-400 mx-auto fill-rose-400/30" />
+                      <h3 className="text-4xl font-serif">{t('thank-you')}</h3>
+                      <p className="text-xl text-rose-200">
+                          {t('thank-you-message')}!
+                      </p>
+                      <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                          {t('thank-you-message-long')}
+                      </p>
+                      
+                      
+                      <div className="flex justify-center gap-6 pt-8">
+                        {/* Email Link */}
+                        <a 
+                            href="mailto:ertumoketsebaot@gmail.com" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-white/60 hover:text-amber-400 transition-all duration-300 hover:scale-110"
+                        >
+                            <Mail className="w-6 h-6 cursor-pointer" />
+                        </a>
+                        
+                        {/* Phone Link */}
+                        <a 
+                            href="tel:+251919765445" 
+                            className="text-white/60 hover:text-green-400 transition-all duration-300 hover:scale-110"
+                        >
+                            <Phone className="w-6 h-6 cursor-pointer" />
+                        </a>
+                        
+                        {/* Instagram Link */}
+                        <a 
+                            href="https://www.instagram.com/e_ketsebaot" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-white/60 hover:text-pink-400 transition-all duration-300 hover:scale-110"
+                        >
+                            <Instagram className="w-6 h-6 cursor-pointer" />
+                        </a>
+
+                        {/* LinkedIn Link */}
+                        <a 
+                            href="https://www.linkedin.com/in/ketsebaot-ertumo/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-white/60 hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                        >
+                            <Linkedin className="w-6 h-6 cursor-pointer" />
+                        </a>
+                        
+                        {/* Facebook Link */}
+                        <a 
+                            href="https://www.facebook.com/eraye.ketsebaot" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-white/60 hover:text-blue-500 transition-all duration-300 hover:scale-110"
+                        >
+                            <Facebook className="w-6 h-6 cursor-pointer" />
+                        </a>
+                      </div>
+                      
+                      
+                      <div className="pt-12 space-y-2">
+                        {/* "For questions, please contact:" - Medium white for readability */}
+                        <p className="text-sm text-white/50">
+                            {t('for-questions')}
+                        </p>
+                        
+                        {/* Phone numbers - Brighter for importance */}
+                        <p className="text-sm text-white/70 font-medium">
+                            {t('mobile')}: +251 919 765 445 | {t('mobile')}: +251 712 973 556
+                        </p>
+                        
+                        {/* Hashtags - Subtle but visible */}
+                        <p className="text-xs text-white/40 mt-6 tracking-wide">
+                            #AzariaAndKetsebaot #AKForever #Wedding2026 #Wedding2018
+                        </p>
+                      </div>
+                      </motion.div>
+                  </div>
                 </section>
-            </>
+              </>
             )}
         </AnimatePresence>
     </div>

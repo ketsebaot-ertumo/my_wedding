@@ -5,11 +5,12 @@ import { QRCodeSVG } from 'qrcode.react'
 import { Download, Share2, Smartphone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'react-hot-toast'
+import { useTranslations } from 'next-intl';
 
 export default function QRCodeSection() {
-  const [size, setSize] = useState(256)
-  // const websiteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://ketsi-azaria-wedding.com'
- const [websiteUrl, setWebsiteUrl] = useState<string >('');
+  const t = useTranslations('wedding');
+  const [size, setSize] = useState(256);
+  const [websiteUrl, setWebsiteUrl] = useState<string >('');
 
   useEffect(() => {
     setWebsiteUrl(window.location.origin); // client-only
@@ -53,11 +54,10 @@ export default function QRCodeSection() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <Smartphone className="w-8 h-8 text-rose-500" />
-            <h2 className="text-3xl font-bold text-gray-800">Easy Access</h2>
+            <h2 className="text-3xl font-bold text-gray-800">{t('qr-code-title')}</h2>
           </div>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Share this QR code with guests so they can easily access our wedding website
-            from their phones and upload their photos & videos
+            {t('qr-code-desc')}
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function QRCodeSection() {
                 bgColor="#ffffff"
                 fgColor="#e11d48"
                 imageSettings={{
-                  src: '/api/placeholder/400/300',
+                  src: 'https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding1_sstnfp.jpg',
                   x: undefined,
                   y: undefined,
                   height: 32,
@@ -86,10 +86,10 @@ export default function QRCodeSection() {
               />
               
               <div className="mt-4 text-center">
-                <p className="text-sm text-gray-500 mb-1">Scan me!</p>
+                <p className="text-sm text-gray-500 mb-1">{t('qr-scan-title')}!</p>
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                  <p className="text-xs text-gray-600">Live QR Code</p>
+                  <p className="text-xs text-gray-600">{t('qr-code-live')}</p>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@ export default function QRCodeSection() {
             {/* Size Controls */}
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                QR Code Size: {size}px
+                {t('qr-code-size')}: {size}px
               </label>
               <input
                 type="range"
@@ -114,7 +114,7 @@ export default function QRCodeSection() {
           {/* Instructions */}
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-gray-800">How to Use:</h3>
+              <h3 className="text-xl font-bold text-gray-800">{t('qr-code-use')} :</h3>
               
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
@@ -122,9 +122,9 @@ export default function QRCodeSection() {
                     <span className="text-rose-600 font-bold">1</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Scan QR Code</h4>
+                    <h4 className="font-semibold text-gray-800">{t('qr-code-scan')}</h4>
                     <p className="text-gray-600 text-sm">
-                      Open your phone&apos;s camera and point it at the QR code
+                      {t('qr-code-scan-desc')}
                     </p>
                   </div>
                 </div>
@@ -134,9 +134,9 @@ export default function QRCodeSection() {
                     <span className="text-blue-600 font-bold">2</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Access Website</h4>
+                    <h4 className="font-semibold text-gray-800">{t('qr-code-access')}</h4>
                     <p className="text-gray-600 text-sm">
-                      Tap the notification to open our wedding website
+                      {t('qr-code-access-desc')}
                     </p>
                   </div>
                 </div>
@@ -146,9 +146,9 @@ export default function QRCodeSection() {
                     <span className="text-green-600 font-bold">3</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">Share Memories</h4>
+                    <h4 className="font-semibold text-gray-800">{t('qr-code-share-memory')}</h4>
                     <p className="text-gray-600 text-sm">
-                      Upload your photos and videos from the wedding
+                      {t('qr-code-share-memory-desc')}
                     </p>
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export default function QRCodeSection() {
                 className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"
               >
                 <Download className="mr-2 h-5 w-5" />
-                Download QR Code
+                {t('qr-code-download')}
               </Button>
               
               <Button 
@@ -171,16 +171,16 @@ export default function QRCodeSection() {
                 className="border-rose-300 text-rose-600 hover:bg-rose-50"
               >
                 <Share2 className="mr-2 h-5 w-5" />
-                Share Link
+                {t('qr-code-share')}
               </Button>
             </div>
 
-            <div className="text-sm text-gray-500 pt-4 border-t">
+            {/* <div className="text-sm text-gray-500 pt-4 border-t">
               <p>Website URL:</p>
               <code className="block mt-1 p-2 bg-gray-50 rounded text-xs break-all">
                 {websiteUrl}
               </code>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
