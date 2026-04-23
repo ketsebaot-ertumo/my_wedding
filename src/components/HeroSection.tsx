@@ -283,6 +283,8 @@ export default function HeroSection() {
           <span className="text-xs mt-2">Scroll</span>
         </motion.div>
       </motion.div>
+
+      {/* <div className="h-16" /> */}
     </section>
   )
 }

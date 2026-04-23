@@ -96,7 +96,7 @@ export default function Navigation() {
                       className={`relative flex items-center gap-2 px-3 lg:px-4 py-2 rounded-full transition-all duration-300 ${
                         isActive 
                           ? 'text-rose-600 bg-rose-50' 
-                          : 'text-gray-300 hover:text-rose-500 hover:bg-gray-400'
+                          : 'text-gray-300 hover:text-rose-500 hover:bg-white/70'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -117,7 +117,7 @@ export default function Navigation() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                <Button className="ml-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-300 rounded-full">
+                <Button className="ml-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 rounded-full">
                   <Camera className="mr-2 h-4 w-4" />
                   Share Memories
                 </Button>
@@ -206,7 +206,7 @@ export default function Navigation() {
       </motion.nav>
       
       {/* Spacer to prevent content from hiding under fixed nav */}
-      {/* <div className="h-16 lg:h-20" /> */}
+      <div className="h-16 lg:h-20 bg-black/90" />
     </>
   )
 }

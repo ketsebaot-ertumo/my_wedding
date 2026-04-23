@@ -329,13 +329,13 @@ useEffect(() => {
     }
   };
 
-  window.addEventListener('blur', handleBlur);
-  window.addEventListener('focus', handleFocus);
+  // window.addEventListener('blur', handleBlur);
+  // window.addEventListener('focus', handleFocus);
 
   return () => {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
-    window.removeEventListener('blur', handleBlur);
-    window.removeEventListener('focus', handleFocus);
+    // window.removeEventListener('blur', handleBlur);
+    // window.removeEventListener('focus', handleFocus);
   };
 }, [isMuted]); // Re-run when mute status changes
 
