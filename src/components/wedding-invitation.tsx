@@ -289,6 +289,56 @@ useEffect(() => {
   // const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const weekDays = t.raw('calendar.weekdays') || ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
+  // Add this useEffect right after your other useEffects (around line 200)
+
+useEffect(() => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      // Tab is hidden/inactive - pause the music
+      if (!audio.paused) {
+        audio.pause();
+      }
+    } else {
+      // Tab is active again - resume playing if it wasn't muted
+      if (!isMuted && audio.paused) {
+        audio.play().catch(error => {
+          console.log("Audio playback failed on tab focus:", error);
+        });
+      }
+    }
+  };
+
+  // Handle page visibility (tab switching)
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Handle page blur (when clicking on address bar or other browser elements)
+  const handleBlur = () => {
+    if (!audio.paused) {
+      audio.pause();
+    }
+  };
+
+  const handleFocus = () => {
+    if (!isMuted && audio.paused) {
+      audio.play().catch(error => {
+        console.log("Audio playback failed on focus:", error);
+      });
+    }
+  };
+
+  window.addEventListener('blur', handleBlur);
+  window.addEventListener('focus', handleFocus);
+
+  return () => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    window.removeEventListener('blur', handleBlur);
+    window.removeEventListener('focus', handleFocus);
+  };
+}, [isMuted]); // Re-run when mute status changes
+
   return (
     <div ref={containerRef} className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth relative">
         {/* Background Music */}
