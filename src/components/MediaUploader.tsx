@@ -71,7 +71,7 @@ export default function MediaUploader() {
   })
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
+    <div className="w-full max-w-4xl mx-auto p-6 py-20">
       <div
         {...getRootProps()}
         className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 ${
@@ -105,10 +105,10 @@ export default function MediaUploader() {
               <Video className="w-5 h-5 text-purple-500" />
               <span className="text-purple-700">Videos</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-lg">
+            {/* <div className="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-lg">
               <Camera className="w-5 h-5 text-green-500" />
               <span className="text-green-700">Take Photo</span>
-            </div>
+            </div> */}
           </div>
           
           <Button className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600">

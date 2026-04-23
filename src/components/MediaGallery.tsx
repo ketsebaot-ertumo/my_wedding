@@ -345,7 +345,7 @@ export default function MediaGallery() {
 
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 py-20">
       {/* Header */}
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>

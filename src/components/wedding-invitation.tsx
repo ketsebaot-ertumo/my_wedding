@@ -1382,14 +1382,14 @@ useEffect(() => {
                     {/* <!-- Decorative line or divider --> */}
                     <div className="flex justify-center items-center gap-4">
                       <div className="h-px w-12 bg-rose-500/50"></div>
-                      <div className="text-gray-300 font-semibold text-sm tracking-widest uppercase">
+                      <div className="text-gray-400 font-semibold text-sm tracking-widest">
                         <span className="text-rose-500/50">✦</span> {t('section-message')} <span className="text-rose-500/50">✦</span> 
                       </div>
                       <div className="h-px w-12 bg-rose-500/50"></div>
                     </div>
 
                     {/* <!-- Optional: minimalist icon or date reminder --> */}
-                    <div className="mt-6 text-gray-400 text-sm">
+                    <div className="mt-6 text-gray-400 text-sm italic">
                       <span>{t('section-desc')}</span>
                     </div>
                   </div>

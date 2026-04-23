@@ -42,20 +42,20 @@ useEffect(() => {
       
       <Navigation />
       
-      <div className="pt-12">
+      <div className="flex flex-col gap-">
         <section id="home">
           <HeroSection />
         </section>
 
-        <section id="upload" className="py-20 bg-gradient-to-b from-white to-rose-50">
+        <section id="upload" className="bg-gradient-to-b from-white to-rose-50">
           <MediaUploader />
         </section>
 
-        <section id="gallery" className="py-20 bg-white">
+        <section id="gallery" className="bg-white">
           <MediaGallery />
         </section>
 
-        <section id="capture" className="py-20 bg-gradient-to-b from-rose-50 to-white">
+        <section id="capture" className="bg-gradient-to-b from-rose-50 via-white to-rose-50">
           <CameraCapture />
         </section>
 
@@ -63,7 +63,7 @@ useEffect(() => {
           <QRCodeSection />
         </section>
 
-        <section id="countdown" className="py-20 bg-gradient-to-b from-white to-rose-50">
+        <section id="countdown" className="py-20 bg-gradient-to-b from-rose-50 via-white to-rose-50">
           <CountdownTimer />
         </section>
       </div>

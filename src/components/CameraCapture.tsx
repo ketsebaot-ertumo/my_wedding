@@ -893,8 +893,8 @@ export default function CameraCapture() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
-      <div className="glass-effect rounded-2xl p-8">
+    <div className="w-full max-w-4xl mx-auto px-6 py-20">
+      <div className="glass-effect rounded-2xl px-8">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <Camera className="w-8 h-8 text-rose-500" />
