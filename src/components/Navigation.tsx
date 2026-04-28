@@ -2,22 +2,25 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, Heart, Camera, Home, GalleryVertical, QrCode, Calendar, Sparkles, Flower2 } from 'lucide-react'
+import { Menu, X, Heart, Camera, Home, GalleryVertical, Sparkles, Upload, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
+import Language from './language/Language'
 
-const navItems = [
-  { label: 'Home', href: '/', icon: Home },
-  { label: 'Upload', href: '#upload', icon: Camera },
-  { label: 'Gallery', href: '#gallery', icon: GalleryVertical },
-  { label: 'QR Code', href: '#qr', icon: QrCode },
-  { label: 'Countdown', href: '#countdown', icon: Calendar },
-]
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeHash, setActiveHash] = useState('')
+
+  const navItems = [
+    { label: 'Home', href: '/', icon: Home },        // 1️⃣ First - Always
+    { label: 'Schedule', href: '#schedule', icon: Clock },
+    { label: 'Gallery', href: '#gallery', icon: GalleryVertical },
+    { label: 'Our Story', href: '#story', icon: Heart },
+    { label: 'Capture', href: '#capture', icon: Camera },    
+    { label: 'Upload', href: '#upload', icon: Upload },  
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +52,7 @@ export default function Navigation() {
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled 
-            ? 'bg-transparent backdrop-blur-md border-b border-rose-50/50' 
+            ? 'bg-transparent backdrop-blur-md border-b border-rose-50/50 text' 
             : 'bg-transparent border-b border-white/20'
         }`}
       >
@@ -112,16 +115,19 @@ export default function Navigation() {
                   </motion.div>
                 )
               })}
-              <motion.div
+
+              {/* <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                <Button className="ml-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 rounded-full">
-                  <Camera className="mr-2 h-4 w-4" />
+                <Button className="ml-2 py-4 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 rounded-full">
+                  <Camera className="mr-2 h-8 w-4" />
                   Share Memories
                 </Button>
-              </motion.div>
+              </motion.div> */}
+
+              <div className='py-8'><Language /></div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -206,7 +212,7 @@ export default function Navigation() {
       </motion.nav>
       
       {/* Spacer to prevent content from hiding under fixed nav */}
-      <div className="h-16 lg:h-20 bg-black/90" />
+      <div className="h-0 md:h-20 bg-black/90" />
     </>
   )
 }

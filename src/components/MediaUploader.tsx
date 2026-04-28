@@ -1,62 +1,453 @@
+// 'use client'
+
+// import { useState, useCallback } from 'react'
+// import { useDropzone } from 'react-dropzone'
+// import { Upload, X, Camera, Video, Image as ImageIcon, Heart, Sparkles, Flower2, CheckCircle } from 'lucide-react'
+// import { motion, AnimatePresence } from 'framer-motion'
+// import { toast } from 'react-hot-toast'
+
+// interface UploadedFile {
+//   file: File
+//   preview: string
+//   progress: number
+//   isUploading: boolean
+// }
+
+// export default function MediaUploader() {
+//   const [files, setFiles] = useState<UploadedFile[]>([])
+//   const [isDragging, setIsDragging] = useState(false)
+//   const [showSuccess, setShowSuccess] = useState(false)
+
+//   const onDrop = useCallback((acceptedFiles: File[]) => {
+//     const newFiles = acceptedFiles.map(file => ({
+//       file,
+//       preview: URL.createObjectURL(file),
+//       progress: 0,
+//       isUploading: true
+//     }))
+    
+//     setFiles(prev => [...prev, ...newFiles])
+    
+//     // Simulate upload progress
+//     newFiles.forEach((newFile, index) => {
+//       simulateUpload(newFile, files.length + index)
+//     })
+    
+//     toast.success(`${acceptedFiles.length} precious memory(s) added ✨`)
+//   }, [files.length])
+
+//   const simulateUpload = (file: UploadedFile, index: number) => {
+//     let progress = 0
+//     const interval = setInterval(() => {
+//       progress += 10
+//       setFiles(prev => prev.map((f, i) => 
+//         i === index ? { ...f, progress } : f
+//       ))
+      
+//       if (progress >= 100) {
+//         clearInterval(interval)
+//         setFiles(prev => prev.map((f, i) => 
+//           i === index ? { ...f, isUploading: false } : f
+//         ))
+        
+//         // Show success animation
+//         setShowSuccess(true)
+//         setTimeout(() => setShowSuccess(false), 3000)
+        
+//         toast.success(`${file.file.name} added to our memories! ❤️`)
+//       }
+//     }, 200)
+//   }
+
+//   const removeFile = (index: number) => {
+//     setFiles(prev => prev.filter((_, i) => i !== index))
+//     toast.success('Memory removed')
+//   }
+
+//   const { getRootProps, getInputProps } = useDropzone({
+//     onDrop,
+//     onDragEnter: () => setIsDragging(true),
+//     onDragLeave: () => setIsDragging(false),
+//     accept: {
+//       'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp'],
+//       'video/*': ['.mp4', '.mov', '.avi', '.mkv']
+//     },
+//     maxSize: 100 * 1024 * 1024
+//   })
+
+//   return (
+//     <motion.div 
+//       initial={{ opacity: 0, y: 20 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       className="w-full max-w-4xl mx-auto p-6 py-12 md:py-20"
+//     >
+//       {/* Success Animation Overlay */}
+//       <AnimatePresence>
+//         {showSuccess && (
+//           <motion.div
+//             initial={{ opacity: 0, y: -50 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             exit={{ opacity: 0, y: -50 }}
+//             className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-rose-500 to-amber-500 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2"
+//           >
+//             <CheckCircle className="w-5 h-5" />
+//             <span>Memory preserved forever ✨</span>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+
+//       {/* Upload Area */}
+//       <motion.div
+//         whileHover={{ scale: 1.01 }}
+//         transition={{ duration: 0.3 }}
+//       >
+//         <div
+//           {...getRootProps()}
+//           className={`relative overflow-hidden rounded-3xl transition-all duration-500 cursor-pointer ${
+//             isDragging 
+//               ? 'scale-[1.02] shadow-2xl' 
+//               : 'hover:shadow-xl'
+//           }`}
+//         >
+//           {/* Gradient Background */}
+//           <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100" />
+          
+//           {/* Decorative Elements */}
+//           <div className="absolute top-0 left-0 w-32 h-32 bg-rose-200/30 rounded-full blur-3xl" />
+//           <div className="absolute bottom-0 right-0 w-40 h-40 bg-amber-200/30 rounded-full blur-3xl" />
+          
+//           {/* Ornamental Border Pattern */}
+//           <div className="absolute inset-0 opacity-10">
+//             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+//               <defs>
+//                 <pattern id="weddingPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+//                   <path d="M30,10 L35,20 L45,22 L38,30 L40,40 L30,35 L20,40 L22,30 L15,22 L25,20 Z" fill="none" stroke="#f43f5e" strokeWidth="1" />
+//                   <circle cx="30" cy="30" r="3" fill="#f43f5e" />
+//                 </pattern>
+//               </defs>
+//               <rect width="100%" height="100%" fill="url(#weddingPattern)" />
+//             </svg>
+//           </div>
+          
+//           {/* Border Animation */}
+//           <motion.div 
+//             className="absolute inset-0 border-2 border-rose-200 rounded-3xl"
+//             animate={{ 
+//               borderColor: isDragging ? ['#f43f5e', '#fbbf24', '#f43f5e'] : '#fce7f3'
+//             }}
+//             transition={{ duration: 2, repeat: Infinity }}
+//           />
+          
+//           <div className={`relative border-2 border-dashed rounded-3xl p-8 md:p-12 text-center transition-all duration-300 m-[2px] ${
+//             isDragging 
+//               ? 'border-rose-400 bg-rose-50/50' 
+//               : 'border-rose-200 hover:border-rose-300 bg-white/40'
+//           }`}>
+//             <input {...getInputProps()} />
+            
+//             <div className="space-y-6">
+//               {/* Animated Icon */}
+//               <motion.div 
+//                 animate={{ 
+//                   y: [0, -10, 0],
+//                   rotate: [0, 5, -5, 0]
+//                 }}
+//                 transition={{ 
+//                   duration: 3, 
+//                   repeat: Infinity,
+//                   repeatType: "reverse"
+//                 }}
+//                 className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-rose-100 to-amber-100 flex items-center justify-center shadow-lg"
+//               >
+//                 <Upload className="w-10 h-10 text-rose-500" />
+//               </motion.div>
+              
+//               {/* Title with Decorative Elements */}
+//               <div className="space-y-3">
+//                 <div className="flex items-center justify-center gap-3">
+//                   <Heart className="w-5 h-5 text-rose-300" />
+//                   <span className="text-rose-400 text-sm tracking-wider">✦ SHARE YOUR JOY ✦</span>
+//                   <Heart className="w-5 h-5 text-rose-300" />
+//                 </div>
+                
+//                 <h3 className="text-3xl md:text-4xl font-serif bg-gradient-to-r from-rose-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
+//                   Our Precious Moments
+//                 </h3>
+                
+//                 <p className="text-gray-600 max-w-md mx-auto">
+//                   Help us capture every beautiful moment of our special day
+//                 </p>
+//               </div>
+              
+//               {/* File Type Badges */}
+//               <div className="flex flex-wrap justify-center gap-3">
+//                 {[
+//                   { icon: ImageIcon, label: 'Photos', color: 'rose', bg: 'bg-rose-50' },
+//                   { icon: Video, label: 'Videos', color: 'amber', bg: 'bg-amber-50' },
+//                   { icon: Camera, label: 'Live Photos', color: 'purple', bg: 'bg-purple-50' }
+//                 ].map((item, idx) => (
+//                   <motion.div
+//                     key={idx}
+//                     whileHover={{ y: -3 }}
+//                     className={`flex items-center gap-2 px-4 py-2 ${item.bg} rounded-full shadow-sm border border-${item.color}-200`}
+//                   >
+//                     <item.icon className={`w-4 h-4 text-${item.color}-500`} />
+//                     <span className={`text-sm text-${item.color}-700 font-medium`}>{item.label}</span>
+//                   </motion.div>
+//                 ))}
+//               </div>
+              
+//               {/* Upload Button */}
+//               <motion.button
+//                 whileHover={{ scale: 1.05 }}
+//                 whileTap={{ scale: 0.95 }}
+//                 className="relative px-8 py-3 bg-gradient-to-r from-rose-500 to-amber-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
+//               >
+//                 <Sparkles className="w-5 h-5" />
+//                 Choose Memories
+//                 <Sparkles className="w-5 h-5" />
+//               </motion.button>
+              
+//               <p className="text-sm text-gray-400">
+//                 📸 JPG, PNG, GIF • 🎥 MP4, MOV up to 100MB
+//               </p>
+              
+//               {/* Wedding Quote */}
+//               <p className="text-xs text-rose-400 italic">
+//                 "Every picture tells a story of our love"
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </motion.div>
+
+//       {/* Uploaded Files Gallery */}
+//       <AnimatePresence>
+//         {files.length > 0 && (
+//           <motion.div
+//             initial={{ opacity: 0, y: 20 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             exit={{ opacity: 0 }}
+//             className="mt-12 space-y-6"
+//           >
+//             {/* Section Header */}
+//             <div className="text-center space-y-2">
+//               <div className="flex items-center justify-center gap-2">
+//                 <Flower2 className="w-4 h-4 text-rose-400" />
+//                 <h3 className="text-2xl font-serif text-gray-800">
+//                   {files.filter(f => !f.isUploading).length} Memories Shared
+//                 </h3>
+//                 <Flower2 className="w-4 h-4 text-rose-400" />
+//               </div>
+//               <div className="w-20 h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent mx-auto" />
+//             </div>
+            
+//             {/* Grid Gallery */}
+//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//               {files.map((file, index) => (
+//                 <motion.div
+//                   key={index}
+//                   initial={{ opacity: 0, scale: 0.9 }}
+//                   animate={{ opacity: 1, scale: 1 }}
+//                   exit={{ opacity: 0, scale: 0.9 }}
+//                   transition={{ delay: index * 0.05 }}
+//                   whileHover={{ y: -5 }}
+//                   className="group relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 hover:shadow-xl transition-all"
+//                 >
+//                   {/* Remove Button */}
+//                   <button
+//                     onClick={() => removeFile(index)}
+//                     className="absolute top-2 right-2 z-10 w-8 h-8 bg-red-500/90 backdrop-blur-sm text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 hover:scale-110"
+//                   >
+//                     <X className="w-4 h-4" />
+//                   </button>
+                  
+//                   {/* Media Preview */}
+//                   <div className="aspect-square relative bg-gradient-to-br from-rose-50 to-amber-50 overflow-hidden">
+//                     {file.file.type.startsWith('image/') ? (
+//                       <motion.img
+//                         initial={{ scale: 1.1 }}
+//                         animate={{ scale: 1 }}
+//                         src={file.preview}
+//                         alt={file.file.name}
+//                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+//                       />
+//                     ) : (
+//                       <div className="w-full h-full flex items-center justify-center">
+//                         <div className="text-center">
+//                           <Video className="w-12 h-12 text-rose-300 mx-auto mb-2" />
+//                           <p className="text-xs text-gray-400">Video Memory</p>
+//                         </div>
+//                       </div>
+//                     )}
+                    
+//                     {/* Overlay Gradient */}
+//                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    
+//                     {/* Upload Status Badge */}
+//                     {file.isUploading && (
+//                       <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center">
+//                         <div className="text-center">
+//                           <div className="w-12 h-12 border-4 border-rose-200 border-t-rose-500 rounded-full animate-spin mx-auto mb-3" />
+//                           <p className="text-sm font-medium text-gray-700">{file.progress}%</p>
+//                           <p className="text-xs text-gray-500">Preserving your memory...</p>
+//                         </div>
+//                       </div>
+//                     )}
+                    
+//                     {/* Success Checkmark */}
+//                     {!file.isUploading && (
+//                       <motion.div
+//                         initial={{ scale: 0 }}
+//                         animate={{ scale: 1 }}
+//                         className="absolute bottom-2 right-2 bg-green-500 rounded-full p-1"
+//                       >
+//                         <CheckCircle className="w-4 h-4 text-white" />
+//                       </motion.div>
+//                     )}
+//                   </div>
+                  
+//                   {/* File Info */}
+//                   <div className="p-3 bg-white">
+//                     <p className="text-sm font-medium text-gray-700 truncate">
+//                       {file.file.name}
+//                     </p>
+//                     <div className="flex justify-between items-center mt-1">
+//                       <p className="text-xs text-gray-400">
+//                         {Math.round((file.file.size / 1024 / 1024) * 100) / 100} MB
+//                       </p>
+//                       <Heart className="w-3 h-3 text-rose-300 fill-rose-200" />
+//                     </div>
+//                   </div>
+//                 </motion.div>
+//               ))}
+//             </div>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </motion.div>
+//   )
+// }
+
+
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Upload, X, Camera, Video, Image as ImageIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
+import { Upload, X, Camera, Video, Image as ImageIcon, Heart, Sparkles, Flower2, CheckCircle } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
+import uploadFiles from '@/hooks/uploadFiles'
+import { UploadedFile } from '@/types/file'
 
-interface UploadedFile {
-  file: File
-  preview: string
-  progress: number
-  isUploading: boolean
-}
 
 export default function MediaUploader() {
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [isUploadingAll, setIsUploadingAll] = useState(false)
+  const uploadQueueRef = useRef<boolean>(false)
+
+  // Generate unique ID for each file
+  const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+
+  // Upload single file to backend
+  const uploadSingleFile = async (fileToUpload: UploadedFile, index: number) => {
+    try {
+      const result = await uploadFiles(fileToUpload.file)
+      
+      if (result?.url || result?.secure_url) {
+        // Upload successful
+        setFiles(prev => prev.map((f, i) => 
+          i === index ? { 
+            ...f, 
+            progress: 100, 
+            isUploading: false, 
+            isComplete: true,
+            serverUrl: result.url || result.secure_url
+          } : f
+        ))
+        
+        toast.success(`${fileToUpload.file.name} added to our memories! ❤️`)
+        return true
+      } else {
+        throw new Error('Upload failed - no URL returned')
+      }
+    } catch (error) {
+      console.error('Upload error:', error)
+      setFiles(prev => prev.map((f, i) => 
+        i === index ? { 
+          ...f, 
+          isUploading: false, 
+          error: 'Upload failed. Please try again.' 
+        } : f
+      ))
+      toast.error(`Failed to upload ${fileToUpload.file.name}`)
+      return false
+    }
+  }
+
+  // Process upload queue
+  const processUploadQueue = async (newFiles: UploadedFile[]) => {
+    if (uploadQueueRef.current) return
+    uploadQueueRef.current = true
+    setIsUploadingAll(true)
+
+    for (let i = 0; i < newFiles.length; i++) {
+      const fileIndex = files.findIndex(f => f.id === newFiles[i].id)
+      if (fileIndex !== -1) {
+        await uploadSingleFile(newFiles[i], fileIndex)
+        
+        // Small delay between uploads to avoid overwhelming the server
+        if (i < newFiles.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500))
+        }
+      }
+    }
+
+    setIsUploadingAll(false)
+    uploadQueueRef.current = false
+    
+    // Show overall success
+    setShowSuccess(true)
+    setTimeout(() => setShowSuccess(false), 3000)
+  }
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const newFiles = acceptedFiles.map(file => ({
+    const newFiles: UploadedFile[] = acceptedFiles.map(file => ({
+      id: generateId(),
       file,
       preview: URL.createObjectURL(file),
       progress: 0,
-      isUploading: true
+      isUploading: true,
+      isComplete: false
     }))
     
     setFiles(prev => [...prev, ...newFiles])
     
-    // Simulate upload progress
-    newFiles.forEach((newFile, index) => {
-      simulateUpload(newFile, index)
-    })
+    // Start upload process
+    processUploadQueue(newFiles)
     
-    toast.success(`Added ${acceptedFiles.length} file(s)`)
+    toast.success(`${acceptedFiles.length} precious memory(s) added ✨`)
   }, [])
 
-  const simulateUpload = (file: UploadedFile, index: number) => {
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += 10
-      setFiles(prev => prev.map((f, i) => 
-        i === index ? { ...f, progress } : f
-      ))
-      
-      if (progress >= 100) {
-        clearInterval(interval)
-        setFiles(prev => prev.map((f, i) => 
-          i === index ? { ...f, isUploading: false } : f
-        ))
-        toast.success(`${file.file.name} uploaded successfully!`)
-      }
-    }, 200)
+  const removeFile = (index: number) => {
+    const file = files[index]
+    if (file.preview) {
+      URL.revokeObjectURL(file.preview)
+    }
+    setFiles(prev => prev.filter((_, i) => i !== index))
+    toast.success('Memory removed')
   }
 
-  const removeFile = (index: number) => {
-    setFiles(prev => prev.filter((_, i) => i !== index))
-    toast.success('File removed')
+  const retryUpload = (index: number) => {
+    const fileToRetry = files[index]
+    if (fileToRetry) {
+      setFiles(prev => prev.map((f, i) => 
+        i === index ? { ...f, isUploading: true, error: undefined, progress: 0 } : f
+      ))
+      uploadSingleFile(fileToRetry, index)
+    }
   }
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -64,116 +455,297 @@ export default function MediaUploader() {
     onDragEnter: () => setIsDragging(true),
     onDragLeave: () => setIsDragging(false),
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp'],
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp', '.heic', '.heif'],
       'video/*': ['.mp4', '.mov', '.avi', '.mkv']
     },
-    maxSize: 100 * 1024 * 1024 // 100MB
+    maxSize: 100 * 1024 * 1024,
+    multiple: true // Allow multiple files
   })
 
-  return (
-    <div className="w-full max-w-4xl mx-auto p-6 py-20">
-      <div
-        {...getRootProps()}
-        className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 ${
-          isDragging 
-            ? 'border-rose-500 bg-rose-50 scale-[1.02]' 
-            : 'border-gray-300 hover:border-rose-400 hover:bg-gray-50'
-        }`}
-      >
-        <input {...getInputProps()} />
-        
-        <div className="space-y-4">
-          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-rose-100 to-pink-100 flex items-center justify-center">
-            <Upload className="w-10 h-10 text-rose-500" />
-          </div>
-          
-          <div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">
-              Share Your Memories
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Upload photos and videos from our special day
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-4 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-lg">
-              <ImageIcon className="w-5 h-5 text-blue-500" />
-              <span className="text-blue-700">Images</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-lg">
-              <Video className="w-5 h-5 text-purple-500" />
-              <span className="text-purple-700">Videos</span>
-            </div>
-            {/* <div className="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-lg">
-              <Camera className="w-5 h-5 text-green-500" />
-              <span className="text-green-700">Take Photo</span>
-            </div> */}
-          </div>
-          
-          <Button className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600">
-            <Upload className="mr-2 h-5 w-5" />
-            Select Files
-          </Button>
-          
-          <p className="text-sm text-gray-500 mt-4">
-            Supports JPG, PNG, GIF, MP4, MOV up to 100MB
-          </p>
-        </div>
-      </div>
+  // Simulated progress for visual feedback while actual upload happens
+  const simulateProgress = (index: number) => {
+    let progress = 0
+    const interval = setInterval(() => {
+      progress += Math.random() * 15
+      if (progress >= 90) {
+        clearInterval(interval)
+        progress = 90 // Stop at 90% until actual upload completes
+      }
+      setFiles(prev => prev.map((f, i) => 
+        i === index && f.isUploading && !f.isComplete ? { ...f, progress: Math.min(progress, 90) } : f
+      ))
+    }, 300)
+    return interval
+  }
 
-      {/* Uploaded files preview */}
-      {files.length > 0 && (
-        <div className="mt-8 space-y-4">
-          <h3 className="text-xl font-bold text-gray-800">Uploading ({files.length})</h3>
+  // Track upload progress visually
+  const startProgressSimulation = (index: number) => {
+    const interval = simulateProgress(index)
+    // Check periodically if upload is complete
+    const checkComplete = setInterval(() => {
+      setFiles(prev => {
+        const file = prev[index]
+        if (!file?.isUploading && file?.isComplete) {
+          clearInterval(interval)
+          clearInterval(checkComplete)
+        }
+        return prev
+      })
+    }, 500)
+  }
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full max-w-4xl mx-auto p-6 py-12 md:py-20"
+    >
+      {/* Success Animation Overlay */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-rose-500 to-amber-500 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2"
+          >
+            <CheckCircle className="w-5 h-5" />
+            <span>All memories preserved forever! ✨</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Upload Area */}
+      <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.3 }}>
+        <div
+          {...getRootProps()}
+          className={`relative overflow-hidden rounded-3xl transition-all duration-500 cursor-pointer ${
+            isDragging ? 'scale-[1.02] shadow-2xl' : 'hover:shadow-xl'
+          }`}
+        >
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100" />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {files.map((file, index) => (
-              <div
-                key={index}
-                className="relative group bg-white rounded-xl border p-4 shadow-sm hover:shadow-md transition-shadow"
+          {/* Decorative Elements */}
+          <div className="absolute top-0 left-0 w-32 h-32 bg-rose-200/30 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-amber-200/30 rounded-full blur-3xl" />
+          
+          {/* Ornamental Border Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="weddingPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                  <path d="M30,10 L35,20 L45,22 L38,30 L40,40 L30,35 L20,40 L22,30 L15,22 L25,20 Z" fill="none" stroke="#f43f5e" strokeWidth="1" />
+                  <circle cx="30" cy="30" r="3" fill="#f43f5e" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#weddingPattern)" />
+            </svg>
+          </div>
+          
+          <div className={`relative border-2 border-dashed rounded-3xl p-8 md:p-12 text-center transition-all duration-300 m-[2px] ${
+            isDragging ? 'border-rose-400 bg-rose-50/50' : 'border-rose-200 hover:border-rose-300 bg-white/40'
+          }`}>
+            <input {...getInputProps()} />
+            
+            <div className="space-y-6">
+              {/* Animated Icon */}
+              <motion.div 
+                animate={{ y: [0, -10, 0], rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
+                className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-rose-100 to-amber-100 flex items-center justify-center shadow-lg"
               >
-                <button
-                  onClick={() => removeFile(index)}
-                  className="absolute -top-2 -right-2 z-10 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-                
-                <div className="aspect-square mb-3 rounded-lg overflow-hidden bg-gray-100">
-                  {file.file.type.startsWith('image/') ? (
-                    <img
-                      src={file.preview}
-                      alt={file.file.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Video className="w-12 h-12 text-gray-400" />
-                    </div>
-                  )}
+                <Upload className="w-10 h-10 text-rose-500" />
+              </motion.div>
+              
+              <div className="space-y-3">
+                <div className="flex items-center justify-center gap-3">
+                  <Heart className="w-5 h-5 text-rose-300" />
+                  <span className="text-rose-400 text-sm tracking-wider">✦ SHARE YOUR JOY ✦</span>
+                  <Heart className="w-5 h-5 text-rose-300" />
                 </div>
                 
-                <div className="space-y-2">
-                  <p className="text-sm font-medium truncate">{file.file.name}</p>
-                  
-                  <div className="space-y-1">
-                    <Progress value={file.progress} className="h-2" />
-                    <div className="flex justify-between text-xs text-gray-500">
-                      <span>
-                        {file.isUploading ? 'Uploading...' : 'Uploaded'}
-                      </span>
-                      <span>
-                        {Math.round((file.file.size / 1024 / 1024) * 100) / 100} MB
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                <h3 className="text-3xl md:text-5xl font-serif bg-gradient-to-r from-rose-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
+                  Our Precious Moments
+                </h3>
+                
+                <p className="text-gray-600 max-w-md mx-auto">
+                  Share photos and videos from our special day
+                </p>
               </div>
-            ))}
+              
+              {/* File Type Badges */}
+              <div className="flex flex-wrap justify-center gap-3">
+                {[
+                  { icon: ImageIcon, label: 'Photos', color: 'rose', bg: 'bg-rose-50' },
+                  { icon: Video, label: 'Videos', color: 'amber', bg: 'bg-amber-50' },
+                  { icon: Camera, label: 'Live Photos', color: 'purple', bg: 'bg-purple-50' }
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ y: -3 }}
+                    className={`flex items-center gap-2 px-4 py-2 ${item.bg} rounded-full shadow-sm border border-${item.color}-200`}
+                  >
+                    <item.icon className={`w-4 h-4 text-${item.color}-500`} />
+                    <span className={`text-sm text-${item.color}-700 font-medium`}>{item.label}</span>
+                  </motion.div>
+                ))}
+              </div>
+              
+              {/* Upload Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                disabled={isUploadingAll}
+                className={`relative px-8 py-3 bg-gradient-to-r from-rose-500 to-amber-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2 ${
+                  isUploadingAll ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                {isUploadingAll ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5" />
+                    Choose Memories
+                    <Sparkles className="w-5 h-5" />
+                  </>
+                )}
+              </motion.button>
+              
+              <p className="text-sm text-gray-400">
+                📸 JPG, PNG, GIF, HEIC • 🎥 MP4, MOV up to 100MB
+              </p>
+              
+              <p className="text-xs text-rose-400 italic">
+                "Every picture tells a story of our love"
+              </p>
+            </div>
           </div>
         </div>
-      )}
-    </div>
+      </motion.div>
+
+      {/* Uploaded Files Gallery */}
+      <AnimatePresence>
+        {files.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-12 space-y-6">
+            {/* Section Header */}
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                <Flower2 className="w-4 h-4 text-rose-400" />
+                <h3 className="text-2xl font-serif text-gray-800">
+                  {files.filter(f => f.isComplete).length} of {files.length} Memories Shared
+                </h3>
+                <Flower2 className="w-4 h-4 text-rose-400" />
+              </div>
+              <div className="w-20 h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent mx-auto" />
+            </div>
+            
+            {/* Grid Gallery */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {files.map((file, index) => (
+                <motion.div
+                  key={file.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ y: -5 }}
+                  className="group relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 hover:shadow-xl transition-all"
+                >
+                  {/* Remove Button */}
+                  <button
+                    onClick={() => removeFile(index)}
+                    className="absolute top-2 right-2 z-10 w-8 h-8 bg-red-500/90 backdrop-blur-sm text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 hover:scale-110"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                  
+                  {/* Media Preview */}
+                  <div className="aspect-square relative bg-gradient-to-br from-rose-50 to-amber-50 overflow-hidden">
+                    {file.file.type.startsWith('image/') ? (
+                      <motion.img
+                        initial={{ scale: 1.1 }}
+                        animate={{ scale: 1 }}
+                        src={file.preview}
+                        alt={file.file.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-center">
+                          <Video className="w-12 h-12 text-rose-300 mx-auto mb-2" />
+                          <p className="text-xs text-gray-400">Video Memory</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Upload Status Overlay */}
+                    {file.isUploading && (
+                      <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-12 h-12 border-4 border-rose-200 border-t-rose-500 rounded-full animate-spin mx-auto mb-3" />
+                          <p className="text-sm font-medium text-gray-700">{Math.round(file.progress)}%</p>
+                          <p className="text-xs text-gray-500">Preserving your memory...</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Error State */}
+                    {file.error && !file.isUploading && (
+                      <div className="absolute inset-0 bg-red-50/90 backdrop-blur-sm flex items-center justify-center">
+                        <div className="text-center p-4">
+                          <p className="text-sm text-red-600 mb-2">{file.error}</p>
+                          <button
+                            onClick={() => retryUpload(index)}
+                            className="px-3 py-1 bg-red-500 text-white rounded-full text-xs hover:bg-red-600"
+                          >
+                            Retry Upload
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Success Checkmark */}
+                    {file.isComplete && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute bottom-2 right-2 bg-green-500 rounded-full p-1"
+                      >
+                        <CheckCircle className="w-4 h-4 text-white" />
+                      </motion.div>
+                    )}
+                  </div>
+                  
+                  {/* File Info */}
+                  <div className="p-3 bg-white">
+                    <p className="text-sm font-medium text-gray-700 truncate">{file.file.name}</p>
+                    <div className="flex justify-between items-center mt-1">
+                      <p className="text-xs text-gray-400">
+                        {Math.round((file.file.size / 1024 / 1024) * 100) / 100} MB
+                      </p>
+                      <Heart className="w-3 h-3 text-rose-300 fill-rose-200" />
+                    </div>
+                    {file.isComplete && file.serverUrl && (
+                      <a 
+                        href={file.serverUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-rose-400 hover:text-rose-600 mt-1 inline-block"
+                      >
+                        View uploaded ✨
+                      </a>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }

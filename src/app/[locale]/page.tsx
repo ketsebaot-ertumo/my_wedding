@@ -9,6 +9,11 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { Toaster } from 'react-hot-toast'
 import { useEffect } from 'react'
+import Timeline from '@/components/Timeline';
+import OurStory from '@/components/ourStory';
+import LoveLetterTransition from '@/components/SectionBreaker';
+import InviteTransition from '@/components/invite/SectionBreaker';
+import SectionTransition from '@/components/SectionBreaker2';
 
 export default function Home() {
 useEffect(() => {
@@ -47,8 +52,12 @@ useEffect(() => {
           <HeroSection />
         </section>
 
-        <section id="upload" className="bg-gradient-to-b from-white to-rose-50">
-          <MediaUploader />
+        {/* <div><LoveLetterTransition/></div> */}
+
+        <div id='schedule'><Timeline /></div>
+
+        <section id='story'>
+          <OurStory />
         </section>
 
         <section id="gallery" className="bg-white">
@@ -58,14 +67,23 @@ useEffect(() => {
         <section id="capture" className="bg-gradient-to-b from-rose-50 via-white to-rose-50">
           <CameraCapture />
         </section>
+      
+        <div><LoveLetterTransition/></div>
 
-        <section id="qr" className="py-20 bg-white">
+        <section id="upload" className="bg-gradient-to-b from-white to-rose-50">
+          <MediaUploader />
+        </section>
+
+        <section><SectionTransition /></section>
+
+        {/* <section id="countdown" className="bg-gradient-to-b from-rose-50 via-white to-rose-50">
+          <CountdownTimer />
+        </section> */}
+
+        <section id="qr" className="bg-white">
           <QRCodeSection />
         </section>
 
-        <section id="countdown" className="py-20 bg-gradient-to-b from-rose-50 via-white to-rose-50">
-          <CountdownTimer />
-        </section>
       </div>
 
       <Footer />

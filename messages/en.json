@@ -61,8 +61,10 @@
         "happily-ever-after": "Happily Ever After",
         "overjoyed-message": "\"We are overjoyed to share this special moment with you\"",
         "place": "At Joshua Campaign Ethiopia Ministry",
+        "city": "Hawassa, Ethiopia",
         "overjoyed-messaage": "\"We are overjoyed to share this special moment with you\"",
-        "event-timeline": "Event Timeline",
+        "event-timeline": "Event Schedule",
+        "event-description": "A celebration of love, carefully planned with you in mind. From sacred vows to the final worship, every moment is meant to be cherished.",
         "wedding-ceremony": "Wedding Ceremony",
         "ceremony-description": "Exchange of vows and blessing ceremony",
         "lunch-reception": "Lunch Reception",
@@ -158,6 +160,32 @@
         "mobile": "Mobile:",
         "azu":"Azaria",
         "ketsi": "Ketsebaot",
-        "hero-tite": "By God's Grace • We Are Getting Married"
+        "hero-tite": "By God's Grace • We Are Getting Married",
+        "rsvp": "RSVP Now",
+        "story": "Our Story"
+    },
+    "footer": {
+        "coupleNames": "Azaria & Ketsebaot",
+        "brand": {
+            "message": "Celebrating our love and the beautiful journey ahead. Thank you for being part of our special day and for all the love and support."
+        },
+        "quickNavigation": "Quick Navigation",
+        "getInTouch": "Get in Touch",
+        "links": {
+            "ourStory": "Our Story",
+            "timeline": "Event Timeline",
+            "upload": "Upload Media",
+            "gallery": "View Gallery",
+            "registry": "Gift Registry",
+            "share": "Share Invite"
+        },
+        "location": {
+            "address": "Hawassa, Ethiopia",
+            "viewOnMap": "View on map"
+        },
+        "copyright": "Azaria & Ketsebaot",
+        "allRightsReserved": "All rights reserved",
+        "designedWith": "Designed with",
+        "forOurDay": "for our special day"
     }
 }

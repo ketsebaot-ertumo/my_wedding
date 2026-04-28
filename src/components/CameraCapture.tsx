@@ -642,6 +642,7 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import Webcam from 'react-webcam'
 import { Camera, Video, Download, RotateCw, Circle, Upload, AlertCircle, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import uploadFiles from '@/hooks/uploadFiles'
 
 export default function CameraCapture() {
   const [mode, setMode] = useState<'photo' | 'video'>('photo')
@@ -652,6 +653,8 @@ export default function CameraCapture() {
   const [webcamError, setWebcamError] = useState<string | null>(null)
   const [availableDevices, setAvailableDevices] = useState<MediaDeviceInfo[]>([])
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>('')
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null)
   
   const webcamRef = useRef<Webcam>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -837,41 +840,93 @@ export default function CameraCapture() {
     }
   }
 
-    async function uploadMedia(blob: Blob, type: string, filename: string) {
-    // 1️⃣ Get signed URL from backend
-    const res = await fetch(`/api/media/sign?filename=${filename}&type=${type}`);
-    const { signedUrl, cdnUrl, key } = await res.json();
+  // async function uploadMedia(blob: Blob, type: string, filename: string) {
+  //   // 1️⃣ Get signed URL from backend
+  //   const res = await fetch(`/api/media/sign?filename=${filename}&type=${type}`);
+  //   const { signedUrl, cdnUrl, key } = await res.json();
 
-    // 2️⃣ Upload to Cloudflare R2
-    await fetch(signedUrl, {
-      method: "PUT",
-      headers: { "Content-Type": type },
-      body: blob,
-    });
+  //   // 2️⃣ Upload to Cloudflare R2
+  //   await fetch(signedUrl, {
+  //     method: "PUT",
+  //     headers: { "Content-Type": type },
+  //     body: blob,
+  //   });
 
-    return cdnUrl;
+  //   return cdnUrl;
+  // }
+
+   // INTEGRATED UPLOAD FUNCTION - Using your uploadFiles
+  const handleUpload = async () => {
+    setIsUploading(true)
+    setUploadSuccess(null)
+    
+    try {
+      let file: File | null = null
+      let type = ''
+      let filename = ''
+
+      if (capturedImage) {
+        // Convert base64 to File object
+        const res = await fetch(capturedImage)
+        const blob = await res.blob()
+        filename = `ak-wedding-photo-${Date.now()}.jpg`
+        file = new File([blob], filename, { type: 'image/jpeg' })
+        type = 'image'
+      } else if (recordedVideo) {
+        const res = await fetch(recordedVideo)
+        const blob = await res.blob()
+        filename = `ak-wedding-video-${Date.now()}.webm`
+        file = new File([blob], filename, { type: 'video/webm' })
+        type = 'video'
+      }
+
+      if (!file) {
+        throw new Error('No media to upload')
+      }
+
+      // CALL YOUR UPLOAD FILES FUNCTION
+      const result = await uploadFiles(file)
+      console.log('Upload result2:', result)
+      
+      console.log('Upload successful:', result)
+      setUploadSuccess(`Your ${type} has been uploaded successfully!`)
+      
+      // Reset after successful upload
+      setTimeout(() => {
+        setCapturedImage(null)
+        setRecordedVideo(null)
+        setUploadSuccess(null)
+      }, 2000)
+      
+    } catch (error) {
+      console.error('Upload error:', error)
+      alert(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
+      setIsUploading(false)
+    }
   }
 
-  const handleUpload = async () => {
-    try {
-      if (capturedImage) {
-        // Convert base64 to Blob
-        const res = await fetch(capturedImage);
-        const blob = await res.blob();
-        const url = await uploadMedia(blob, "image/jpeg", `photo-${Date.now()}.jpg`);
-        alert("Uploaded! View at: " + url);
-        setCapturedImage(null);
-      } else if (recordedVideo) {
-        const blob = await fetch(recordedVideo).then(r => r.blob());
-        const url = await uploadMedia(blob, "video/webm", `video-${Date.now()}.webm`);
-        alert("Uploaded! View at: " + url);
-        setRecordedVideo(null);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Upload failed");
-    }
-  };
+
+  // const handleUpload = async () => {
+  //   try {
+  //     if (capturedImage) {
+  //       // Convert base64 to Blob
+  //       const res = await fetch(capturedImage);
+  //       const blob = await res.blob();
+  //       const url = await uploadMedia(blob, "image/jpeg", `photo-${Date.now()}.jpg`);
+  //       alert("Uploaded! View at: " + url);
+  //       setCapturedImage(null);
+  //     } else if (recordedVideo) {
+  //       const blob = await fetch(recordedVideo).then(r => r.blob());
+  //       const url = await uploadMedia(blob, "video/webm", `video-${Date.now()}.webm`);
+  //       alert("Uploaded! View at: " + url);
+  //       setRecordedVideo(null);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Upload failed");
+  //   }
+  // };
 
     const downloadMedia = () => {
     if (capturedImage) {
@@ -893,12 +948,18 @@ export default function CameraCapture() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-6 py-20">
-      <div className="glass-effect rounded-2xl px-8">
+    <div id='capture' className="w-full max-w-7xl mx-auto sm:px-4 py-6 sm:py-12 rounded-3xl">
+      <div className="glass-effect rounded-2xl p-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
+          {/* <div className="flex items-center justify-center gap-2 mb-4">
             <Camera className="w-8 h-8 text-rose-500" />
             <h2 className="text-3xl font-bold text-gray-800">Capture Moments</h2>
+          </div> */}
+          <div className="flex flex-col items-center gap-2 mb-4">
+            <Camera className="w-7 h-7 sm:w-8 sm:h-8 text-rose-500" />
+            <h2 className="text-3xl sm:text-5xl font-bold text-gray-800">
+              Capture Moments
+            </h2>
           </div>
           <p className="text-gray-600">
             Take photos or record videos directly from your device
@@ -962,14 +1023,14 @@ export default function CameraCapture() {
               >
                 <X className="w-5 h-5" />
               </button>
-            </div>
+            </div>h-
           </div>
         )}
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Camera Preview */}
           <div className="flex-1">
-            <div className="relative rounded-xl overflow-hidden bg-black min-h-[400px] flex items-center justify-center">
+            <div className="relative rounded-xl overflow-hidden bg-black min-h-[300px] sm:min-h-[340px] flex items-center justify-center">
               {!capturedImage && !recordedVideo ? (
                 <>
                   <div className="w-full h-full">
@@ -1093,7 +1154,7 @@ export default function CameraCapture() {
           {/* Controls & Preview */}
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-gray-800">Capture Options</h3>
+              <h3 className="text-center lg:text-left text-xl font-bold text-gray-800">Capture Options</h3>
               
               <div className="grid grid-cols-2 gap-4">
                 <Button

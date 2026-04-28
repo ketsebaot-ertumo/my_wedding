@@ -9,6 +9,7 @@ import { getGuestId } from '../utils/guestId'
 import { MediaItem } from '@/lib/types'
 import { useAllEntities } from '@/hooks/use-query'
 import { useEntityActions } from '@/hooks/use-mutation';
+import { motion } from "framer-motion";
 
 const mockMedia: MediaItem[] = [
   {
@@ -206,8 +207,8 @@ export default function MediaGallery() {
   if (loading) {
     return (
       <div className="w-full max-w-7xl mx-auto p-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>
+        <div className="text-center mb-12 pt-8"> 
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>
           <p className="text-gray-600">Loading media...</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -345,19 +346,37 @@ export default function MediaGallery() {
 
 
   return (
-    <div className="container mx-auto p-6 py-20">
+    <div className="container mx-auto p-6 py-14 sm:py-20 md:px-10">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>
+      <div className="relative text-center mb-14">
+        <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>
+
         <p className="text-gray-600 max-w-2xl mx-auto">
           Browse through all the beautiful moments captured by our guests
         </p>
+
+        <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-[3px] bg-gray-200 rounded-full overflow-hidden">
+          <motion.div
+              initial={{ x: "-100%" }}
+              whileInView={{ x: "100%" }}
+              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+              className="w-full h-full bg-gradient-to-r from-transparent via-rose-400 to-transparent"
+          />
+        </div>
+
+        <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 tracking-wider whitespace-nowrap"
+        >
+            ✦ ✦ ✦
+        </motion.div>
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
-        {/* <div className="flex gap-4"> */}
-          <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
           {/* Type Filter Buttons */}
           <div className="flex gap-2">
             <Button
@@ -382,27 +401,20 @@ export default function MediaGallery() {
               Videos Only
             </Button>
           </div>
-          {/* <select 
-            value={type || ''}
-            onChange={e => setType(e.target.value || undefined)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-          >
-            <option value="">All Media</option>
-            <option value="image">Photos Only</option>
-            <option value="video">Videos Only</option>
-          </select> */}
           
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search captions..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="px-4 py-1 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent w-full md:w-64"
-            />
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              <Search className='w-6 h-5' /> {/* 🔍 */}
-            </div>
+          
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search captions..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="px-4 py-1 pl-10 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent w-full sm:w-54 lg:w-64"
+          />
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <Search className='w-6 h-5' /> {/* 🔍 */}
           </div>
         </div>
         
@@ -412,10 +424,11 @@ export default function MediaGallery() {
             setSearch('');
           }}
           variant="outline"
-          className="whitespace-nowrap"
+          className="whitespace-nowrap rounded-lg text-gray-400"
         >
           Clear Filters
         </Button>
+        </div>
       </div>
 
       {/* Stats */}

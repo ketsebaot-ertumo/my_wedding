@@ -61,8 +61,10 @@
     "happily-ever-after": "በደስታ ለዘላለም",
     "overjoyed-message": "\"ይህን ልዩ ጊዜ ከእርስዎ ጋር ለማካፈል በጣም ደስ ብሎናል\"",
     "place": "ጆሿ ካምፔይን ኢትዮጲያ ምንስትሪ ግቢ",
+    "city": "ሀዋሳ፣ ኢትዮጲያ",
     "overjoyed-messaage": "\"ይህን ልዩ ጊዜ ከእርስዎ ጋር በማሳለፍ በጣም ደስ ብሎናል።\"",
     "event-timeline": "የዝግጅት መርሐ-ግብር",
+    "event-description": "",
     "wedding-ceremony": "የሠርግ ሥነ ሥርዓት",
     "ceremony-description": "የቃል-ኪዳን እና የአምልኮ ሥነ-ሥርዓት",
     "lunch-reception": "የምሳ ፕሮግራም",
@@ -158,7 +160,33 @@
     "mobile": "ስልክ፡",
     "azu":"አዛርያ",
     "ketsi": "ከፀባኦት",
-    "hero-tite": "እንደ ጌታ ፍቃድ • ጋብቻችንን ልንፈጽም ነው"
-  }
+    "hero-tite": "እንደ ጌታ ፍቃድ • ጋብቻችንን ልንፈጽም ነው",
+    "rsvp": "እባክዎ መምጣቶን ያሳውቁን",
+    "story": "የእኛ ታሪክ"
+  },
+  "footer": {
+        "coupleNames": "Azaria & Ketsebaot",
+        "brand": {
+            "message": "Celebrating our love and the beautiful journey ahead. Thank you for being part of our special day and for all the love and support."
+        },
+        "quickNavigation": "Quick Navigation",
+        "getInTouch": "Get in Touch",
+        "links": {
+            "ourStory": "Our Story",
+            "timeline": "Event Timeline",
+            "upload": "Upload Media",
+            "gallery": "View Gallery",
+            "registry": "Gift Registry",
+            "share": "Share Invite"
+        },
+        "location": {
+            "address": "Hawassa, Ethiopia",
+            "viewOnMap": "View on map"
+        },
+        "copyright": "Azaria & Ketsebaot",
+        "allRightsReserved": "All rights reserved",
+        "designedWith": "Designed with",
+        "forOurDay": "for our special day"
+    }
 }
 
