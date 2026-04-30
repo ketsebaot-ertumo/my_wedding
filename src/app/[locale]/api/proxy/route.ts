@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     const response = await axios.post(`${API_URL}${path}`, body, {
       headers: {
         'Cookie': cookie, // Forward the token cookie to backend
-        // withCredentials: true
+        'Content-Type': 'multipart/form-data',
       },
       withCredentials: true,
     });

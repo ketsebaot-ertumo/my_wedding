@@ -1,26 +1,32 @@
 import API from "@/app/[locale]/api/api";
 import axios from "axios";
+import { useEntityActions } from "./use-mutation";
 
 
 export default async function uploadFiles(file) {
+    const { create, update } = useEntityActions();
     const formData = new FormData();
     formData.append('file', file);
+
     console.log('Uploading file:', file);
   
     try {
-      const response = await API.post('api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // const response = await axios.post('media', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
+
+      const res = await create(`media`, formData);
 
       const result = response?.data;
       console.log('upload result:', result);
       return result;
     } catch (error) {
       console.error('Error uploading file:', error);
-       // ✅ THROW the error instead of returning it
-      throw new Error(error instanceof Error ? error.message : 'Upload failed');
+      // THROW the error instead of returning it
+      // throw new Error(error instanceof Error ? error.message : 'Upload failed');
+      return Promise.reject(error instanceof Error ? error : new Error('Upload failed'));
     }
   }
 
