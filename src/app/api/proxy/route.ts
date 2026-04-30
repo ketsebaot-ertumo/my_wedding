@@ -28,7 +28,7 @@ export async function GET(request: Request) {
   // const apiUrl = `${API_URL}${path}`;
   const apiUrl = `${API_URL}${path}${queryString ? `?${queryString}` : ''}`;
 
-  console.log("\n\n Forwarding to backend:", apiUrl, "\n\n");
+  // console.log("\n\n Forwarding to backend:", apiUrl, "\n\n");
 
   try {
     const cookie = request.headers.get('cookie') || '';
