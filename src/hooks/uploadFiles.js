@@ -1,4 +1,4 @@
-import API from "@/app/[locale]/api/api";
+// import API from "@/app/api/api"
 import axios from "axios";
 import { useEntityActions } from "./use-mutation";
 

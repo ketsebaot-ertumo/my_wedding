@@ -3,7 +3,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react";
-import { getAllEntities, getEntity } from  "../app/[locale]/api/routes";
+import { getAllEntities, getEntity } from  "../app/api/routes";
 import { useToast } from "./use-toast";
 
 export const useQuery = <T>(fetcher: () => Promise<T>) => {

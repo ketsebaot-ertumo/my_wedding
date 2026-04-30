@@ -181,6 +181,8 @@ export default function MediaGallery() {
     search: debouncedSearch, // use debounced value
   });
 
+  console.log('data:', data);
+
   // ===== Fetch stats =====
   const {data: statData} = useAllEntities('media/stats'); // ALWAYS call here
 

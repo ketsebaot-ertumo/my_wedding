@@ -37,8 +37,17 @@ export const getAllEntities = async (
   const type = options?.type ?? '';
   const search = options?.search ?? '';
 
-  const { data } = await API.get(`${entity}?limit=${limit}&page=${page}&type=${type}&search=${search}`);
-  // console.log("data:",data)
+  // const { data } = await API.get(`/${entity}?limit=${limit}&page=${page}&type=${type}&search=${search}`);
+  const { data } = await API.get(`${entity}`, {
+    params: {
+      limit,
+      page,
+      type,
+      search
+    }
+  });
+
+  console.log("data:",data)
   return data;
 };
 

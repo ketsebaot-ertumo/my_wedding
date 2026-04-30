@@ -24,9 +24,11 @@ export async function GET(request: Request) {
   const queryString = forwardedSearchParams.toString(); // like "limit=2&page=3"
 
   // 🚀 NEW: Build full backend URL
-  const apiUrl = `${API_URL}${path}${queryString ? `&${queryString}` : ''}`;
+  // const apiUrl = `${API_URL}${path}${queryString ? `&${queryString}` : ''}`;
+  // const apiUrl = `${API_URL}${path}`;
+  const apiUrl = `${API_URL}${path}${queryString ? `?${queryString}` : ''}`;
 
-  // console.log("\n\n Forwarding to backend:", apiUrl, "\n\n");
+  console.log("\n\n Forwarding to backend:", apiUrl, "\n\n");
 
   try {
     const cookie = request.headers.get('cookie') || '';
@@ -79,6 +81,7 @@ export async function GET(request: Request) {
       {
         success: false,
         message,
+        url: apiUrl
       },
       {
         status: isDev ? status : 200, // keep error status even in prod
