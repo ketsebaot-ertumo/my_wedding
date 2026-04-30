@@ -17,7 +17,7 @@ export default async function uploadFiles(file) {
       //   },
       // });
 
-      const res = await create(`media`, formData);
+      const response = await create(`media`, formData);
 
       const result = response?.data;
       console.log('upload result:', result);
