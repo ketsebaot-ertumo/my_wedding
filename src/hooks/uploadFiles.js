@@ -2,33 +2,82 @@
 import axios from "axios";
 import { useEntityActions } from "./use-mutation";
 
+import { supabase } from "@/lib/supabaseClient";
+import { getGuestId } from "@/utils/guestId";
+const { create, update } = useEntityActions();
+
 
 export default async function uploadFiles(file) {
-    const { create, update } = useEntityActions();
-    const formData = new FormData();
-    formData.append('file', file);
+  try {
+    console.log("Uploading file:", file);
 
-    console.log('Uploading file:', file);
-  
-    try {
-      // const response = await axios.post('media', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
+    const fileName = `${Date.now()}_${file.name}`;
+    const guest_id = getGuestId();
 
-      const response = await create(`media`, formData);
+    const { data, error } = await supabase.storage
+      .from("media") // your bucket name
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false
+      });
 
-      const result = response?.data;
-      console.log('upload result:', result);
-      return result;
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      // THROW the error instead of returning it
-      // throw new Error(error instanceof Error ? error.message : 'Upload failed');
-      return Promise.reject(error instanceof Error ? error : new Error('Upload failed'));
-    }
+    if (error) throw error;
+
+    const { data: urlData } = supabase.storage
+      .from("media")
+      .getPublicUrl(fileName);
+
+    const result = {
+      path: data.path,
+      url: urlData.publicUrl
+    };
+
+    console.log("upload result:", result);
+
+    const mediaData = { 
+      url: result.url, 
+      path: result.path, 
+      filename: file.name, 
+      type: file.type, 
+      size: file.size, 
+      guest_id: guest_id,
+    };
+    const response = await create(`media`, mediaData);
+    return {result, response};
+    // return response;
+
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    throw error;
   }
+}
+
+// export default async function uploadFiles(file) {
+//   const { create, update } = useEntityActions();
+//   const formData = new FormData();
+//   formData.append('file', file);
+
+//   console.log('Uploading file:', file);
+
+//   try {
+//     // const response = await axios.post('media', formData, {
+//     //   headers: {
+//     //     'Content-Type': 'multipart/form-data',
+//     //   },
+//     // });
+
+//     const response = await create(`media`, formData);
+
+//     const result = response?.data;
+//     console.log('upload result:', result);
+//     return result;
+//   } catch (error) {
+//     console.error('Error uploading file:', error);
+//     // THROW the error instead of returning it
+//     // throw new Error(error instanceof Error ? error.message : 'Upload failed');
+//     return Promise.reject(error instanceof Error ? error : new Error('Upload failed'));
+//   }
+// }
 
 
 //   // app/actions/uploadFiles.ts - Cloudflare R2 Version

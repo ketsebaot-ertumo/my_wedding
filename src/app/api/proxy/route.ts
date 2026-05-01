@@ -187,7 +187,6 @@ export async function POST(request: Request) {
     const response = await axios.post(`${API_URL}${path}`, axiosFormData, {
       headers: {
         'Cookie': cookie,
-        // ❌ DO NOT set Content-Type manually
       },
       withCredentials: true,
     });
