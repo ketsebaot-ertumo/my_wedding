@@ -184,7 +184,12 @@ export default function MediaGallery() {
   console.log('data:', data);
 
   // ===== Fetch stats =====
-  const {data: statData} = useAllEntities('media/stats'); // ALWAYS call here
+  const { data: statData, refetch: refetchStats } = useAllEntities('media/stats', {
+    page: currentPage,
+    limit: pageSize,
+    type, 
+    search: debouncedSearch, 
+  }); // ALWAYS call here
 
   // ===== Derived data =====
   const media = data?.data?.media ?? mockMedia;
@@ -597,7 +602,7 @@ export default function MediaGallery() {
                       </div>
                       
                       <div className="text-gray-500">
-                        {(item.size / 1024 / 1024).toFixed(1)} MB
+                        {(item.size / 1024 / 1024).toFixed(2)} MB
                       </div>
                     </div>
                   </div>

@@ -11,12 +11,12 @@ export default async function uploadFiles(file) {
   try {
     console.log("Uploading file:", file);
 
-    const fileName = `${Date.now()}_${file.name}`;
+    // const fileName = `${Date.now()}_${file.name}`;
     const guest_id = getGuestId();
 
     const { data, error } = await supabase.storage
       .from("media") // your bucket name
-      .upload(fileName, file, {
+      .upload(file.name, file, {
         cacheControl: "3600",
         upsert: false
       });
@@ -25,7 +25,7 @@ export default async function uploadFiles(file) {
 
     const { data: urlData } = supabase.storage
       .from("media")
-      .getPublicUrl(fileName);
+      .getPublicUrl(file.name);
 
     const result = {
       path: data.path,
@@ -35,15 +35,14 @@ export default async function uploadFiles(file) {
     console.log("upload result:", result);
 
     const mediaData = { 
-      url: result.url, 
-      // path: result.path, 
+      url: result.url,
       filename: file.name,
       mimeType: file.type, 
       size: file.size, 
       guest_id: guest_id,
     };
     const response = await create(`media`, mediaData);
-    return {result, response};
+    return {...result, response};
     // return response;
 
   } catch (error) {

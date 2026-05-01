@@ -869,13 +869,13 @@ export default function CameraCapture() {
         // Convert base64 to File object
         const res = await fetch(capturedImage)
         const blob = await res.blob()
-        filename = `ak-wedding-photo-${Date.now()}.jpg`
+        filename = `AK-wedding-photo-${Date.now()}.jpg`
         file = new File([blob], filename, { type: 'image/jpeg' })
         type = 'image'
       } else if (recordedVideo) {
         const res = await fetch(recordedVideo)
         const blob = await res.blob()
-        filename = `ak-wedding-video-${Date.now()}.webm`
+        filename = `AK-wedding-video-${Date.now()}.webm`
         file = new File([blob], filename, { type: 'video/webm' })
         type = 'video'
       }

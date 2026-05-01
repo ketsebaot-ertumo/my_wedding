@@ -356,7 +356,7 @@ export default function MediaUploader() {
     try {
       const result = await uploadFiles(fileToUpload.file)
       
-      if (result?.url || result?.secure_url) {
+      if (result?.url || result?.path) {
         // Upload successful
         setFiles(prev => prev.map((f, i) => 
           i === index ? { 
@@ -364,7 +364,7 @@ export default function MediaUploader() {
             progress: 100, 
             isUploading: false, 
             isComplete: true,
-            serverUrl: result.url || result.secure_url
+            serverUrl: result.url || result.path
           } : f
         ))
         
@@ -375,11 +375,12 @@ export default function MediaUploader() {
       }
     } catch (error) {
       console.error('Upload error:', error)
+      const errorMsg = error instanceof Error && error.message ? error.message : 'Upload failed. Please try again.'
       setFiles(prev => prev.map((f, i) => 
         i === index ? { 
           ...f, 
           isUploading: false, 
-          error: 'Upload failed. Please try again.' 
+          error: errorMsg
         } : f
       ))
       toast.error(`Failed to upload ${fileToUpload.file.name}`)
@@ -387,31 +388,50 @@ export default function MediaUploader() {
     }
   }
 
-  // Process upload queue
-  const processUploadQueue = async (newFiles: UploadedFile[]) => {
+  const processUploadQueue = async (newFiles: UploadedFile[], currentFiles: UploadedFile[]) => {
     if (uploadQueueRef.current) return
     uploadQueueRef.current = true
     setIsUploadingAll(true)
 
     for (let i = 0; i < newFiles.length; i++) {
-      const fileIndex = files.findIndex(f => f.id === newFiles[i].id)
+      const fileIndex = currentFiles.findIndex(f => f.id === newFiles[i].id)
+
       if (fileIndex !== -1) {
+        // await uploadSingleFile(newFiles[i], fileIndex)
+        startProgressSimulation(fileIndex)
         await uploadSingleFile(newFiles[i], fileIndex)
-        
-        // Small delay between uploads to avoid overwhelming the server
-        if (i < newFiles.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 500))
-        }
       }
     }
 
     setIsUploadingAll(false)
     uploadQueueRef.current = false
-    
-    // Show overall success
-    setShowSuccess(true)
-    setTimeout(() => setShowSuccess(false), 3000)
   }
+
+  // // Process upload queue
+  // const processUploadQueue = async (newFiles: UploadedFile[]) => {
+  //   if (uploadQueueRef.current) return
+  //   uploadQueueRef.current = true
+  //   setIsUploadingAll(true)
+
+  //   for (let i = 0; i < newFiles.length; i++) {
+  //     const fileIndex = files.findIndex(f => f.id === newFiles[i].id)
+  //     if (fileIndex !== -1) {
+  //       await uploadSingleFile(newFiles[i], fileIndex)
+        
+  //       // Small delay between uploads to avoid overwhelming the server
+  //       if (i < newFiles.length - 1) {
+  //         await new Promise(resolve => setTimeout(resolve, 500))
+  //       }
+  //     }
+  //   }
+
+  //   setIsUploadingAll(false)
+  //   uploadQueueRef.current = false
+    
+  //   // Show overall success
+  //   setShowSuccess(true)
+  //   setTimeout(() => setShowSuccess(false), 3000)
+  // }
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newFiles: UploadedFile[] = acceptedFiles.map(file => ({
@@ -422,11 +442,17 @@ export default function MediaUploader() {
       isUploading: true,
       isComplete: false
     }))
+
+    setFiles(prev => {
+      const updated = [...prev, ...newFiles]
+      processUploadQueue(newFiles, updated) // pass updated state
+      return updated
+    })
     
-    setFiles(prev => [...prev, ...newFiles])
+    // setFiles(prev => [...prev, ...newFiles])
     
-    // Start upload process
-    processUploadQueue(newFiles)
+    // // Start upload process
+    // processUploadQueue(newFiles)
     
     toast.success(`${acceptedFiles.length} precious memory(s) added ✨`)
   }, [])
