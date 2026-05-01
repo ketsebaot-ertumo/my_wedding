@@ -81,7 +81,6 @@ export async function GET(request: Request) {
       {
         success: false,
         message,
-        url: apiUrl
       },
       {
         status: isDev ? status : 200, // keep error status even in prod
@@ -92,6 +91,74 @@ export async function GET(request: Request) {
 
 
 // POST request
+// export async function POST(request: Request) {
+//   const { searchParams } = new URL(request.url);
+//   const path = searchParams.get('path');
+//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+//   if (!path) {
+//     return NextResponse.json({ error: 'Missing path query param' }, { status: 400 });
+//   }
+//   if (!API_URL) {
+//     return NextResponse.json({ error: 'Invalid api-url on environment.' }, { status: 400 });
+//   }
+
+//   try {
+//     // Extract cookie from incoming request
+//     const cookie = request.headers.get('cookie') || '';
+
+//     const body = await request.json();
+//     const response = await axios.post(`${API_URL}${path}`, body, {
+//       headers: {
+//         'Cookie': cookie, // Forward the token cookie to backend
+//         'Content-Type': 'multipart/form-data',
+//       },
+//       withCredentials: true,
+//     });
+
+//     // Get set-cookie header from backend
+//     const setCookie = response.headers['set-cookie'];
+//     const { token, user } = response.data;
+
+//     const nextRes = NextResponse.json(response.data);
+//     // if (setCookie) {
+//     //   nextRes.headers.set('Set-Cookie', setCookie.toString());
+//     // } 
+     
+//     if (token) {
+//         nextRes.cookies.set('token', response.data.token, {
+//           httpOnly: true,
+//           path: '/',
+//           // sameSite: 'strict',
+//           // secure: process.env.NODE_ENV === 'production',
+//           secure: false,
+//           sameSite: 'strict',
+//           maxAge: 6 * 60 * 60 * 1000,
+//         });
+//     }
+
+//     if (user) {
+//       const { password, confirmation_code, resetCode, ...safeUser } = user;
+//       nextRes.cookies.set('user', JSON.stringify(safeUser), {
+//         httpOnly: true,
+//         path: '/',
+//         sameSite: 'strict',
+//         secure: process.env.NODE_ENV === 'production',
+//         maxAge: 6 * 60 * 60 * 1000,
+//       });
+//     }
+
+//     return nextRes;    
+//     // return NextResponse.json(response.data);
+//   } catch (err: unknown) {
+//     const error = err as AxiosError;
+//     return NextResponse.json(
+//       error.response ? error.response.data : error.message,
+//       // { status: error.response ? error.response.status : 500 }
+//       { status: isDev ? 500 : 200, }
+//     );
+//   }
+// }
 export async function POST(request: Request) {
   const { searchParams } = new URL(request.url);
   const path = searchParams.get('path');
@@ -105,37 +172,37 @@ export async function POST(request: Request) {
   }
 
   try {
-    // Extract cookie from incoming request
     const cookie = request.headers.get('cookie') || '';
 
-    const body = await request.json();
-    const response = await axios.post(`${API_URL}${path}`, body, {
+    // ✅ IMPORTANT: use formData instead of json
+    const formData = await request.formData();
+
+    // ✅ Convert FormData → something axios can send
+    const axiosFormData = new FormData();
+
+    formData.forEach((value, key) => {
+      axiosFormData.append(key, value as any);
+    });
+
+    const response = await axios.post(`${API_URL}${path}`, axiosFormData, {
       headers: {
-        'Cookie': cookie, // Forward the token cookie to backend
-        'Content-Type': 'multipart/form-data',
+        'Cookie': cookie,
+        // ❌ DO NOT set Content-Type manually
       },
       withCredentials: true,
     });
 
-    // Get set-cookie header from backend
-    const setCookie = response.headers['set-cookie'];
     const { token, user } = response.data;
-
     const nextRes = NextResponse.json(response.data);
-    // if (setCookie) {
-    //   nextRes.headers.set('Set-Cookie', setCookie.toString());
-    // } 
-     
+
     if (token) {
-        nextRes.cookies.set('token', response.data.token, {
-          httpOnly: true,
-          path: '/',
-          // sameSite: 'strict',
-          // secure: process.env.NODE_ENV === 'production',
-          secure: false,
-          sameSite: 'strict',
-          maxAge: 6 * 60 * 60 * 1000,
-        });
+      nextRes.cookies.set('token', token, {
+        httpOnly: true,
+        path: '/',
+        secure: false,
+        sameSite: 'strict',
+        maxAge: 6 * 60 * 60 * 1000,
+      });
     }
 
     if (user) {
@@ -149,13 +216,14 @@ export async function POST(request: Request) {
       });
     }
 
-    return nextRes;    
-    // return NextResponse.json(response.data);
+    return nextRes;
+
   } catch (err: unknown) {
     const error = err as AxiosError;
+
     return NextResponse.json(
       error.response ? error.response.data : error.message,
-      // { status: error.response ? error.response.status : 500 }
+      { status: isDev ? 500 : 200 }
     );
   }
 }

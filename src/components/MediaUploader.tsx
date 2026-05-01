@@ -656,9 +656,32 @@ export default function MediaUploader() {
                   className="group relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 hover:shadow-xl transition-all"
                 >
                   {/* Remove Button */}
+                  {/* <button
+                    onClick={() => removeFile(index)}
+                    // className="absolute top-2 right-2 z-10 w-8 h-8 bg-red-500/90 backdrop-blur-sm text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 hover:scale-110"
+                    className="
+                      absolute top-2 right-2 z-10 w-8 h-8
+                      bg-red-500/90 backdrop-blur-sm text-white rounded-full
+                      flex items-center justify-center
+                      hover:bg-red-600 hover:scale-110
+                      opacity-0 group-hover:opacity-100
+                      sm:opacity-0 sm:group-hover:opacity-100
+                      opacity-100 sm:opacity-0
+                    "
+                  >
+                    <X className="w-4 h-4" />
+                  </button> */}
                   <button
                     onClick={() => removeFile(index)}
-                    className="absolute top-2 right-2 z-10 w-8 h-8 bg-red-500/90 backdrop-blur-sm text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 hover:scale-110"
+                    className="
+                      absolute top-2 right-2 z-10 w-8 h-8
+                      bg-red-500/90 text-white rounded-full
+                      flex items-center justify-center
+                      hover:bg-red-600 hover:scale-110
+                      transition-all
+
+                      opacity-100 sm:opacity-0 sm:group-hover:opacity-100
+                    "
                   >
                     <X className="w-4 h-4" />
                   </button>

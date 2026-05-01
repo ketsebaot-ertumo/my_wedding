@@ -685,7 +685,7 @@ export default function CameraCapture() {
 
   // Handle webcam initialization
   const handleUserMedia = () => {
-    console.log("✅ Webcam stream received")
+    // console.log("✅ Webcam stream received")
     setIsWebcamReady(true)
     setWebcamError(null)
   }
@@ -724,7 +724,7 @@ export default function CameraCapture() {
 
     try {
       const imageSrc = webcamRef.current.getScreenshot()
-      console.log("📸 Capture result:", imageSrc ? "Success" : "Failed")
+      // console.log("📸 Capture result:", imageSrc ? "Success" : "Failed")
       
       if (imageSrc) {
         setCapturedImage(imageSrc)
@@ -816,7 +816,7 @@ export default function CameraCapture() {
     try {
       setWebcamError("Testing camera access...")
       const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-      console.log("✅ Basic camera test passed")
+      // console.log("✅ Basic camera test passed")
       stream.getTracks().forEach(track => track.stop())
       setWebcamError(null)
       return true
@@ -888,7 +888,7 @@ export default function CameraCapture() {
       const result = await uploadFiles(file)
       console.log('Upload result2:', result)
       
-      console.log('Upload successful:', result)
+      // console.log('Upload successful:', result)
       setUploadSuccess(`Your ${type} has been uploaded successfully!`)
       
       // Reset after successful upload

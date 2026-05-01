@@ -19,7 +19,7 @@ export const registerUser = async (credentials: {firstName: string; lastName: st
 export const loginUser = async (credentials: { email: string; password_hash: string }) => {
     try{
       const data = await API.post(`auth/login`, credentials);
-      console.log("route data:", data);
+      // console.log("route data:", data);
       return data;
     }catch(err: any){
       // console.error(err);
@@ -47,7 +47,7 @@ export const getAllEntities = async (
     }
   });
 
-  console.log("data:",data)
+  // console.log("data:",data)
   return data;
 };
 
