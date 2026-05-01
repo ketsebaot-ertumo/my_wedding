@@ -36,9 +36,9 @@ export default async function uploadFiles(file) {
 
     const mediaData = { 
       url: result.url, 
-      path: result.path, 
-      filename: file.name, 
-      type: file.type, 
+      // path: result.path, 
+      filename: file.name,
+      mimeType: file.type, 
       size: file.size, 
       guest_id: guest_id,
     };

@@ -149,7 +149,7 @@ export default function MediaGallery() {
   const [error, setError] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(4);
+  const [pageSize] = useState(6);
 
   const [type, setType] = useState<string | undefined>();
   const [search, setSearch] = useState('');
@@ -193,6 +193,7 @@ export default function MediaGallery() {
 
   // console.log("media:", media);
 
+  // data number value
   const totalMedia = statData?.data?.totalMedia || media.length;
   const totalPhotos = statData?.data?.totalImages || media.filter((m: MediaItem) => m.type === 'image').length;
   const totalVideos = statData?.data?.totalVideos || media.filter((m: MediaItem) => m.type === 'video').length;
