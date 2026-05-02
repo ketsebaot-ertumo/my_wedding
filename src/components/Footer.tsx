@@ -95,7 +95,7 @@ export default function Footer({ className = '' }: FooterProps) {
                 <div className="flex items-center gap-3">
                   <Heart className="w-8 h-8 text-rose-500 fill-rose-500/20" />
                   <h3 className="text-3xl font-serif bg-gradient-to-r from-blue-300 to-rose-300 bg-clip-text text-transparent">
-                    Azaria & Ketsebaot
+                    {t('coupleNames')}
                   </h3>
                 </div>
                 <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
@@ -116,7 +116,7 @@ export default function Footer({ className = '' }: FooterProps) {
         href="#main-content" 
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-rose-500 focus:text-white focus:rounded-lg"
       >
-        Skip to main content
+        {t('skip-to-main')}
       </a>
 
       {/* Decorative Top Border */}

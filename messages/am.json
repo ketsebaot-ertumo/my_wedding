@@ -235,8 +235,8 @@
                 "subtitle": "ከሶሻል ሚዲያ እስከ ስልክ ጥሪ",
                 "description": "ቀላል 'ሰላም' ብሎ የጀመረ ውይይት ወደ ረዥም ሌሊት ጨዋታና 4 ሰዓት የሚቆይ የስልክ ንግግር ተቀየረ። ከስምንት በፊት ቃላችንን ወደድን።",
                 "stats": {
-                "label": "መጀመሪያ መልዕክት",
-                "value": "ዲሴምበር 2023"
+                "label": "መጀመሪያ ማውራት",
+                "value": "ታህሳስ 2016"
                 }
             },
             {
@@ -366,7 +366,19 @@
         "copyright": "አዛርያ & ከፀባኦት።",
         "allRightsReserved": "ሁሉም መብቶች የተጠበቁ ናቸው።",
         "designedWith": "ለልዩ ቀናችን",
-        "forOurDay": "የተዘጋጀ"
-    }
+        "forOurDay": "የተዘጋጀ",
+        "skip-to-main": "ወደ ዋናው ክፍል ይሂዱ"
+    },
+    "nav": {
+        "home": "መነሻ",
+        "schedule": "ፕሮግራም",
+        "gallery": "ጋለሪ",
+        "story": "ታሪካችን",
+        "capture": "ፎቶ ያንሱ",
+        "upload": "ጫን"
+    },
+    "shareMemories": "ትዝታዎን ያጋሩ",
+    "est": "{gregorian} ({ethiopian}) ተመሠረተ",
+    "coupleNames": "አዛርያ & ከፀባኦት"
 }
 

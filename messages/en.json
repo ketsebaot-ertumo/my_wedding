@@ -366,6 +366,18 @@
         "copyright": "Azaria & Ketsebaot.",
         "allRightsReserved": "All rights reserved.",
         "designedWith": "Designed with",
-        "forOurDay": "for our special day"
-    }
+        "forOurDay": "for our special day",
+        "skip-to-main": "Skip to main content"
+    },
+     "nav": {
+        "home": "Home",
+        "schedule": "Schedule",
+        "gallery": "Gallery",
+        "story": "Our Story",
+        "capture": "Capture",
+        "upload": "Upload"
+    },
+    "shareMemories": "Share Memories",
+    "est": "Est. {gregorian} ({ethiopian})",
+    "coupleNames": "Azaria & Ketsebaot"
 }

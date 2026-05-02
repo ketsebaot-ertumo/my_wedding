@@ -6,20 +6,41 @@ import { Menu, X, Heart, Camera, Home, GalleryVertical, Sparkles, Upload, Clock 
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
 import Language from './language/Language'
+// @ts-ignore
+import { toEthiopian } from 'ethiopian-date'
+import { useTranslations } from 'next-intl'
 
 
 export default function Navigation() {
+  const t = useTranslations('');
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeHash, setActiveHash] = useState('')
+  const now = new Date()
 
+  const [ethYear] = toEthiopian(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    now.getDate()
+  )
+
+  const gregorianYear = now.getFullYear()
+
+  // const navItems = [
+  //   { label: 'Home', href: '/', icon: Home },
+  //   { label: 'Schedule', href: '#schedule', icon: Clock },
+  //   { label: 'Gallery', href: '#gallery', icon: GalleryVertical },
+  //   { label: 'Our Story', href: '#story', icon: Heart },
+  //   { label: 'Capture', href: '#capture', icon: Camera },    
+  //   { label: 'Upload', href: '#upload', icon: Upload },  
+  // ]
   const navItems = [
-    { label: 'Home', href: '/', icon: Home },        // 1️⃣ First - Always
-    { label: 'Schedule', href: '#schedule', icon: Clock },
-    { label: 'Gallery', href: '#gallery', icon: GalleryVertical },
-    { label: 'Our Story', href: '#story', icon: Heart },
-    { label: 'Capture', href: '#capture', icon: Camera },    
-    { label: 'Upload', href: '#upload', icon: Upload },  
+    { label: t('nav.home'), href: '/', icon: Home },
+    { label: t('nav.schedule'), href: '#schedule', icon: Clock },
+    { label: t('nav.gallery'), href: '#gallery', icon: GalleryVertical },
+    { label: t('nav.story'), href: '#story', icon: Heart },
+    { label: t('nav.capture'), href: '#capture', icon: Camera },
+    { label: t('nav.upload'), href: '#upload', icon: Upload },
   ]
 
   useEffect(() => {
@@ -76,9 +97,13 @@ export default function Navigation() {
               </motion.div>
               <div className="flex flex-col">
                 <span className="text-lg lg:text-xl font-bold bg-gradient-to-r from-blue-400 to-rose-500 bg-clip-text text-transparent">
-                  Azaria & Ketsebaot
+                  {t('coupleNames')}
                 </span>
-                <span className="text-[10px] lg:text-xs text-gray-400 -mt-1">Est. 2026</span>
+                {/* <span className="text-[10px] lg:text-xs text-gray-400 -mt-1">Est. 2026 (2018)</span> */}
+                <span className="text-[10px] lg:text-xs text-gray-400 -mt-1">
+                  {t('est', { gregorian: gregorianYear, ethiopian: ethYear })}
+                  {/* {t('nav.est')} {gregorianYear}, {ethYear} */}
+                </span>
               </div>
             </Link>
 
@@ -201,8 +226,12 @@ export default function Navigation() {
                   >
                     <Button className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 rounded-xl hover:scale-105 transition-all duration-300">
                       <Camera className="mr-2 h-4 w-4" />
-                      Share Memories
+                      {t('shareMemories')}
                     </Button>
+                    {/* <Button className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 rounded-xl hover:scale-105 transition-all duration-300">
+                      <Camera className="mr-2 h-4 w-4" />
+                      Share Memories
+                    </Button> */}
                   </motion.div>
                 </div>
               </div>
