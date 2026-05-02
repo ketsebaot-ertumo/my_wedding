@@ -24,13 +24,17 @@ export default function Home() {
       });
   }, []);
 
-   const galleryRef = useRef<{ refetch?: () => void } | null>(null)
+   const galleryRef = useRef<{ refetch?: () => void; refetchStats?: () => void } | null>(null)
   // const galleryRef = useRef(null)
   
   const handleUploadSuccess = () => {
     // Trigger gallery refresh
     if (galleryRef.current?.refetch) {
       galleryRef.current.refetch()
+    }
+
+    if (galleryRef.current?.refetchStats) {
+      galleryRef.current.refetchStats()
     }
   }
 
