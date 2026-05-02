@@ -641,10 +641,13 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import Webcam from 'react-webcam'
 import { Camera, Video, Download, RotateCw, Circle, Upload, AlertCircle, X } from 'lucide-react'
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button'
 import uploadFiles from '@/hooks/uploadFiles'
 
+
 export default function CameraCapture() {
+  const t = useTranslations('wedding');
   const [mode, setMode] = useState<'photo' | 'video'>('photo')
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
   const [isRecording, setIsRecording] = useState(false)
@@ -958,11 +961,11 @@ export default function CameraCapture() {
           <div className="flex flex-col items-center gap-2 mb-4">
             <Camera className="w-7 h-7 sm:w-8 sm:h-8 text-rose-500" />
             <h2 className="text-3xl sm:text-5xl font-bold text-gray-800">
-              Capture Moments
+              {t('capture-title')}
             </h2>
           </div>
           <p className="text-gray-600">
-            Take photos or record videos directly from your device
+            {t('capture-desc')}
           </p>
         </div>
 
@@ -970,7 +973,7 @@ export default function CameraCapture() {
         {availableDevices.length > 1 && (
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Camera:
+              {t('camera-option')}
             </label>
             <select
               value={selectedDeviceId}
@@ -982,7 +985,7 @@ export default function CameraCapture() {
             >
               {availableDevices.map((device) => (
                 <option key={device.deviceId} value={device.deviceId}>
-                  {device.label || `Camera ${availableDevices.indexOf(device) + 1}`}
+                  {device.label || `${t('camera')} ${availableDevices.indexOf(device) + 1}`}
                 </option>
               ))}
             </select>
@@ -995,8 +998,10 @@ export default function CameraCapture() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-500 mt-0.5" />
               <div className="flex-1">
-                <p className="text-red-700 font-medium">Camera Error</p>
+                <p className="text-red-700 font-medium">{t('capture-err-title')}</p>
+                {/* <p className="text-red-600 text-sm">{webcamError}</p> */}
                 <p className="text-red-600 text-sm">{webcamError}</p>
+                
                 <div className="flex gap-3 mt-3">
                   <Button 
                     variant="outline" 
@@ -1005,7 +1010,7 @@ export default function CameraCapture() {
                     className="border-red-300 text-red-700 hover:bg-red-50"
                   >
                     <RotateCw className="w-4 h-4 mr-2" />
-                    Retry Camera
+                    {t('camera-retry')}
                   </Button>
                   <Button 
                     variant="outline" 
@@ -1013,7 +1018,7 @@ export default function CameraCapture() {
                     onClick={testCameraAccess}
                     className="border-gray-300 text-gray-700 hover:bg-gray-50"
                   >
-                    Test Camera Access
+                    {t('camera-test')}
                   </Button>
                 </div>
               </div>
@@ -1023,7 +1028,7 @@ export default function CameraCapture() {
               >
                 <X className="w-5 h-5" />
               </button>
-            </div>h-
+            </div>
           </div>
         )}
 
@@ -1051,7 +1056,7 @@ export default function CameraCapture() {
                   {!isWebcamReady && !webcamError && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900">
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mb-4"></div>
-                      <p className="text-white">Initializing camera...</p>
+                      <p className="text-white">{t('camera-init')}</p>
                     </div>
                   )}
                 </>
@@ -1078,7 +1083,7 @@ export default function CameraCapture() {
                     <button
                       onClick={capturePhoto}
                       className="w-16 h-16 rounded-full bg-white border-4 border-rose-500 flex items-center justify-center hover:scale-110 transition-transform active:scale-95 shadow-lg"
-                      title="Take photo"
+                      title={t('take-photo')}
                     >
                       <Circle className="w-8 h-8 text-rose-500" />
                     </button>
@@ -1090,7 +1095,7 @@ export default function CameraCapture() {
                           ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
                           : 'bg-rose-500 hover:bg-rose-600'
                       } text-white transition-all active:scale-95 shadow-lg`}
-                      title={isRecording ? 'Stop recording' : 'Start recording'}
+                      title={isRecording ? t('stop-recording') : t('start-recording')}
                     >
                       {isRecording ? '■' : '●'}
                     </button>
@@ -1105,7 +1110,7 @@ export default function CameraCapture() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                    <span className="text-sm text-green-600 font-medium">Camera ready</span>
+                    <span className="text-sm text-green-600 font-medium">{t('camera-ready')}</span>
                   </div>
                   <div className="text-xs text-gray-500">
                     {availableDevices.find(d => d.deviceId === selectedDeviceId)?.label || 'Default camera'}
@@ -1114,7 +1119,7 @@ export default function CameraCapture() {
               ) : (
                 <div className="text-center">
                   <p className="text-sm text-amber-600">
-                    {webcamError ? 'Camera error - see above' : 'Camera loading...'}
+                    {webcamError ? t('camera-err') : t('camera-loading')}
                   </p>
                 </div>
               )}
@@ -1133,7 +1138,7 @@ export default function CameraCapture() {
                 }`}
               >
                 <Camera className="mr-2 h-5 w-5" />
-                Photo
+                {t('photo')}
               </Button>
               <Button
                 variant={mode === 'video' ? 'default' : 'outline'}
@@ -1146,7 +1151,7 @@ export default function CameraCapture() {
                 }`}
               >
                 <Video className="mr-2 h-5 w-5" />
-                Video
+                {t('video')}
               </Button>
             </div>
           </div>
@@ -1154,7 +1159,7 @@ export default function CameraCapture() {
           {/* Controls & Preview */}
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
-              <h3 className="text-center lg:text-left text-xl font-bold text-gray-800">Capture Options</h3>
+              <h3 className="text-center lg:text-left text-xl font-bold text-gray-800">{t('capture-option')}</h3>
               
               <div className="grid grid-cols-2 gap-4">
                 <Button
@@ -1164,7 +1169,7 @@ export default function CameraCapture() {
                   className="h-auto py-4 border-rose-200 hover:bg-rose-50"
                 >
                   <Camera className="w-6 h-6 mb-2 text-rose-600" />
-                  <span>Take Photo</span>
+                  <span>{t('take-photo')}</span>
                 </Button>
                 
                 <Button
@@ -1174,7 +1179,7 @@ export default function CameraCapture() {
                   className="h-auto py-4 border-rose-200 hover:bg-rose-50"
                 >
                   <Video className="w-6 h-6 mb-2 text-rose-600" />
-                  <span>{isRecording ? 'Stop Recording' : 'Start Recording'}</span>
+                  <span>{isRecording ? t('stop-recording') : t('start-recording')}</span>
                 </Button>
               </div>
 
@@ -1186,7 +1191,7 @@ export default function CameraCapture() {
                       className="bg-rose-500 hover:bg-rose-600 flex-1"
                     >
                       <Upload className="mr-2 h-5 w-5" />
-                      Upload
+                      {t('upload')}
                     </Button>
                     
                     <Button
@@ -1194,7 +1199,7 @@ export default function CameraCapture() {
                       className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 flex-1"
                     >
                       <Download className="mr-2 h-5 w-5" />
-                      Download
+                      {t('download')}
                     </Button>
                     
                     <Button
@@ -1203,7 +1208,7 @@ export default function CameraCapture() {
                       className="flex-1 border-rose-200 hover:bg-rose-50"
                     >
                       <RotateCw className="mr-2 h-5 w-5" />
-                      Take Another
+                      {t('take-other')}
                     </Button>
                   </div>
                 </div>
@@ -1212,23 +1217,23 @@ export default function CameraCapture() {
 
             {/* Instructions */}
             <div className="p-6 bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl">
-              <h4 className="font-bold text-gray-800 mb-3">Troubleshooting Tips:</h4>
+              <h4 className="font-bold text-gray-800 mb-3">{t('tips-title')}</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-start gap-2">
                   <div className="w-2 h-2 rounded-full bg-rose-400 mt-1.5" />
-                  <span>Make sure your camera is connected and not in use by another app</span>
+                  <span>{t('tip-1')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <div className="w-2 h-2 rounded-full bg-rose-400 mt-1.5" />
-                  <span>Allow camera permissions when prompted by your browser</span>
+                  <span>{t('tip-2')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <div className="w-2 h-2 rounded-full bg-rose-400 mt-1.5" />
-                  <span>If using a laptop, check if the camera is physically covered</span>
+                  <span>{t('tip-3')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <div className="w-2 h-2 rounded-full bg-rose-400 mt-1.5" />
-                  <span>Try refreshing the page if camera doesn't load</span>
+                  <span>{t('tip-4')}</span>
                 </li>
               </ul>
             </div>

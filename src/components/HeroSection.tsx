@@ -502,13 +502,13 @@ export default function HeroModern() {
           
           <div className="flex gap-4 justify-center">
             {/* <Button className="bg-rose-500 hover:bg-rose-600">RSVP Now</Button> */}
-            <Button onClick={() => (window.location.href = '/#gallery')} className="hover:scale-105 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-lg hover:shadow-rose-500/25 transition-all duration-300">
+            <Button onClick={() => (window.location.href = '/#capture')} className="hover:scale-105 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-lg hover:shadow-rose-500/25 transition-all duration-300">
               <Camera className="w-4 h-4 mr-1" />
-              View Gallery
+              {t('capture')}
             </Button>
             <Button onClick={() => (window.location.href = '/#story')} variant="outline" className="border-white/20 text-white bg-gray-700 hover:scale-105 hover:text-white hover:bg-gray-700 hover:border-white/30">
               <Heart className="w-4 h-4 mr-1 text-rose-400/80" />
-              Our Story
+              {t('story')}
             </Button>
             {/* <Button variant="outline" className="border-gray-600 text-white bg-gray-600">Our Story</Button> */}
           </div>

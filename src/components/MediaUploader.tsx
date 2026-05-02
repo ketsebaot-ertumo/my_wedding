@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import uploadFiles from '@/hooks/uploadFiles'
 import { UploadedFile } from '@/types/file'
+import { useTranslations } from 'next-intl'
 
 
 // type MediaUploaderProps = {
@@ -16,6 +17,7 @@ import { UploadedFile } from '@/types/file'
 
 // export default function MediaUploader() {
 export default function MediaUploader({ onUploadSuccess }: any) {
+  const t = useTranslations('wedding');
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
@@ -216,7 +218,7 @@ export default function MediaUploader({ onUploadSuccess }: any) {
             className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-rose-500 to-amber-500 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2"
           >
             <CheckCircle className="w-5 h-5" />
-            <span>All memories preserved forever! ✨</span>
+            <span>{t('notif-1')} ✨</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -267,25 +269,25 @@ export default function MediaUploader({ onUploadSuccess }: any) {
               <div className="space-y-3">
                 <div className="flex items-center justify-center gap-3">
                   <Heart className="w-5 h-5 text-rose-300" />
-                  <span className="text-rose-400 text-sm tracking-wider">✦ SHARE YOUR JOY ✦</span>
+                  <span className="text-rose-400 text-sm tracking-wider">✦ {t('upload-share')} ✦</span>
                   <Heart className="w-5 h-5 text-rose-300" />
                 </div>
                 
                 <h3 className="text-3xl md:text-5xl font-serif bg-gradient-to-r from-rose-600 via-amber-600 to-rose-600 bg-clip-text text-transparent">
-                  Our Precious Moments
+                  {t('your-precious-moments')}
                 </h3>
                 
                 <p className="text-gray-600 max-w-md mx-auto">
-                  Share photos and videos from our special day
+                  {t('upload-desc')}
                 </p>
               </div>
               
               {/* File Type Badges */}
               <div className="flex flex-wrap justify-center gap-3">
                 {[
-                  { icon: ImageIcon, label: 'Photos', color: 'rose', bg: 'bg-rose-50' },
-                  { icon: Video, label: 'Videos', color: 'amber', bg: 'bg-amber-50' },
-                  { icon: Camera, label: 'Live Photos', color: 'purple', bg: 'bg-purple-50' }
+                  { icon: ImageIcon, label: 'photos', color: 'rose', bg: 'bg-rose-50' },
+                  { icon: Video, label: 'videos', color: 'amber', bg: 'bg-amber-50' },
+                  { icon: Camera, label: 'live-photos', color: 'purple', bg: 'bg-purple-50' }
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
@@ -293,7 +295,7 @@ export default function MediaUploader({ onUploadSuccess }: any) {
                     className={`flex items-center gap-2 px-4 py-2 ${item.bg} rounded-full shadow-sm border border-${item.color}-200`}
                   >
                     <item.icon className={`w-4 h-4 text-${item.color}-500`} />
-                    <span className={`text-sm text-${item.color}-700 font-medium`}>{item.label}</span>
+                    <span className={`text-sm text-${item.color}-700 font-medium`}>{t(item.label)}</span>
                   </motion.div>
                 ))}
               </div>
@@ -310,23 +312,23 @@ export default function MediaUploader({ onUploadSuccess }: any) {
                 {isUploadingAll ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Uploading...
+                    {t('uploading')}
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5" />
-                    Choose Memories
+                      {t('choose-memories')}
                     <Sparkles className="w-5 h-5" />
                   </>
                 )}
               </motion.button>
               
               <p className="text-sm text-gray-400">
-                📸 JPG, PNG, GIF, HEIC • 🎥 MP4, MOV up to 100MB
+                📸 JPG, PNG, GIF, HEIC • 🎥 MP4, MOV {t('upto')} 5GB
               </p>
               
               <p className="text-xs text-rose-400 italic">
-                "Every picture tells a story of our love"
+                {t('upload-text')}
               </p>
             </div>
           </div>
