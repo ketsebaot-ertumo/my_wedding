@@ -132,6 +132,7 @@ const storyChapters = [
 
 export default function CinematicStory() {
   const t = useTranslations('story.chapters');
+  const tf = useTranslations('story.footer');
   const [activeChapter, setActiveChapter] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
   const [progress, setProgress] = useState(0)
@@ -192,7 +193,8 @@ export default function CinematicStory() {
                   idx === activeChapter ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'
                 }`} />
                 <span className="absolute right-6 top-1/2 -translate-y-1/2 whitespace-nowrap text-white/0 group-hover:text-white/90 transition-all duration-300 text-sm font-medium">
-                  {chapter.year}
+                  {/* {chapter.year} */}
+                  {t(`${activeChapter}.year`)}
                 </span>
               </button>
             ))}
@@ -205,7 +207,7 @@ export default function CinematicStory() {
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm">
                   <IconComponent className="w-4 h-4 text-rose-300" />
-                  <span className="text-rose-200 text-sm font-medium">{currentChapter.year}</span>
+                  <span className="text-rose-200 text-sm font-medium">{t(`${activeChapter}.year`)}</span>
                 </div>
                 
                 <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold text-white leading-tight">
@@ -227,8 +229,8 @@ export default function CinematicStory() {
               {/* Stats */}
               <div className="flex items-center gap-6 pt-4">
                 <div className="border-l-2 border-rose-400 pl-4">
-                  <div className="text-2xl font-bold text-white">{currentChapter.stats.value}</div>
-                  <div className="text-sm text-gray-300">{currentChapter.stats.label}</div>
+                  <div className="text-2xl font-bold text-white">{t(`${activeChapter}.stats.value`)}</div>
+                  <div className="text-sm text-gray-300">{t(`${activeChapter}.stats.label`)}</div>
                 </div>
               </div>
 
@@ -241,7 +243,7 @@ export default function CinematicStory() {
                   />
                 </div>
                 <div className="flex justify-between text-sm text-gray-400">
-                  <span>Our journey continues...</span>
+                  <span>{tf('journey')}</span>
                   <button
                     onClick={() => setIsPlaying(!isPlaying)}
                     className="hover:text-white transition-colors"
