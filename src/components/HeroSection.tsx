@@ -468,7 +468,7 @@ export default function HeroModern() {
             <span className="bg-gradient-to-r from-rose-200 to-pink-100 bg-clip-text text-transparent drop-shadow-lg">
               {t('azu')}
             </span>
-            <span className="mx-4 text-white/60 drop-shadow-lg">&</span>
+            <span className="mx-4 text-white/60 drop-shadow-lg">& </span>
             <span className="bg-gradient-to-r from-pink-100 to-rose-200 bg-clip-text text-transparent drop-shadow-lg">
               {t('ketsi')}
             </span>

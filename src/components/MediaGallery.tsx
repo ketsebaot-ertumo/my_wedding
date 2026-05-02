@@ -11,6 +11,7 @@ import { useAllEntities } from '@/hooks/use-query'
 import { useEntityActions } from '@/hooks/use-mutation';
 import { motion } from "framer-motion";
 import { forwardRef, useImperativeHandle } from 'react'
+import { useTranslations } from 'next-intl'
 
 const mockMedia: MediaItem[] = [
   {
@@ -146,20 +147,15 @@ const mockMedia: MediaItem[] = [
 
 // export default function MediaGallery() {
 const MediaGallery = forwardRef((props, ref) => {
-
+  const t = useTranslations('wedding');
   const guest_id = getGuestId();
-
   const [error, setError] = useState<string | null>(null);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
-
   const [type, setType] = useState<string | undefined>();
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
-
   const { create, update } = useEntityActions();
-  // console.log('type', type);
 
   // debounce effect
   useEffect(() => {
@@ -226,8 +222,8 @@ const MediaGallery = forwardRef((props, ref) => {
     return (
       <div className="w-full max-w-7xl mx-auto p-6">
         <div className="text-center mb-12 pt-8"> 
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>
-          <p className="text-gray-600">Loading media...</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">{t('gallery-title')}</h2>
+          <p className="text-gray-600">{t('media-load')}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
@@ -367,10 +363,10 @@ const MediaGallery = forwardRef((props, ref) => {
     <div className="container mx-auto p-6 py-14 sm:py-20 md:px-10">
       {/* Header */}
       <div className="relative text-center mb-14">
-        <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Wedding Gallery</h2>
+        <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">{t('gallery-title')}</h2>
 
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Browse through all the beautiful moments captured by our guests
+          {t('gallery-desc')}
         </p>
 
         <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-[3px] bg-gray-200 rounded-full overflow-hidden">
@@ -402,50 +398,59 @@ const MediaGallery = forwardRef((props, ref) => {
               onClick={() => setType(undefined)}
               className={type === undefined ? 'bg-rose-500 hover:bg-rose-600' : ''}
             >
-              All Media
+              {t('all-media')}
             </Button>
             <Button
               variant={getButtonVariant('image')}
               onClick={() => setType('image')}
               className={type === 'image' ? 'bg-rose-500 hover:bg-rose-600' : ''}
             >
-              Photos Only
+              {t('photos-only')}
             </Button>
             <Button
               variant={getButtonVariant('video')}
               onClick={() => setType('video')}
               className={type === 'video' ? 'bg-rose-500 hover:bg-rose-600' : ''}
             >
-              Videos Only
+              {t('videos-only')}
             </Button>
           </div>
-          
-          
         </div>
+
         <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search captions..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="px-4 py-1 pl-10 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent w-full sm:w-54 lg:w-64"
-          />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            <Search className='w-6 h-5' /> {/* 🔍 */}
+          {/* <div className="relative italic font-inter">
+            <input
+              type="text"
+              placeholder={t('media-search')}
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="px-4 py-2 pl-10 border border-gray-200 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent w-full sm:w-54 lg:w-64"
+            />
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <Search className='w-6 h-5' />
+            </div>
+          </div> */}
+
+           <div className="">
+            <input
+              type="text"
+              placeholder={`🔍    ${t('media-search')}`}
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-400 focus:border-transparent w-full sm:w-54 lg:w-64"
+            />
           </div>
-        </div>
         
-        <Button 
-          onClick={() => {
-            setType(undefined);
-            setSearch('');
-          }}
-          variant="outline"
-          className="whitespace-nowrap rounded-lg text-gray-400"
-        >
-          Clear Filters
-        </Button>
+          <Button 
+            onClick={() => {
+              setType(undefined);
+              setSearch('');
+            }}
+            variant="outline"
+            className="whitespace-nowrap rounded-lg text-white bg-rose-500"
+          >
+            {t('clear-filters')}
+          </Button>
         </div>
       </div>
 
@@ -456,25 +461,25 @@ const MediaGallery = forwardRef((props, ref) => {
             <div className="text-3xl font-bold text-rose-600 mb-2">
               {totalMedia}
             </div>
-            <div className="text-gray-600">Total Media</div>
+            <div className="text-gray-600">{t('media-total')}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-blue-600 mb-2">
               {totalPhotos}
             </div>
-            <div className="text-gray-600">Photos</div>
+            <div className="text-gray-600">{t('photos')}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-purple-600 mb-2">
               {totalVideos}
             </div>
-            <div className="text-gray-600">Videos</div>
+            <div className="text-gray-600">{t('videos')}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-green-600 mb-2">
               {totalLikes}
             </div>
-            <div className="text-gray-600">Total Likes</div>
+            <div className="text-gray-600">{t('media-likes')}</div>
           </div>
         </div>
       </div>
@@ -483,8 +488,8 @@ const MediaGallery = forwardRef((props, ref) => {
       {media.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-gray-400 mb-4 text-6xl">📷</div>
-          <h3 className="text-xl font-semibold text-gray-600 mb-2">No media found</h3>
-          <p className="text-gray-500">Try changing your filters or check back later</p>
+          <h3 className="text-xl font-semibold text-gray-600 mb-2">{t('media-notfound')}</h3>
+          <p className="text-gray-500">{t('media-notfount-msg')}</p>
         </div>
       ) : (
         <>
@@ -571,7 +576,7 @@ const MediaGallery = forwardRef((props, ref) => {
                           {item.filename}
                         </h3>
                         <p className="text-sm text-gray-500 mt-1">
-                          Uploaded by {item.uploadedBy}
+                          {t('uploaded-by')} {item.uploadedBy}
                         </p>
                       </div>
                       
@@ -590,7 +595,7 @@ const MediaGallery = forwardRef((props, ref) => {
                       <div className="flex items-center gap-4">
                         <button className="flex items-center gap-1 text-gray-500 hover:text-gray-700">
                           <MessageCircle className="w-4 h-4" />
-                          <span>Comment ({item.commentCount})</span>
+                          <span>{t('comment')} ({item.commentCount})</span>
                         </button>
                         <button
                           onClick={() => toggleLike(item.id)}
@@ -607,7 +612,7 @@ const MediaGallery = forwardRef((props, ref) => {
                               isLiked ? 'fill-rose-500 text-rose-500' : ''
                             }`}
                           />
-                          <span>Like ({item.likeCount})</span>
+                          <span>{t('like')} ({item.likeCount})</span>
                         </button>
                       </div>
                       
@@ -619,12 +624,12 @@ const MediaGallery = forwardRef((props, ref) => {
 
                   {/* Type Badge */}
                   <div className="absolute top-4 left-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${
                       item.type === 'image'
                         ? 'bg-blue-100 text-blue-600'
                         : 'bg-purple-100 text-purple-600'
                     }`}>
-                      {item.type === 'image' ? 'PHOTO' : 'VIDEO'}
+                      {item.type === 'image' ? t('photo') : t('video')}
                     </span>
                   </div>
                 </div>
