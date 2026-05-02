@@ -948,23 +948,6 @@ export default function Footer({ className = '' }: FooterProps) {
             © {currentYear} {t('copyright')}. {t('allRightsReserved')}
           </p>
           
-          {/* Decorative Wedding Ring */}
-          {/* <div className="hidden sm:flex items-center gap-2" aria-hidden="true">
-            <motion.div
-              animate={shouldReduceMotion ? {} : { scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-            </motion.div>
-            <span className="text-xs text-gray-600">✦</span>
-            <motion.div
-              animate={shouldReduceMotion ? {} : { scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-            </motion.div>
-          </div> */}
-          
           <p className="text-xs sm:text-sm text-gray-600">
             {t('designedWith')} <Heart className="w-3 h-3 text-rose-500 inline mx-1" aria-hidden="true" /> {t('forOurDay')}
           </p>
