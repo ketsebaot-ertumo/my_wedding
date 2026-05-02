@@ -345,28 +345,28 @@
         }
     },
     "footer": {
-        "coupleNames": "Azaria & Ketsebaot",
+        "coupleNames": "አዛርያ & ከፀባኦት",
         "brand": {
-            "message": "Celebrating our love and the beautiful journey ahead. Thank you for being part of our special day and for all the love and support."
+            "message": "ፍቅራችንን እና ወደፊት ያለውን ቆንጆ ጉዞ በማክበር ላይ እንገኛለን። የልዩ ቀናችን አካል ስለሆናችሁ እና ስለሰጣቹን ፍቅር እና ድጋፍ እናመሰግናለን።"
         },
-        "quickNavigation": "Quick Navigation",
-        "getInTouch": "Get in Touch",
+        "quickNavigation": "ማውጫ",
+        "getInTouch": "ያግኙን",
         "links": {
-            "ourStory": "Our Story",
-            "timeline": "Event Timeline",
-            "upload": "Upload Media",
-            "gallery": "View Gallery",
-            "registry": "Gift Registry",
-            "share": "Share Invite"
+            "ourStory": "ታሪካችን",
+            "timeline": "የዝግጅት መርሃ ግብር",
+            "upload": "ፎቶ እና ቪዲዮ ይጫኑ",
+            "gallery": "ጋለሪ ይመልከቱ",
+            "registry": "የስጦታ ምዝገባ",
+            "share": "ያጋሩ"
         },
         "location": {
-            "address": "Hawassa, Ethiopia",
-            "viewOnMap": "View on map"
+            "address": "ሀዋሳ፣ ኢትዮጵያ",
+            "viewOnMap": "አቅጣጫ ይመልከቱ"
         },
-        "copyright": "Azaria & Ketsebaot",
-        "allRightsReserved": "All rights reserved",
-        "designedWith": "Designed with",
-        "forOurDay": "for our special day"
+        "copyright": "አዛርያ & ከፀባኦት።",
+        "allRightsReserved": "ሁሉም መብቶች የተጠበቁ ናቸው።",
+        "designedWith": "ለልዩ ቀናችን",
+        "forOurDay": "የተዘጋጀ"
     }
 }
 

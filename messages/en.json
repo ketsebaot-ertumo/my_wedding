@@ -353,7 +353,7 @@
         "getInTouch": "Get in Touch",
         "links": {
             "ourStory": "Our Story",
-            "timeline": "Event Timeline",
+            "timeline": "Event Schedule",
             "upload": "Upload Media",
             "gallery": "View Gallery",
             "registry": "Gift Registry",
@@ -363,8 +363,8 @@
             "address": "Hawassa, Ethiopia",
             "viewOnMap": "View on map"
         },
-        "copyright": "Azaria & Ketsebaot",
-        "allRightsReserved": "All rights reserved",
+        "copyright": "Azaria & Ketsebaot.",
+        "allRightsReserved": "All rights reserved.",
         "designedWith": "Designed with",
         "forOurDay": "for our special day"
     }
