@@ -221,7 +221,128 @@
         "media-notfount-msg":"Try changing your filters or check back later",
         "uploaded-by": "Uploaded by",
         "comment": "Comment",
-        "like": "Like"
+        "like": "Like",
+        "previous": "Previous",
+        "page": "Page",
+        "of": "of",
+        "next": "Next"
+    },
+    "story": {
+        "chapters": [
+            {
+                "year": "Since Dec 2023",
+                "title": "How It Began",
+                "subtitle": "From social media to phone calls",
+                "description": "A simple 'Hi' on social media turned into late-night chats and 4-hour phone calls. We fell for each other's words before ever seeing each other's smiles. Those first conversations? Pure magic.",
+                "stats": {
+                "label": "First message",
+                "value": "December 2023"
+                }
+            },
+            {
+                "year": "April 28, 2024",
+                "title": "First Meeting",
+                "subtitle": "Finally face to face",
+                "description": "Angila Burger witnessed our first hello in person. Months of texts and calls became real in one moment. And in that moment? We just knew.",
+                "stats": {
+                "label": "First meet location",
+                "value": "Angila Burger"
+                }
+            },
+            {
+                "year": "Oct 2024",
+                "title": "Falling in Love",
+                "subtitle": "The best chapter yet",
+                "description": "From becoming official in October to magical dates at Friendship Park, every moment together made us certain—this was forever.",
+                "stats": {
+                "label": "Official since",
+                "value": "October 2024"
+                }
+            },
+            {
+                "year": "September 2025",
+                "title": "Meeting His Family",
+                "subtitle": "Finding my second home",
+                "description": "A nervous but beautiful evening - dinner with his family. From warm embraces to shared stories, I realized I wasn't just gaining a partner; I was gaining a whole new family.",
+                "stats": {
+                "label": "New family",
+                "value": "Welcomed with love"
+                }
+            },
+            {
+                "year": "Since Nov 2025",
+                "title": "Dreaming Together",
+                "subtitle": "6 months of planning",
+                "description": "Before the ring, there were dreams. Pinterest boards, venue visits, playlist debates, and late-night talks about forever.",
+                "stats": {
+                "label": "Planning months",
+                "value": "6"
+                }
+            },
+            {
+                "year": "Jan 2026",
+                "title": "Church Wedding Teaching",
+                "subtitle": "16 weeks of spiritual preparation",
+                "description": "For four transformative months, we learned what it means to build a Christ-centered marriage—communication, forgiveness, and commitment.",
+                "stats": {
+                "label": "Weeks of preparation",
+                "value": "16"
+                }
+            },
+            {
+                "year": "ፈብ 03, 2026",
+                "title": "The Engagement",
+                "subtitle": "A burger, a ring & a yes!",
+                "description": "At Angila Burger, you got down on one knee. Between bites of our favorite meal, forever began.",
+                "stats": {
+                "label": "She said",
+                "value": "YES! 💍"
+                }
+            },
+            {
+                "year": "Feb 08, 2026",
+                "title": "Shimgilina Ceremony",
+                "subtitle": "Honoring our traditions",
+                "description": "A beautiful cultural ceremony where families became one, traditions were honored, and blessings were shared.",
+                "stats": {
+                "label": "Cultural celebration",
+                "value": "Shimgilina"
+                }
+            },
+            {
+                "year": "March 20-22, 2026",
+                "title": "Birthday Getaway",
+                "subtitle": "3 days in Hawassa, forever in my heart",
+                "description": "A beautiful trip filled with love, surprise, and unforgettable moments by the lake.",
+                "stats": {
+                "label": "Birthday weekend",
+                "value": "March 20-22, 2026 🎂"
+                }
+            },
+            {
+                "year": "April 2026",
+                "title": "Wedding Photo Shoot",
+                "subtitle": "Capturing forever at Unity Park",
+                "description": "Every laugh and every glance captured forever in photos we'll cherish forever.",
+                "stats": {
+                "label": "Location",
+                "value": "Unity Park"
+                }
+            },
+            {
+                "year": "May 10, 2026",
+                "title": "Our Wedding Day",
+                "subtitle": "Forever begins now",
+                "description": "After everything, we finally say 'I do.' This is just the beginning.",
+                "stats": {
+                "label": "The main event",
+                "value": "May 10, 2026"
+                }
+            }
+        ],
+        "footer": {
+            "journey": "Our journey continues..."
+        }
     },
     "footer": {
         "coupleNames": "Azaria & Ketsebaot",

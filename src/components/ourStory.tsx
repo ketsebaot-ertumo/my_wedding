@@ -1,278 +1,8 @@
-// 'use client'
-
-// import { useState, useEffect, useRef } from 'react'
-// import { Heart, Calendar, MapPin, Coffee, Home, Plane, Sparkles, ChevronLeft, ChevronRight, Gem } from 'lucide-react'
-
-// const storyEvents = [
-//   {
-//     id: 1,
-//     year: "2018",
-//     title: "First Meeting",
-//     description: "Our paths crossed at a cozy coffee shop downtown. What started as a simple 'Is this seat taken?' turned into a 4-hour conversation that felt like minutes.",
-//     icon: Coffee,
-//     image: "/api/placeholder/400/300",
-//     location: "Downtown Coffee Roasters",
-//     color: "from-amber-500 to-orange-500"
-//   },
-//   {
-//     id: 2,
-//     year: "2019",
-//     title: "First Date",
-//     description: "A magical evening at the botanical gardens followed by dinner at that little Italian place. We closed down the restaurant, lost in conversation and laughter.",
-//     icon: Heart,
-//     image: "/api/placeholder/400/300",
-//     location: "Botanical Gardens → Bella Italia",
-//     color: "from-rose-500 to-pink-500"
-//   },
-//   {
-//     id: 3,
-//     year: "2020",
-//     title: "The Adventure Year",
-//     description: "Despite the challenges, we grew closer than ever. Weekend road trips, mastering sourdough bread, and realizing we could get through anything together.",
-//     icon: Plane,
-//     image: "/api/placeholder/400/300",
-//     location: "Everywhere & Nowhere",
-//     color: "from-blue-500 to-cyan-500"
-//   },
-//   {
-//     id: 4,
-//     year: "2022",
-//     title: "Moving In Together",
-//     description: "We found our first home - a cozy apartment with the perfect window seat for rainy days and enough wall space for all our travel photos.",
-//     icon: Home,
-//     image: "/api/placeholder/400/300",
-//     location: "Our First Home",
-//     color: "from-emerald-500 to-teal-500"
-//   },
-//   {
-//     id: 5,
-//     year: "2024",
-//     title: "The Proposal",
-//     description: "On our favorite beach at sunset, surrounded by fairy lights and the people we love most, they got down on one knee. And of course, I said yes!",
-//     icon: Gem,
-//     image: "/api/placeholder/400/300",
-//     location: "Sunset Beach",
-//     color: "from-purple-500 to-pink-500"
-//   },
-//   {
-//     id: 6,
-//     year: "2026",
-//     title: "The Wedding",
-//     description: "The beginning of our greatest adventure yet. Surrounded by family and friends, we'll start our forever together.",
-//     icon: Sparkles,
-//     image: "/api/placeholder/400/300",
-//     location: "Coming Soon...",
-//     color: "from-yellow-500 to-amber-500"
-//   }
-// ]
-
-// export default function OurStory() {
-//   const [activeIndex, setActiveIndex] = useState(0)
-//   const [isVisible, setIsVisible] = useState(false)
-//   const sectionRef = useRef(null)
-
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         if (entry.isIntersecting) {
-//           setIsVisible(true)
-//         }
-//       },
-//       { threshold: 0.1 }
-//     )
-
-//     if (sectionRef.current) {
-//       observer.observe(sectionRef.current)
-//     }
-
-//     return () => observer.disconnect()
-//   }, [])
-
-//   const nextSlide = () => {
-//     setActiveIndex((prev) => (prev + 1) % storyEvents.length)
-//   }
-
-//   const prevSlide = () => {
-//     setActiveIndex((prev) => (prev - 1 + storyEvents.length) % storyEvents.length)
-//   }
-
-//   const currentEvent = storyEvents[activeIndex]
-//   const IconComponent = currentEvent.icon
-
-//   return (
-//     <section ref={sectionRef} className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-//         {/* Section Header */}
-//         <div className={`text-center mb-16 transition-all duration-1000 transform ${
-//           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-//         }`}>
-//           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-100 mb-6">
-//             <Heart className="w-5 h-5 text-rose-500" />
-//             <span className="text-rose-600 font-semibold text-sm">Our Journey</span>
-//           </div>
-//           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-//             The Story of <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500">Us</span>
-//           </h2>
-//           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-//             Every love story is beautiful, but ours is our favorite. Here's how our journey began...
-//           </p>
-//         </div>
-
-//         {/* Desktop Timeline */}
-//         <div className="hidden md:block relative mb-16">
-//           <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-rose-200 via-pink-200 to-rose-200 rounded-full" />
-          
-//           <div className="space-y-16">
-//             {storyEvents.map((event, idx) => (
-//               <div
-//                 key={event.id}
-//                 className={`relative flex items-center ${
-//                   idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-//                 } transition-all duration-700 transform ${
-//                   isVisible ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'
-//                 }`}
-//                 style={{ transitionDelay: `${idx * 150}ms` }}
-//               >
-//                 {/* Timeline Dot */}
-//                 <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-rose-500 rounded-full border-4 border-white shadow-lg z-10" />
-                
-//                 {/* Content */}
-//                 <div className={`w-5/12 ${idx % 2 === 0 ? 'pr-12 text-right' : 'pl-12'}`}>
-//                   <div className={`inline-block p-4 rounded-2xl bg-gradient-to-r ${event.color} text-white mb-3`}>
-//                     <event.icon className="w-6 h-6" />
-//                   </div>
-//                   <div className="text-3xl font-bold text-gray-900 mb-2">{event.year}</div>
-//                   <h3 className="text-xl font-semibold text-gray-800 mb-2">{event.title}</h3>
-//                   <p className="text-gray-600 mb-2">{event.description}</p>
-//                   <p className="text-sm text-gray-500 flex items-center gap-1 justify-center">
-//                     <MapPin className="w-4 h-4" />
-//                     {event.location}
-//                   </p>
-//                 </div>
-                
-//                 {/* Image */}
-//                 <div className={`w-5/12 ${idx % 2 === 0 ? 'pl-12' : 'pr-12'}`}>
-//                   <div className="rounded-2xl overflow-hidden shadow-xl transform transition-transform hover:scale-105 duration-300">
-//                     <img 
-//                       src={event.image} 
-//                       alt={event.title}
-//                       className="w-full h-64 object-cover"
-//                     />
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Mobile Carousel */}
-//         <div className="md:hidden relative">
-//           <div className="overflow-hidden">
-//             <div 
-//               className="flex transition-transform duration-500 ease-out"
-//               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-//             >
-//               {storyEvents.map((event) => {
-//                 const MobileIcon = event.icon
-//                 return (
-//                   <div key={event.id} className="w-full flex-shrink-0 px-4">
-//                     <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-//                       <div className={`h-2 bg-gradient-to-r ${event.color}`} />
-//                       <div className="p-6">
-//                         <div className={`inline-block p-3 rounded-xl bg-gradient-to-r ${event.color} text-white mb-4`}>
-//                           <MobileIcon className="w-6 h-6" />
-//                         </div>
-//                         <div className="text-2xl font-bold text-gray-900 mb-2">{event.year}</div>
-//                         <h3 className="text-xl font-semibold text-gray-800 mb-3">{event.title}</h3>
-//                         <p className="text-gray-600 mb-4">{event.description}</p>
-//                         <div className="flex items-center gap-2 text-gray-500 text-sm">
-//                           <MapPin className="w-4 h-4" />
-//                           <span>{event.location}</span>
-//                         </div>
-//                       </div>
-//                       <div className="px-6 pb-6">
-//                         <img 
-//                           src={event.image} 
-//                           alt={event.title}
-//                           className="w-full h-48 object-cover rounded-xl"
-//                         />
-//                       </div>
-//                     </div>
-//                   </div>
-//                 )
-//               })}
-//             </div>
-//           </div>
-
-//           {/* Carousel Navigation */}
-//           <div className="flex justify-center gap-4 mt-8">
-//             <button
-//               onClick={prevSlide}
-//               className="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-all"
-//             >
-//               <ChevronLeft className="w-5 h-5 text-gray-600" />
-//             </button>
-//             <div className="flex gap-2 items-center">
-//               {storyEvents.map((_, idx) => (
-//                 <button
-//                   key={idx}
-//                   onClick={() => setActiveIndex(idx)}
-//                   className={`h-2 rounded-full transition-all ${
-//                     idx === activeIndex 
-//                       ? 'w-8 bg-rose-500' 
-//                       : 'w-2 bg-gray-300'
-//                   }`}
-//                 />
-//               ))}
-//             </div>
-//             <button
-//               onClick={nextSlide}
-//               className="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-all"
-//             >
-//               <ChevronRight className="w-5 h-5 text-gray-600" />
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Love Quote */}
-//         <div className={`mt-20 text-center transition-all duration-1000 delay-700 transform ${
-//           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-//         }`}>
-//           <div className="max-w-3xl mx-auto">
-//             <div className="relative">
-//               <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-6xl text-rose-200">"</div>
-//               <p className="text-xl md:text-2xl text-gray-700 italic px-8 py-6">
-//                 Love is not about how many days, months, or years you have been together. 
-//                 It is about how much you truly love each other every single day.
-//               </p>
-//               <div className="flex justify-center gap-1 text-rose-400 mt-2">
-//                 <Heart className="w-5 h-5 fill-current" />
-//                 <Heart className="w-5 h-5 fill-current" />
-//                 <Heart className="w-5 h-5 fill-current" />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Photo Gallery Teaser */}
-//         <div className="mt-20 text-center">
-//           <button className="group px-8 py-3 border-2 border-rose-500 text-rose-600 font-semibold rounded-full hover:bg-rose-500 hover:text-white transition-all duration-300">
-//             View Our Gallery
-//             <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">
-//               →
-//             </span>
-//           </button>
-//         </div>
-//       </div>
-//     </section>
-//   )
-// }
-
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { Heart, Calendar, MapPin, Gem, Camera, ArrowDown, Play, Pause, Users, Sparkles, SparklesIcon, BookOpen, Cross, MessageCircle, CalendarHeart, Home, Cake, Diamond } from 'lucide-react'
+import { useTranslations } from 'next-intl';
 
 
 const storyChapters = [
@@ -401,6 +131,7 @@ const storyChapters = [
 ]
 
 export default function CinematicStory() {
+  const t = useTranslations('story.chapters');
   const [activeChapter, setActiveChapter] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
   const [progress, setProgress] = useState(0)
@@ -478,13 +209,18 @@ export default function CinematicStory() {
                 </div>
                 
                 <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold text-white leading-tight">
-                  {currentChapter.title}
+                  {/* {currentChapter.title} */}
+                  {t(`${activeChapter}.title`)}
                 </h2>
                 
-                <p className="text-xl text-rose-100 italic">{currentChapter.subtitle}</p>
+                <p className="text-xl text-rose-100 italic">
+                  {/* {currentChapter.subtitle} */}
+                  {t(`${activeChapter}.subtitle`)}
+                </p>
                 
                 <p className="text-gray-200 text-lg leading-relaxed">
-                  {currentChapter.description}
+                  {/* {currentChapter.description} */}
+                  {t(`${activeChapter}.description`)}
                 </p>
               </div>
 
