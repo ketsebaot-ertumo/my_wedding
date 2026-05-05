@@ -45,7 +45,7 @@ const storyChapters = [
     title: "Meeting His Family",
     subtitle: "Finding my second home",
     description: "A nervous but beautiful evening - dinner with his family. From warm embraces to shared stories around the table, I realized I wasn't just gaining a partner; I was gaining a whole new family. Home isn't just a place. It's them.",
-    image: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1777361246/my_wedding/IMG_20260428_095643_639_vwdyyb.jpg",
+    image: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1777954732/my_wedding/Save_the_date_5_1_qmgf3j.png",
     color: "from-orange-500/20 to-amber-500/20",
     icon: Home,
     stats: { label: "New family", value: "Welcomed with love" }
