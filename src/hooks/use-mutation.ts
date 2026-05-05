@@ -17,7 +17,8 @@ export const useEntityActions = () => {
         return res;
       } catch (err: any) {
         // console.error(`Error creating ${entity}:`, err);
-        return err.message;
+        // return err.message;
+        throw new Error(err.message || 'Unable to create.'); 
       }
     },
 
@@ -28,7 +29,7 @@ export const useEntityActions = () => {
         return res;
       } catch (err: any) {
         // console.error(`Error updating ${entity}:`, err);
-        return err.message;
+        throw new Error(err.message || 'Unable to update.'); 
       }
     },
 
@@ -39,7 +40,7 @@ export const useEntityActions = () => {
         return res;
       } catch (err: any) {
         // console.error(`Error deleting ${entity}:`, err);
-        return err.message;
+        throw new Error(err.message || 'Unable to delete.'); 
       }
     },
   };

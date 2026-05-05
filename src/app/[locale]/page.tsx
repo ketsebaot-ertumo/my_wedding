@@ -20,7 +20,7 @@ export default function Home() {
     const ip = fetch('/api/user-ip')
       .then(res => res.json())
       .then(data => {
-        console.log('User IP:', data.ip);
+        // console.log('User IP:', data.ip);
       });
   }, []);
 

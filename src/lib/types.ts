@@ -17,6 +17,7 @@ export interface MediaLike {
 
 export interface MediaComment {
     id: string;
+    media_id: string;
     guest_name: string;
     content: string;
     is_edited: boolean;
