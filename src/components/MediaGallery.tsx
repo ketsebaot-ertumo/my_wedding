@@ -545,7 +545,7 @@ const MediaGallery = forwardRef((props, ref) => {
                       <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
                         <button
                           onClick={() => toggleLike(item.id)}
-                          className="flex items-center gap-2 text-white hover:text-rose-300 transition-colors cursor-pointer"
+                          className="flex items-center gap-2 text-rose-300 sm:text-white hover:text-rose-300 transition-colors cursor-pointer"
                         >
                           <Heart
                             className={`w-5 h-5 ${
@@ -561,14 +561,14 @@ const MediaGallery = forwardRef((props, ref) => {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleDownload(item)}
-                            className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                            className="p-2 bg-white/30 sm:bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
                           >
                             <Download className="w-4 h-4 text-white" />
                           </button>
                           
                           <button
                             onClick={() => handleShare(item)}
-                            className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                            className="p-2 bg-white/30 sm:bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
                           >
                             <Share2 className="w-4 h-4 text-white" />
                           </button>
