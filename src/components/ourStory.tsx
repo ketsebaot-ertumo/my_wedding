@@ -123,7 +123,7 @@ const storyChapters = [
     title: "Our Wedding Day",
     subtitle: "Forever begins now",
     description: "After all the messages, calls, dates, and dreaming—the day is finally here. Surrounded by God, family, and you, we say 'I do.' This isn't the end. It's our beautiful beginning.",
-    image: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding1_sstnfp.jpg",
+    image: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1777951456/my_wedding/wedding1_pitc7g.jpg",
     color: "from-yellow-500/20 to-amber-500/20",
     icon: Sparkles,
     stats: { label: "The main event", value: "May 10, 2026" }

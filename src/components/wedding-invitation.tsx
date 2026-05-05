@@ -186,7 +186,7 @@ useEffect(() => {
   ];
 
   const galleryImages = [
-    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding1_sstnfp.jpg", alt: "Wedding preparation" },
+    { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1777951456/my_wedding/wedding1_pitc7g.jpg", alt: "Wedding preparation" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240127/my_wedding/wedding8_nebzb4.jpg", alt: "Wedding cake" },
     // { src: "/images/wedding5.jpg", alt: "Ring ceremony" },
     { src: "https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240129/my_wedding/wedding9_uogtgv.jpg", alt: "Ring ceremony" },
@@ -377,7 +377,7 @@ useEffect(() => {
         {/* Animated Background with Floating Elements */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240127/my_wedding/wedding4_otfyo0.jpg"
+            src="https://res.cloudinary.com/dq6mvqivd/image/upload/v1777952211/my_wedding/0W6A7294_1_zqzzln.jpg"
             alt="Azaria & Ketsebaot"
             fill
             className="object-cover object-center scale-110" 

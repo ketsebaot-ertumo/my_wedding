@@ -100,7 +100,7 @@ export default function QRCodeSection() {
                   excavate: true,
                 }}
                 // imageSettings={{
-                //   src: 'https://res.cloudinary.com/dq6mvqivd/image/upload/v1776240122/my_wedding/wedding1_sstnfp.jpg',
+                //   src: 'https://res.cloudinary.com/dq6mvqivd/image/upload/v1777951456/my_wedding/wedding1_pitc7g.jpg',
                 //   x: undefined,
                 //   y: undefined,
                 //   height: 32,
@@ -199,12 +199,12 @@ export default function QRCodeSection() {
               </Button>
             </div>
 
-            {/* <div className="text-sm text-gray-500 pt-4 border-t">
+            <div className="text-sm text-gray-500 pt-4 border-t">
               <p>Website URL:</p>
               <code className="block mt-1 p-2 bg-gray-50 rounded text-xs break-all">
                 {websiteUrl}
               </code>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

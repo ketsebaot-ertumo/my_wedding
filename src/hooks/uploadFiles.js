@@ -4,12 +4,23 @@ import { useEntityActions } from "./use-mutation";
 
 import { supabase } from "@/lib/supabaseClient";
 import { getGuestId } from "@/utils/guestId";
+import { toast } from "sonner";
 const { create, update } = useEntityActions();
 
 
 export default async function uploadFiles(file) {
   try {
-    console.log("Uploading file:", file);
+    // console.log("Uploading file:", file);
+    const MAX_SIZE_MB = 5
+
+    if (!file) {
+      throw new Error('No media to upload')
+    }
+
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      toast.error(`File too large! Max ${MAX_SIZE_MB}GB allowed.`)
+      throw new Error(`File too large! Max ${MAX_SIZE_MB}GB allowed.`)
+    }
 
     // const fileName = `${Date.now()}_${file.name}`;
     const guest_id = getGuestId();
