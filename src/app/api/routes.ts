@@ -93,8 +93,8 @@ export const createEntity = async (entity: string, values: any) => {
     const data = await API.post(`${entity}`, values);
     return data;
   }catch(err: any){
-    // console.error("\nerror in createEntity", err.message, "\nerr:",err?.response?.data?.error?.detail, );
-    return err?.response?.data?.error || err.message || "Unknown error";
+    // console.error("api Error in createEntity", err.message, "\nerr:",err?.response?.data?.error?.detail, );
+    throw new Error(err?.response?.data?.error || err.message || "Unknown error"); 
   }
 };
 

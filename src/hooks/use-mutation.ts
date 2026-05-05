@@ -16,7 +16,7 @@ export const useEntityActions = () => {
         const res = await createEntity(entity, values);
         return res;
       } catch (err: any) {
-        // console.error(`Error creating ${entity}:`, err);
+        console.error(`hooks Error creating ${entity}:`, err);
         // return err.message;
         throw new Error(err.message || 'Unable to create.'); 
       }

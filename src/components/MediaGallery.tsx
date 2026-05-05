@@ -280,62 +280,18 @@ const MediaGallery = forwardRef((props, ref) => {
   };
 
 
-    /* ================= HANDLE DOWNLOAD ================= */
-  // const handleDownload = async (media: MediaItem) => {
-  //   try {
-  //     // Create a temporary link element
-  //     const link = document.createElement('a');
-  //     link.href = media.url;
-  //     link.download = media.filename;
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-      
-  //     toast.success('Download started!');
-  //   } catch (err) {
-  //     console.error('Download failed', err);
-  //     toast.error('Failed to download');
-  //   }
-  // };
-
   /* ================= HANDLE DOWNLOAD ================= */
-  const handleDownload = async (media: MediaItem) => {
+  const handleDownload = (media: MediaItem) => {
     try {
-      if (media.type === 'video') {
-        // Direct download without loading into memory
-        const link = document.createElement('a');
-        link.href = media.url;
-        link.download = media.filename;
-        link.click();
-      } else {
+      const fileName = media.type === 'video'? `AK-wedding-video-${Date.now()}.webm` : `AK-wedding-image-${Date.now()}.jpg`;
+      const link = document.createElement('a');
+      // link.href = `${media.url}?download=1`;
+      link.href = `${media.url}?download=${encodeURIComponent(fileName)}`;
+      link.download =fileName;
 
-        // 1. Fetch the file
-        const res = await fetch(media.url, {
-          credentials: 'include', // safe even if not needed
-        });
-
-        if (!res.ok) {
-          throw new Error('Failed to fetch file');
-        }
-
-        // 2. Convert to blob
-        const blob = await res.blob();
-
-        // 3. Create local object URL
-        const blobUrl = window.URL.createObjectURL(blob);
-
-        // 4. Force download
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.download = media.filename;
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // 5. Cleanup
-        window.URL.revokeObjectURL(blobUrl);
-      }
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       toast.success('Download started!');
     } catch (err) {
@@ -365,7 +321,7 @@ const MediaGallery = forwardRef((props, ref) => {
       toast.success('Thanks for sharing!');
 
       // Optional: refetch media to update shareCount in UI
-      refetch();
+      // refetch();
     } catch (err) {
       console.error('Share failed', err);
       toast.error('Failed to share');
@@ -380,25 +336,27 @@ const MediaGallery = forwardRef((props, ref) => {
     }
   };
 
+
   // Helper to get button variant based on type selection
   const getButtonVariant = (buttonType: string | undefined) => {
     return type === buttonType ? 'default' : 'outline';
   };
+
 
   // add comments
   const addComment = async () => {
   if (!selectedMedia || !commentInput.trim()) return;
 
   try {
-    const res= await create(`${selectedMedia.id}/comment`, {
+    await create(`media/${selectedMedia.id}/comment`, {
       media_id: selectedMedia.id,
       guest_name: "Guest",
       content: commentInput,
     });
 
-    if (res) toast.success('Comment added');
-    else toast.error('Unable to create comment. Please retry.')
+    toast.success('Comment added');
     setCommentInput('');
+    setSelectedMedia(null);
 
     refetch(); // reload media list
 
@@ -544,7 +502,7 @@ const MediaGallery = forwardRef((props, ref) => {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {media.map((item: MediaItem) => {
+            { media.map((item: MediaItem) => {
               const isLiked = isLikedByGuest(item);
               // const likeCountWithLocal = item.likeCount + (likedMedia.includes(item.id) ? 1 : 0);
               const likeCountWithLocal = item.likeCount;
@@ -583,7 +541,7 @@ const MediaGallery = forwardRef((props, ref) => {
                     )}
 
                     {/* Overlay Actions */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
                         <button
                           onClick={() => toggleLike(item.id)}
@@ -607,6 +565,7 @@ const MediaGallery = forwardRef((props, ref) => {
                           >
                             <Download className="w-4 h-4 text-white" />
                           </button>
+                          
                           <button
                             onClick={() => handleShare(item)}
                             className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
@@ -648,25 +607,13 @@ const MediaGallery = forwardRef((props, ref) => {
                           <MessageCircle className="w-4 h-4" />
                           <span>{t('comment')} ({item.commentCount})</span>
                         </button> */}
-                        {/* <button
-                          onClick={() =>
-                            setOpenComments(prev => ({
-                              ...prev,
-                              [item.id]: !prev[item.id],
-                            }))
-                          }
+                        <button
+                          onClick={() => setSelectedMedia(item)}
                           className="flex items-center gap-1 text-gray-500 hover:text-gray-700 cursor-pointer"
                         >
                           <MessageCircle className="w-4 h-4" />
                           <span>{t('comment')} ({item.commentCount})</span>
-                        </button> */}
-                        <button
-  onClick={() => setSelectedMedia(item)}
-  className="flex items-center gap-1 text-gray-500 hover:text-gray-700 cursor-pointer"
->
-  <MessageCircle className="w-4 h-4" />
-  <span>{t('comment')} ({item.commentCount})</span>
-</button>
+                        </button>
 
                         <button
                           onClick={() => toggleLike(item.id)}
@@ -692,174 +639,129 @@ const MediaGallery = forwardRef((props, ref) => {
                       </div>
                     </div>
 
-                    {openComments[item.id] && (
-  <div className="mt-4 border-t pt-3 space-y-3">
-    
-    {/* Existing comments */}
-    <div className="space-y-2 max-h-40 overflow-y-auto">
-      {item.comments?.filter(c => c.status === 'visible').map(c => (
-        <div key={c.id} className="text-sm text-gray-700">
-          <span className="font-semibold">{c.guest_name}:</span>{' '}
-          {c.content}
-        </div>
-      ))}
-    </div>
+                   
 
-    {/* Input */}
-    <div className="flex gap-2">
-      <input
-        type="text"
-        value={commentInputs[item.id] || ''}
-        onChange={(e) =>
-          setCommentInputs(prev => ({
-            ...prev,
-            [item.id]: e.target.value,
-          }))
-        }
-        onKeyDown={(e) => {
-  if (e.key === 'Enter') {
-    addComment();
-  }
-}}
-        placeholder="Write a comment..."
-        className="flex-1 px-3 py-2 border rounded-lg text-sm"
-      />
+                    <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
+                      <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                          <DialogTitle className='font-inter'>{t('comment')}</DialogTitle>
+                        </DialogHeader>
 
-      <button
-        onClick={() => addComment()}
-        className="px-3 py-2 bg-rose-500 text-white rounded-lg text-sm hover:bg-rose-600"
-      >
-        Post
-      </button>
-    </div>
-  </div>
-)}
+                        <DialogDescription>
+                          {t('comment-desc')}
+                        </DialogDescription>
 
-<Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-  <DialogContent className="max-w-2xl">
-     <DialogHeader>
-      <DialogTitle className='font-inter'>{t('comment')}</DialogTitle>
-    </DialogHeader>
+                        {selectedMedia && (
+                          <div className="flex flex-col gap-4">
 
-    <DialogDescription>
-      {t('comment-desc')}
-    </DialogDescription>
+                            {/* Media preview */}
+                            <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">
+                              {selectedMedia.type === 'image' ? (
+                                <img
+                                  src={selectedMedia.url}
+                                  className="w-full h-full object-contain"
+                                />
+                              ) : (
+                                <video
+                                  src={selectedMedia.url}
+                                  controls
+                                  className="w-full h-full"
+                                />
+                              )}
+                            </div>
 
-    {selectedMedia && (
-      <div className="flex flex-col gap-4">
+                            {/* Comments list - Modern Tailwind Design */}
+                            <div className="max-h-60 overflow-y-auto space-y-3 pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gradient-to-b [&::-webkit-scrollbar-thumb]:from-blue-400 [&::-webkit-scrollbar-thumb]:to-purple-500 [&::-webkit-scrollbar-thumb]:rounded-full">
+                              {selectedMedia.comments
+                                ?.filter(c => c.status === 'visible')
+                                .map((c, index) => (
+                                  <div 
+                                    key={c.id} 
+                                    className="group relative bg-gradient-to-r from-gray-50 to-white rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 border border-gray-100 animate-in slide-in-from-bottom-2 fade-in duration-300"
+                                    style={{ animationDelay: `${index * 50}ms` }}
+                                  >
+                                    {/* Decorative accent bar */}
+                                    <div className="absolute left-0 top-2 bottom-2 w-0.5 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    
+                                    <div className="flex items-start gap-3">
+                                      {/* Avatar */}
+                                      <div className="flex-shrink-0">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold shadow-md">
+                                          {c.guest_name.charAt(0).toUpperCase()}
+                                        </div>
+                                      </div>
+                                      
+                                      {/* Content */}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-baseline justify-between gap-2 mb-1 flex-wrap">
+                                          <span className="font-semibold text-gray-800 text-sm hover:text-blue-600 transition-colors cursor-pointer">
+                                            {c.guest_name}
+                                          </span>
+                                          <span className="text-xs text-gray-400 opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                            {/* {c.createdAt?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} */}
+                                            {c.createdAt
+                                              ? new Date(c.createdAt).toLocaleTimeString([], {
+                                                  hour: '2-digit',
+                                                  minute: '2-digit'
+                                                })
+                                              : ''}
+                                          </span>
+                                        </div>
+                                        <p className="text-gray-600 text-sm leading-relaxed break-words">
+                                          {c.content}
+                                        </p>
+                                        
+                                        {/* Action buttons */}
+                                        <div className="flex items-center gap-3 mt-2 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                          <button className="text-xs text-gray-400 hover:text-blue-500 transition-colors">
+                                            Like
+                                          </button>
+                                          <button className="text-xs text-gray-400 hover:text-blue-500 transition-colors">
+                                            Reply
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              }
+                                
+                              {/* Empty state */}
+                              {selectedMedia.comments?.filter(c => c.status === 'visible').length === 0 && (
+                                <div className="text-center py-8 animate-in fade-in duration-500">
+                                  <div className="text-4xl mb-3">💬</div>
+                                  <p className="text-gray-400 text-sm">No comments yet</p>
+                                  <p className="text-gray-300 text-xs mt-1">Be the first to share your thoughts</p>
+                                </div>
+                              )}
+                            </div>
 
-        {/* Media preview */}
-        <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">
-          {selectedMedia.type === 'image' ? (
-            <img
-              src={selectedMedia.url}
-              className="w-full h-full object-contain"
-            />
-          ) : (
-            <video
-              src={selectedMedia.url}
-              controls
-              className="w-full h-full"
-            />
-          )}
-        </div>
+                            {/* Input */}
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={commentInput}
+                                onChange={(e) => setCommentInput(e.target.value)}
+                                placeholder="Write a comment..."
+                                className="flex-1 px-3 py-2 border rounded-lg text-sm"
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') addComment();
+                                }}
+                              />
 
-        {/* Comments list */}
-        {/* <div className="max-h-60 overflow-y-auto space-y-2">
-          {selectedMedia.comments
-            ?.filter(c => c.status === 'visible')
-            .map(c => (
-              <div key={c.id} className="text-sm text-gray-700">
-                <span className="font-semibold">{c.guest_name}:</span>{" "}
-                <p>{c.content}</p>
-              </div>
-            ))}
-        </div> */}
-        {/* Comments list - Modern Tailwind Design */}
-<div className="max-h-60 overflow-y-auto space-y-3 pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gradient-to-b [&::-webkit-scrollbar-thumb]:from-blue-400 [&::-webkit-scrollbar-thumb]:to-purple-500 [&::-webkit-scrollbar-thumb]:rounded-full">
-  {selectedMedia.comments
-    ?.filter(c => c.status === 'visible')
-    .map((c, index) => (
-      <div 
-        key={c.id} 
-        className="group relative bg-gradient-to-r from-gray-50 to-white rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 border border-gray-100 animate-in slide-in-from-bottom-2 fade-in duration-300"
-        style={{ animationDelay: `${index * 50}ms` }}
-      >
-        {/* Decorative accent bar */}
-        <div className="absolute left-0 top-2 bottom-2 w-0.5 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
-        <div className="flex items-start gap-3">
-          {/* Avatar */}
-          <div className="flex-shrink-0">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-semibold shadow-md">
-              {c.guest_name.charAt(0).toUpperCase()}
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-baseline justify-between gap-2 mb-1 flex-wrap">
-              <span className="font-semibold text-gray-800 text-sm hover:text-blue-600 transition-colors cursor-pointer">
-                {c.guest_name}
-              </span>
-              <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                {c.createdAt?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
-            </div>
-            <p className="text-gray-600 text-sm leading-relaxed break-words">
-              {c.content}
-            </p>
-            
-            {/* Action buttons */}
-            <div className="flex items-center gap-3 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <button className="text-xs text-gray-400 hover:text-blue-500 transition-colors">
-                Like
-              </button>
-              <button className="text-xs text-gray-400 hover:text-blue-500 transition-colors">
-                Reply
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    ))}
-    
-  {/* Empty state */}
-  {selectedMedia.comments?.filter(c => c.status === 'visible').length === 0 && (
-    <div className="text-center py-8 animate-in fade-in duration-500">
-      <div className="text-4xl mb-3">💬</div>
-      <p className="text-gray-400 text-sm">No comments yet</p>
-      <p className="text-gray-300 text-xs mt-1">Be the first to share your thoughts</p>
-    </div>
-  )}
-</div>
+                              <button
+                                onClick={addComment}
+                                className="px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600"
+                              >
+                                Post
+                              </button>
+                            </div>
 
-        {/* Input */}
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={commentInput}
-            onChange={(e) => setCommentInput(e.target.value)}
-            placeholder="Write a comment..."
-            className="flex-1 px-3 py-2 border rounded-lg text-sm"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') addComment();
-            }}
-          />
+                          </div>
+                        )}
 
-          <button
-            onClick={addComment}
-            className="px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600"
-          >
-            Post
-          </button>
-        </div>
-
-      </div>
-    )}
-
-  </DialogContent>
-</Dialog>
+                      </DialogContent>
+                    </Dialog>
                   </div>
 
                   {/* Type Badge */}
